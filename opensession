@@ -1,0 +1,11 @@
+#!/bin/bash
+
+source $HOME/.session.rc
+source $SESSIONPATH/lib-data.sh
+source $SESSIONPATH/lib-wm.sh
+source $SESSIONPATH/lib-session.sh
+for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
+  source $SESSIONPATH/app-$app.sh
+done
+
+s_opensession $@

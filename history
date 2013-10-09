@@ -1,0 +1,18 @@
+#!/bin/bash
+
+source $HOME/.session.rc
+source $SESSIONPATH/lib-wm.sh
+
+if [[ $WM = "NULL" ]] ; then
+  echo "$HOME/.zsh_history"
+  exit 0
+fi
+
+DIR="$S_TEMPFOLDER/$SELTAG"
+FILE="$DIR/$S_SHELL_HISTORY"
+[[ -f $FILE ]] || mkdir -p "$DIR" && touch "$FILE"
+
+echo $FILE
+
+# vim: ft=sh ts=2 et sw=2:
+
