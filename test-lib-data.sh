@@ -106,11 +106,6 @@ s_assert_data_dir test5
 
 # test 6 ----------------------------------------------------------------------
 # run all functions with crazy arguments
-s_rotate_data
-s_store_data
-s_restore_data
-s_restore_selected_data
-s_delete_all_backups
 s_rotate_data thomas sali dui franz
 s_store_data peter xafer thomas kurt
 s_restore_data annemarie regula karin petra
