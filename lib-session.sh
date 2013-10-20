@@ -7,16 +7,17 @@ s_closesession() {
 
   applications=$(s_list_app_seltag)
   for app in ${APPLICATIONS[@]} ; do
-    winids="$(echo -e "$applications" | grep $app | cut -f1 -d" " | tr '\n' ' ')"
+    winids="$(echo -e "$applications" | grep -i $app | cut -f1 -d" " | tr '\n' ' ')"
     s_${app}_close_session "$S_TEMPFOLDER/$SELTAG" "$winids"
   done
 
   s_store_data $S_TEMPFOLDER/$SELTAG $session
-  rm -rf "$S_TEMPFOLDER/$SELTAG"
 
   while read -r app; do
     xdotool windowkill ${app%% *}
   done < <(echo "$applications")
+
+  rm -rf "$S_TEMPFOLDER/$SELTAG"
 
   s_closetag
 }

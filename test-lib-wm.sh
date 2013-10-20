@@ -31,6 +31,7 @@ s_assert_equals "$(s_seltag)" "$tag" test2
 
 # test 3 ---------------------------------------------------------------------
 # close newtag and go to tag 1 per default
+SELTAG=$(s_seltag)
 s_closetag
 s_assert_equals "$(s_seltag)" "$DEFAULT_TAG" test3
 
@@ -43,6 +44,7 @@ s_assert_equals "$(s_seltag)" "$DEFAULT_TAG" test4
 echo test 5:
 echo This should be a list of your open windows on the current tag.
 echo "id         class"
+SELTAG=$(s_seltag)
 s_list_app_seltag
 
 echo

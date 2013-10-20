@@ -24,7 +24,7 @@ s_luakit_open_session() {
 # The folder will be backed up and everything will be closed anyway.
 s_luakit_close_session() {
   local tmp_dir="$1/$XDGAPPLICATION"
-  xdotool windowactivate --sync $2
+  s_focus_window $2
   xdotool type :wqall
   xdotool key KP_Enter
 }
@@ -41,7 +41,7 @@ s_luakit_new_instance() {
 }
 
 s_luakit_focus() {
-  xdotool windowactivate --sync $1
+  s_focus_window "$1"
   if [ -n "$2" ] ; then 
     xdotool key t
     xdotool type "$2"

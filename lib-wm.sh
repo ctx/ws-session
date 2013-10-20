@@ -7,6 +7,9 @@ elif [[ $(wmctrl -m | grep llwm) ]]; then
 elif [[ $(i3-msg -t get_version 2>/dev/null) ]]; then
   WM=i3
   source $SESSIONPATH/lib-wm-i3.sh
+elif [[ $(wmctrl -m | grep bspwm) ]] ; then
+  WM=bspwm
+  source $SESSIONPATH/lib-wm-bspwm.sh
 elif [[ $(wmctrl -m | grep Openbox) ]]; then
   WM=ob
   source $SESSIONPATH/lib-wm-ob.sh
@@ -30,6 +33,16 @@ if [[ $WM != NULL ]] ; then
   s_list_app_seltag() {
     s_list_app_seltag_$WM "$SELTAG"
   }
+
+  if [[ $WM == bspwm ]] ; then
+    s_focus_window() {
+      s_focus_window_$WM "$@"
+    }
+  else
+    s_focus_window() {
+      xdotool windowactivate --sync "$@"
+    }
+  fi
 
   SELTAG="$(s_seltag)"
 fi
