@@ -11,7 +11,8 @@ s_closetag_wmii() {
 }
 
 s_list_app_seltag_wmii() {
-  wmiir cat /tag/sel/index | grep -v "^#"
+  wmiir cat /tag/sel/index | grep -v "^#" \
+    | awk '{print $2" "$5}' | sed 's/:.*$//'
 }
 
 # vim: ft=sh ts=2 et sw=2:
