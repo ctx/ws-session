@@ -55,8 +55,16 @@ s_exampleapp_open_session() {
 
 # close exampleapp, save state to temporary folder
 # arg1: Temporary folder: this folder will be stored in the end.
-# arg2: winids of all $app on current tag.
+# arg2: winids of all exampleapps on current tag.
 s_exampleapp_close_session() {
 }
 ```
+
+
+TODO
+====
+
+* Implement make install
+* Create folders app lib bin and test
+* improve (english of) this README
 
