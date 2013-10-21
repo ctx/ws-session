@@ -4,16 +4,9 @@ S_TEMPFOLDER="/tmp/session-data"
 NUMBER_OF_BACKUPS="5"
 DEFAULT_TAG="1"
 
+# Session aware applications
 SAAPPLICATIONS=(vim)
+# Other applications which should get stored
 APPLICATIONS=(luakit urxvt)
+# Terminal to embed console applications
 S_TERM=urxvt
-
-IGNOREFILES="webkit thomas"
-
-SESSIONPATH=$HOME/code/session
-
-
-
-#s_terminal() {
-#        $S_TERM &
-#}
