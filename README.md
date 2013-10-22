@@ -18,6 +18,10 @@ Session Management Solutions
 
 * systemd user units look interesting. Such a unit has to save and reload the state of an app. I never saw such an example.
 
+Installation
+============
+make install
+Adjust session.rc copy to $HOME/.session.rc or $XDG_CONFIG_HOME/ws-session/session.rc
 
 Hacking ws-ssession
 ===================

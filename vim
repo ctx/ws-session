@@ -1,7 +1,9 @@
 #!/bin/bash
 
 SESSIONPATH=/usr/lib/ws-session
-source $HOME/.session.rc
+
+source $SESSIONPATH/lib-rc.sh
+
 source $SESSIONPATH/lib-wm.sh
 source $SESSIONPATH/app-vim.sh
 
