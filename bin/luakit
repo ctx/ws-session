@@ -1,18 +1,18 @@
 #!/bin/bash
 
-source $HOME/.session.rc
+SESSIONPATH=/usr/lib/ws-session
 
-source $SESSIONPATH/lib-wm.sh
-source $SESSIONPATH/app-dwb.sh
+source $SESSIONPATH/lib/rc.sh
 
-#s_luakit_start "$@"
+source $SESSIONPATH/lib/wm.sh
+source $SESSIONPATH/app/luakit.sh
 
 SR_BOOKMARKS="$HOME/.config/surfraw/bookmarks"
 SR_ELVIFILE="$HOME/.config/surfraw/elvilist"
 SR_GO_TO_URL="g"
 SR_DEFAULT_ELVI="google"
 SR_MENU_TITLE="search the web:"
-SR_BROWSER="s_dwb_open_session"
+SR_BROWSER="s_luakit_start"
 
 s_surfraw_menu() {
   if ! [ -f $SR_ELVIFILE ];then

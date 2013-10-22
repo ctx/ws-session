@@ -1,10 +1,13 @@
 #!/bin/bash
 
-source $HOME/.session.rc
-source $SESSIONPATH/lib-wm.sh
+SESSIONPATH=/usr/lib/ws-session
+
+source $SESSIONPATH/lib/rc.sh
+
+source $SESSIONPATH/lib/wm.sh
 
 if [[ $WM = "NULL" ]] ; then
-  echo "$HOME/.zsh_history"
+  echo "$HOME/.$S_SHELL_HISTORY"
   exit 0
 fi
 

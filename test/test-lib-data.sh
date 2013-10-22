@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # setup =======================================================================
-source $HOME/.session.rc
 # override some settings
+SESSIONPATH="."
+source $SESSIONPATH/session.rc
 NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 DATA_HOME="$test_dir/session"
-source ./lib-data.sh
+source ./lib/data.sh
 
 # functions ====================================================================
 # remove test data
