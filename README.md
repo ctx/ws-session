@@ -10,20 +10,20 @@ Session management for window managers with 'dynamic tags':
 Session Management Solutions
 ----------------------------
 * xsm and all other *-session programs eg xfce-session can only stop _all_ open windows.
-* KDE has activites; working for KDE programs; depends on the kdelibs.
+* KDE has activites; working for KDE programs
 * dmtcp cannot save the full state of X11 apps.
 * Files can change during the 'sleep' of an app. If there is no builtin session support this has to be addressed in the session manager. 
 
-* ws-session is a small library of BASH functions (persistence layer, support for window manager) and a wrapper around every used app to handle every special case seperately.
+* ws-session is a small library of BASH functions and a wrapper around every used app to handle every special case seperately.
 
-* systemd user units look interesting. Such a unit has to save and reload the state of an app. I never saw such an example.
+* systemd user units could be interesting. Such a unit has to save and reload the state of an app.
 
 Installation
 ============
 make install
 Adjust session.rc copy to $HOME/.session.rc or $XDG_CONFIG_HOME/ws-session/session.rc
 
-Hacking ws-ssession
+Extending ws-session
 ===================
 
 Global variable:
@@ -35,27 +35,27 @@ To use the tests (make test) you have to set the variable DEFAULT_TAG in the fil
 
 window manager support
 ----------------------
-Create a new file lib-wm-examplewm.sh with the functions:
+Create a new file lib/wm/examplewm.sh with the functions:
 
 ```bash
+# returns current tag
 s_seltag_examplewm() {
-    # returns current tag
 }
 
+# creates new tag with name "$@" and switch to it
 s_newtag_examplewm() {
-    # creates new tag with name "$@" and switch to it
 }
 
+# switch to $DEFAULT_TAG and removes $SELTAG
 s_closetag_examplewm() {
-    # switch to $DEFAULT_TAG and removes $SELTAG
 }
 
+# list winid and class of all open windows on $SELTAG
 s_list_app_seltag_examplewm() {
-    # list winid and class of all open windows on $SELTAG
 }
 
+# needed if xdotool windowactivate --sync "$@" fails
 s_focus_window_examplewm() {
-    # needed if xdotool windowactivate --sync "$@" fails
 }
 ```
 
@@ -64,6 +64,7 @@ and run make test until the wm related tests dont throw wrong output (and no tag
 application support
 -------------------
 Searching for tests.
+Create a new file lib/wm/exampleapp.sh with the functions:
 
 ```bash
 # open exampleapp from data folder, lockfiles and state should be stored in the temporary folder.
@@ -91,6 +92,5 @@ TODO
 ====
 
 * Implement make install
-* Create folders app lib bin and test
 * improve (english of) this README
 
