@@ -2,9 +2,9 @@
 
 SESSIONPATH=/usr/lib/ws-session
 
-source $SESSIONPATH/lib-rc.sh
+source $SESSIONPATH/lib/rc.sh
 
-source $SESSIONPATH/lib-wm.sh
+source $SESSIONPATH/lib/wm.sh
 
 if [[ $WM = "NULL" ]] ; then
   echo "$HOME/.$S_SHELL_HISTORY"

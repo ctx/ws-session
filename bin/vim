@@ -2,10 +2,10 @@
 
 SESSIONPATH=/usr/lib/ws-session
 
-source $SESSIONPATH/lib-rc.sh
+source $SESSIONPATH/lib/rc.sh
 
-source $SESSIONPATH/lib-wm.sh
-source $SESSIONPATH/app-vim.sh
+source $SESSIONPATH/lib/wm.sh
+source $SESSIONPATH/app/vim.sh
 
 if [[ $WM == "NULL" ]] ; then 
   vim $@

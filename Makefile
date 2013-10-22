@@ -1,3 +1,5 @@
+.PHONY: test
+
 # target: help     - Display targets
 help :
 	@echo "Makefile for session"
@@ -8,8 +10,8 @@ help :
 
 # target: test     - Run the tests
 test:
-	@./test-lib-wm.sh
-	@./test-lib-data.sh
+	@bash test/test-lib-wm.sh
+	@bash test/test-lib-data.sh
 
 
 # target: install  - Install 

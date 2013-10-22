@@ -2,13 +2,13 @@
 
 SESSIONPATH=/usr/lib/ws-session
 
-source $SESSIONPATH/lib-rc.sh
+source $SESSIONPATH/lib/rc.sh
 
-source $SESSIONPATH/lib-data.sh
-source $SESSIONPATH/lib-wm.sh
-source $SESSIONPATH/lib-session.sh
+source $SESSIONPATH/lib/data.sh
+source $SESSIONPATH/lib/wm.sh
+source $SESSIONPATH/lib/session.sh
 for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
-  source $SESSIONPATH/app-$app.sh
+  source $SESSIONPATH/app/$app.sh
 done
 
 #AVAILABLE=$(ls "$DATA_HOME" | sed 's/-[0-5]$//g' | sort -u)
