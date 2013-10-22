@@ -10,3 +10,4 @@ SAAPPLICATIONS=(vim)
 APPLICATIONS=(luakit urxvt)
 # Terminal to embed console applications
 S_TERM=urxvt
+S_SHELL_HISTORY=zsh_history

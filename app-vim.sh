@@ -20,7 +20,14 @@ s_vim_close_session() {
 }
 
 s_vim_start() {
-  $S_TERM -name vim -e vim -i $VIMINFO --servername "$SELTAG-" $@ &
+  VIMINFO="$S_TEMPFOLDER/$SELTAG/viminfo"
+  if [[ $TERM ]] ; then
+    WINID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
+    xprop -f WM_CLASS 8s -set WM_CLASS "VIM" -id $WINID
+    vim -i $VIMINFO --servername "$SELTAG-" $@
+  else
+    $S_TERM -name vim -e vim -i $VIMINFO --servername "$SELTAG-" $@ &
+  fi
 }
 
 # vim: ft=sh ts=2 et sw=2:
