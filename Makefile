@@ -18,10 +18,10 @@ test:
 install:
 	mkdir  -p "$(DESTDIR)$(PREFIX)/lib/ws-session/"
 	mkdir  -p "$(DESTDIR)/etc/xdg/ws-session/"
-	install -D -m755 lib "$(DESTDIR)$(PREFIX)/lib/ws-session/lib"
-	install -D -m755 bar "$(DESTDIR)$(PREFIX)/lib/ws-session/bar"
-	install -D -m755 bin "$(DESTDIR)/etc/xdg/ws-session/bin"
-	install -D -m755 ws-session.rc "$(DESTDIR)/etc/xdg/ws-session/ws-session.rc"
+	cp -p lib "$(DESTDIR)$(PREFIX)/lib/ws-session/lib"
+	cp -p bar "$(DESTDIR)$(PREFIX)/lib/ws-session/bar"
+	cp -p bin "$(DESTDIR)/etc/xdg/ws-session/bin"
+	cp ws-session.rc "$(DESTDIR)/etc/xdg/ws-session/ws-session.rc"
 
 uninstall:
 	rm -f $(DESTDIR)$(BINDIR)/ws-session
