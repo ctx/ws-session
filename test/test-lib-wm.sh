@@ -10,8 +10,9 @@ s_assert_equals() {
   fi
 }
 
-SESSIONPATH="."
-source $SESSIONPATH/ws-session.rc
+S_ROOT_FOLDER="."
+DEFAULTTAG=1
+source ./lib/source.sh
 source ./lib/wm.sh
 
 echo "#### Running wm tests: "

@@ -2,11 +2,11 @@
 
 # setup =======================================================================
 # override some settings
-SESSIONPATH="."
-source $SESSIONPATH/ws-session.rc
+S_ROOT_FOLDER="."
+source $S_ROOT_FOLDER/ws-session.rc
 NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
-DATA_HOME="$test_dir/session"
+S_DATA_FOLDER="$test_dir/session"
 source ./lib/data.sh
 
 # functions ====================================================================

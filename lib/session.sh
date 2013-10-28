@@ -8,16 +8,16 @@ s_closesession() {
   applications=$(s_list_app_seltag)
   for app in ${APPLICATIONS[@]} ; do
     winids="$(echo -e "$applications" | grep -i $app | cut -f1 -d" " | tr '\n' ' ')"
-    s_${app}_close_session "$S_TEMPFOLDER/$SELTAG" "$winids"
+    s_${app}_close_session "$S_TEMP_FOLDER/$SELTAG" "$winids"
   done
 
-  s_store_data $S_TEMPFOLDER/$SELTAG $session
+  s_store_data $S_TEMP_FOLDER/$SELTAG $session
 
   while read -r app; do
     xdotool windowkill ${app%% *}
   done < <(echo "$applications")
 
-  rm -rf "$S_TEMPFOLDER/$SELTAG"
+  rm -rf "$S_TEMP_FOLDER/$SELTAG"
 
   s_closetag
 }
@@ -30,8 +30,8 @@ s_opensession() {
   fi
   s_newtag "$name"
   SELTAG=$name
-  dir="$DATA_HOME/$name-1"
-  tmp_dir="$S_TEMPFOLDER/$name"
+  dir="$S_DATA_FOLDER/$name-1"
+  tmp_dir="$S_TEMP_FOLDER/$name"
   mkdir -p "$tmp_dir"
   if [[ -d "$dir" ]] ; then
     for f in ${FILESTOCOPY[@]} ; do

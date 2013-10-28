@@ -20,7 +20,7 @@ s_vim_close_session() {
 }
 
 s_vim_start() {
-  VIMINFO="$S_TEMPFOLDER/$SELTAG/viminfo"
+  VIMINFO="$S_TEMP_FOLDER/$SELTAG/viminfo"
   if [[ $TERM ]] ; then
     WINID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
     xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $WINID

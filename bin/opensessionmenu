@@ -1,12 +1,13 @@
 #!/bin/bash
 
-SESSIONPATH=/usr/lib/ws-session
+S_ROOT_FOLDER=/usr/lib/ws-session
 
-source $SESSIONPATH/lib/rc.sh
+source $S_ROOT_FOLDER/lib/source.sh
+s_source_rc
 
-s_source lib/data.sh
-s_source lib/wm.sh
-source $SESSIONPATH/lib/session.sh
+source $S_ROOT_FOLDER/lib/data.sh
+source $S_ROOT_FOLDER/lib/wm.sh
+source $S_ROOT_FOLDER/lib/session.sh
 for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
   s_source app/$app.sh
 done
@@ -15,8 +16,8 @@ AVAILABLE=$(for d in ~/.local/share/sess/* ; do basename $d | sed 's/-[0-5]$//' 
 OPEN=$(xprop -root _NET_DESKTOP_NAMES|sed 's/.*=//;s/\"//g;s/, /\n/g;s/^ *//g;s/ *$//g')
 TOOPEN=$( printf "$AVAILABLE\n$OPEN" | sort | uniq -u | grep -v ^$)
 
-if [[ -z $1 && -n $MENU ]] ;then
-        startsession="$(printf "$TOOPEN" | $MENU -p "choose a session:")"
+if [[ -z $1 && -n $S_MENU ]] ;then
+        startsession="$(printf "$TOOPEN" | $S_MENU -p "choose a session:")"
         [[ -n $startsession ]] && s_opensession $startsession
 elif [[ $TOOPEN =~ $1 ]] ; then
         s_opensession $1

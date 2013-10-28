@@ -1,9 +1,10 @@
 #!/bin/bash
 
-SESSIONPATH=/usr/lib/ws-session
+S_ROOT_FOLDER=/usr/lib/ws-session
 
-source $SESSIONPATH/lib/rc.sh
-source $SESSIONPATH/lib/wm.sh
+source $S_ROOT_FOLDER/lib/source.sh
+s_source_rc
+source $S_ROOT_FOLDER/lib/wm.sh
 
 s_source app/vim.sh
 
