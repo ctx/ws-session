@@ -22,7 +22,7 @@ s_newtag_llwm() {
 }
 
 s_closetag_llwm() {
-  s_newtag_llwm $DEFAULT_TAG
+  s_newtag_llwm $DEFAULTTAG
 }
 
 # vim: ft=sh ts=2 et sw=2:

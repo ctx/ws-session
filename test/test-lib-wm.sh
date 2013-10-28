@@ -21,7 +21,7 @@ echo -n "##   "
 # test seltag stupid
 tag="$(s_seltag)"
 
-s_assert_equals "$tag" "$DEFAULT_TAG" test1
+s_assert_equals "$tag" "$DEFAULTTAG" test1
 
 # test 2 ----------------------------------------------------------------------
 # create and change to tag newtag 
@@ -34,12 +34,12 @@ s_assert_equals "$(s_seltag)" "$tag" test2
 # close newtag and go to tag 1 per default
 SELTAG=$(s_seltag)
 s_closetag
-s_assert_equals "$(s_seltag)" "$DEFAULT_TAG" test3
+s_assert_equals "$(s_seltag)" "$DEFAULTTAG" test3
 
 
 # test 4 ---------------------------------------------------------------------
 s_newtag
-s_assert_equals "$(s_seltag)" "$DEFAULT_TAG" test4
+s_assert_equals "$(s_seltag)" "$DEFAULTTAG" test4
 
 # test 5 ---------------------------------------------------------------------
 echo test 5:

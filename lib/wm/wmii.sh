@@ -7,7 +7,7 @@ s_newtag_wmii() {
 }
 
 s_closetag_wmii() {
-  wmiir xwrite /ctl view "$DEFAULT_TAG"
+  wmiir xwrite /ctl view "$DEFAULTTAG"
 }
 
 s_list_app_seltag_wmii() {

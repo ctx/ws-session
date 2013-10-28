@@ -2,7 +2,9 @@ DATA_HOME="$XDG_DATA_HOME/sess"
 S_TEMPFOLDER="/tmp/session-data"
 
 NUMBER_OF_BACKUPS="5"
-DEFAULT_TAG="1"
+DEFAULTTAG="1"
+
+MENU='dmenu -i'
 
 # Session aware applications
 SAAPPLICATIONS=(vim)

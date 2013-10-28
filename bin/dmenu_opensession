@@ -16,8 +16,8 @@ AVAILABLE=$(for d in ~/.local/share/sess/* ; do sed 's/-[0-5]$//' <((basename $d
 OPEN=$(xprop -root _NET_DESKTOP_NAMES|sed 's/.*=//;s/\"//g;s/, /\n/g;s/^ *//g;s/ *$//g')
 TOOPEN=$( printf "$AVAILABLE\n$OPEN" | sort | uniq -u | grep -v ^$)
 
-if [[ -z $1 && -n $DMENU ]] ;then
-        startsession="$(printf "$TOOPEN" | $DMENU -p "choose a session:")"
+if [[ -z $1 && -n $MENU ]] ;then
+        startsession="$(printf "$TOOPEN" | $MENU -p "choose a session:")"
         [[ -n $startsession ]] && s_opensession $startsession
 elif [[ $TOOPEN =~ $1 ]] ; then
         s_opensession $1

@@ -31,7 +31,7 @@ Global variable:
 $SELTAG
 ```
 
-To use the tests (make test) you have to set the variable DEFAULT_TAG in the file session.rc to the tag you want to run the tests from.
+To use the tests (make test) you have to set the variable DEFAULTTAG in the file session.rc to the tag you want to run the tests from.
 
 window manager support
 ----------------------
@@ -46,7 +46,7 @@ s_seltag_examplewm() {
 s_newtag_examplewm() {
 }
 
-# switch to $DEFAULT_TAG and removes $SELTAG
+# switch to $DEFAULTTAG and removes $SELTAG
 s_closetag_examplewm() {
 }
 

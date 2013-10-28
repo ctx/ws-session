@@ -19,7 +19,7 @@ s_newtag_bspwm() {
 }
 
 s_closetag_bspwm() {
-  bspc desktop -f "$DEFAULT_TAG"
+  bspc desktop -f "$DEFAULTTAG"
   bspc monitor -r "$SELTAG"
 }
 
