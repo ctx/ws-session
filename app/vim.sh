@@ -25,6 +25,7 @@ s_vim_start() {
     WINID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
     xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $WINID
     /usr/bin/vim -i $VIMINFO --servername "$SELTAG-" $@
+    xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $WINID
   else
     $S_TERM -name vim -e /usr/bin/vim -i $VIMINFO --servername "$SELTAG-" $@ &
   fi
