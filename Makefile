@@ -18,9 +18,10 @@ test:
 install:
 	mkdir  -p "$(DESTDIR)$(PREFIX)/lib/ws-session/"
 	mkdir  -p "$(DESTDIR)/etc/xdg/ws-session/"
-	cp -pr lib "$(DESTDIR)$(PREFIX)/lib/ws-session/lib"
-	cp -pr app "$(DESTDIR)$(PREFIX)/lib/ws-session/app"
-	cp -pr bin "$(DESTDIR)/etc/xdg/ws-session/bin"
+	cp -r lib "$(DESTDIR)$(PREFIX)/lib/ws-session/lib"
+	cp -r app "$(DESTDIR)$(PREFIX)/lib/ws-session/app"
+	cp -r wm  "$(DESTDIR)$(PREFIX)/lib/ws-session/wm"
+	cp -r bin "$(DESTDIR)/etc/xdg/ws-session/bin"
 	cp ws-session.rc "$(DESTDIR)/etc/xdg/ws-session/ws-session.rc"
 
 uninstall:

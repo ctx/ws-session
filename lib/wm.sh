@@ -1,18 +1,18 @@
 if [[ $(wmiir ls / 2>/dev/null) ]] ; then
   WM=wmii
-  source $SESSIONPATH/wm/wmii.sh
+  s_source wm/wmii.sh
 elif [[ $(wmctrl -m | grep llwm) ]]; then
   WM=llwm
-  source $SESSIONPATH/wm/llwm.sh
+  s_source wm/llwm.sh
 elif [[ $(i3-msg -t get_version 2>/dev/null) ]]; then
   WM=i3
-  source $SESSIONPATH/wm/i3.sh
+  s_source wm/i3.sh
 elif [[ $(wmctrl -m | grep bspwm) ]] ; then
   WM=bspwm
-  source $SESSIONPATH/wm/bspwm.sh
+  s_source wm/bspwm.sh
 elif [[ $(wmctrl -m | grep Openbox) ]]; then
   WM=ob
-  source $SESSIONPATH/wm/ob.sh
+  s_source wm/ob.sh
 else
   WM=NULL
 fi

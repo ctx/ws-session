@@ -2,10 +2,10 @@
 
 SESSIONPATH=/usr/lib/ws-session
 
-source $SESSIONPATH/lib/rc.sh
-
+source $SESSIONPATH/lib/source.sh
 source $SESSIONPATH/lib/wm.sh
-source $SESSIONPATH/app/luakit.sh
+
+s_source app/luakit.sh
 
 if [[ $WM == "NULL" ]] ; then 
   /usr/bin/luakit $@

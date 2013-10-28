@@ -3,7 +3,6 @@
 SESSIONPATH=/usr/lib/ws-session
 
 source $SESSIONPATH/lib/rc.sh
-
 source $SESSIONPATH/lib/wm.sh
 
 if [[ $WM = "NULL" ]] ; then

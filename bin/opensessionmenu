@@ -4,11 +4,11 @@ SESSIONPATH=/usr/lib/ws-session
 
 source $SESSIONPATH/lib/rc.sh
 
-source $SESSIONPATH/lib/data.sh
-source $SESSIONPATH/lib/wm.sh
+s_source lib/data.sh
+s_source lib/wm.sh
 source $SESSIONPATH/lib/session.sh
 for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
-  source $SESSIONPATH/app/$app.sh
+  s_source app/$app.sh
 done
 
 AVAILABLE=$(for d in ~/.local/share/sess/* ; do basename $d | sed 's/-[0-5]$//' ; done | uniq)
