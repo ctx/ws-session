@@ -5,15 +5,13 @@ s_seltag_llwm() {
   dn=($(xprop -root _NET_DESKTOP_NAMES|sed 's/.*= //;s/,//g'))
 
   echo ${dn[$cdid]} | tr -d \"
-
-  #xprop -root _LL_ACTIVE_DESKTOP | cut -f2 -d= |tr -d \" | tr -d " "
 }
 
 s_list_app_seltag_llwm() {
   apps=($(xprop -root _LL_DESKTOP_WINIDS|sed 's/.*= //;s/,//g;s/\"//g'))
   for app in ${apps[@]} ; do
     echo -n "${app##*:} "
-    xprop -id ${app##*:} WM_CLASS |sed 's/.*= //;s/\",.*$//;s/\"//g'
+    xprop -id ${app##*:} WM_CLASS |sed 's/.*= \"//;s/\",.*$//'
   done
 }
 

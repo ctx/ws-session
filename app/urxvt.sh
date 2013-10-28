@@ -3,7 +3,7 @@
 # Load the wd's from the file arg1/urxvt
 s_urxvt_open_session() {
   while read wd ;do
-    urxvt -cd $wd > /dev/null 2>&1 &
+    urxvt -cd $wd > /dev/null 2>&1 & disown
   done < <(cat "$1"/urxvt | grep -v "^$" )
 }
 

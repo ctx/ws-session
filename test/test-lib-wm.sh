@@ -11,7 +11,7 @@ s_assert_equals() {
 }
 
 SESSIONPATH="."
-source $SESSIONPATH/session.rc
+source $SESSIONPATH/ws-session.rc
 source ./lib/wm.sh
 
 echo "#### Running wm tests: "

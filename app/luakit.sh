@@ -1,7 +1,6 @@
 XDGAPPLICATION=luakit
-XDGCMD="luakit -U -n"
-#XDGOPENARG="-u luakit://history"
-XDGNEWARG="-u http://google.com"
+XDGCMD="/usr/bin/luakit -U -n"
+XDGNEWARG="http://google.com"
 
 
 # open a luakit session
@@ -14,7 +13,7 @@ s_luakit_open_session() {
   cp -r $dir/$XDGAPPLICATION $tmp_dir
   {
     export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-    $XDGCMD # > /dev/null 2>&1
+    $XDGCMD > /dev/null 2>&1 & disown
   }&
 }
 
@@ -29,14 +28,13 @@ s_luakit_close_session() {
   xdotool key KP_Enter
 }
 
-# some other functions to start luakit 
-# need session.rc and lib-wm.sh
+# start luakit
 
 s_luakit_new_instance() {
   mkdir -p "$1"
   {
     export XDG_DATA_HOME="$1" 
-    $XDGCMD "$2" > /dev/null 2>&1
+    $XDGCMD "$2" > /dev/null 2>&1 & disown
   }&
 }
 

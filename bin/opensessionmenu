@@ -11,8 +11,7 @@ for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
   source $SESSIONPATH/app/$app.sh
 done
 
-#AVAILABLE=$(ls "$DATA_HOME" | sed 's/-[0-5]$//g' | sort -u)
-AVAILABLE=$(for d in ~/.local/share/sess/* ; do sed 's/-[0-5]$//' <((basename $d)) ; done | uniq)
+AVAILABLE=$(for d in ~/.local/share/sess/* ; do basename $d | sed 's/-[0-5]$//' ; done | uniq)
 OPEN=$(xprop -root _NET_DESKTOP_NAMES|sed 's/.*=//;s/\"//g;s/, /\n/g;s/^ *//g;s/ *$//g')
 TOOPEN=$( printf "$AVAILABLE\n$OPEN" | sort | uniq -u | grep -v ^$)
 

@@ -1,17 +1,10 @@
+# didn't get that json or jshon thing
 s_seltag_i3() {
   i3-msg -t get_workspaces \
     | jshon \
     | grep -B1 "visible\": true" \
     | head -1 \
     | sed 's/  \"name\": \"\(.*\)\",/\1/'
-
-
-#    | tr -d "[]"| sed 's/},{/}\n{/g' \
-#    | grep "\"visible\":true" \
-#    | sed 's/,/\n/g' \
-#    | grep name \
-#    | cut -d: -f2 \
-#    | tr -d "\""
 }
 
 s_newtag_i3() {
