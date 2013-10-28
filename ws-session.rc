@@ -1,16 +1,14 @@
 S_DATA_FOLDER="$XDG_DATA_HOME/sess"
 S_TEMP_FOLDER="/tmp/session-data"
-S_CONFIGFOLDER="$XDG_CONFIG_HOME/ws-session"
+S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 
 NUMBER_OF_BACKUPS="5"
 DEFAULTTAG="1"
 
 S_MENU='dmenu -i'
 
-# Session aware applications
-SAAPPLICATIONS=(vim)
-# Other applications which should get stored
-APPLICATIONS=(luakit urxvt)
+# Applications which should get stored
+APPLICATIONS=(vim luakit urxvt)
 # Terminal to embed console applications
 S_TERM=urxvt
 S_SHELL_HISTORY=zsh_history
