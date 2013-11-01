@@ -1,0 +1,18 @@
+#!/bin/bash
+
+S_ROOT_FOLDER=/usr/lib/ws-session
+
+source $S_ROOT_FOLDER/lib/source.sh
+s_source_rc
+source $S_ROOT_FOLDER/lib/wm.sh
+
+s_source app/mupdf.sh
+
+if [[ $WM == "NULL" ]] ; then 
+  /usr/bin/mupdf $@
+  exit 0
+fi
+
+s_mupdf_start "$@"
+
+# vim: ft=sh ts=2 et sw=2:
