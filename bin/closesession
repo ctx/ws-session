@@ -12,4 +12,6 @@ for app in ${SAS_APPLICATIONS[@]} ${S_APPLICATIONS[@]} ; do
   s_source app/${app}.sh
 done
 
-s_closesession $@
+s_closesession $@ 
+
+# vim: ft=sh ts=2 et sw=2:

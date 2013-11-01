@@ -17,14 +17,23 @@ Session Management Solutions
 * ws-session is a small library of BASH functions and a wrapper around every used application to handle every special case seperately.
 * For many applications there is no point in saving the state.
 
+Using ws-session
+----------------
+```bash
+$ opensession sessionname   # open/create the session with name sessionname ;)
+$ opensessionmenu           # open/create a session, show sessions if no menu is set
+$ closesession sessionname  # close session, dont be on that tag for now 
+$ restoresession            # restore the state of a session 1 step before the last save
+```
+Bind a key to opensessionmenu to create new workspaces.
+Bind a key to closesession to close a workspace.
 
 Installation/Configuration
 ============
 * make install or git checkout
 
 * Copy /etx/xdg/ws-session/ws-session.rc to
-  $XDG_CONFIG_HOME/ws-session/ws-session.rc or $HOME/.ws-session.rc and set
-  S_CONFIG_FOLDER.
+  $XDG_CONFIG_HOME/ws-session/ws-session.rc or $HOME/.ws-session.rc.
 
 * Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
 
@@ -34,11 +43,12 @@ Installation/Configuration
 * Global variables:
 <dl>
 <dt>S_ROOT_FOLDER</dt>
-<dd>Points to the folder with all the code in it. If you install it the its
-$PREFIX/lib/ws-session, but it can also point to a checkout of this repo.</dd>
+<dd>Points to the folder with all the code in it. If you install it, then this
+is $PREFIX/lib/ws-session, but it can also point to a checkout of this
+repo.</dd>
 <dd>Must be set in every executable in bin/.</dd>
 <dt>S_CONFIG_FOLDER</dt>
-<dd>Usually points to $XDG_CONFI_HOME/ws-session, but if you name your rc file
+<dd>Usually points to $XDG_CONFIG_HOME/ws-session, but if you name your rc file
 $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DATA_FOLDER</dt>
@@ -49,7 +59,7 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DEFAULT_TAG</dt>
 <dd>If you close a session your window manager changes to this workspace</dd>
-<d>Name it 1 or arch or whatever.</dd>
+<dd>Name it 1 or arch or whatever.</dd>
 <dt>S_SEL_TAG</dt>
 <dd>Contains the active workspace. Can be used in files in bin/ or app/.</dd>
 <dd>Do not set this variable in the rc file, it gets set automatically.</dd>
@@ -136,4 +146,6 @@ TODO
 
 * s_save_workspace_layout_$WM(), s_apply_workspace_layout_$WM()
 * improve (english of) this README
+* write a manual page
+* help output and bash completion for bin/{opensession,closesession,opensessionmenu}
 

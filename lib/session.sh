@@ -1,6 +1,7 @@
 s_closesession() {
   if [[ $@ ]] ; then
     session="$@"  
+    S_SEL_TAG="$@"
   else
     session="$S_SEL_TAG"
   fi
