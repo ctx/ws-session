@@ -10,47 +10,89 @@ Session management for window managers with 'dynamic tags':
 Session Management Solutions
 ----------------------------
 * xsm and all other *-session programs eg xfce-session can only stop _all_ open windows.
-* KDE has activites; working for KDE programs
-* dmtcp cannot save the full state of X11 apps.
-* Files can change during the 'sleep' of an app. If there is no builtin session support this has to be addressed in the session manager. 
+* KDE has activites. They are working for KDE applications.
+* dmtcp cannot save the state of X11 applications.
+* Files can change during the 'sleep' of an application. If there is no builtin session support this has to be addressed in the session manager. 
 
-* ws-session is a small library of BASH functions and a wrapper around every used app to handle every special case seperately.
+* ws-session is a small library of BASH functions and a wrapper around every used application to handle every special case seperately.
+* For many applications there is no point in saving the state.
 
-* systemd user units could be interesting. Such a unit has to save and reload the state of an app.
 
-Installation
+Installation/Configuration
 ============
-make install
-Adjust session.rc copy to $HOME/.session.rc or $XDG_CONFIG_HOME/ws-session/session.rc
+* make install or git checkout
+
+* Copy /etx/xdg/ws-session/ws-session.rc to
+  $XDG_CONFIG_HOME/ws-session/ws-session.rc or $HOME/.ws-session.rc and set
+  S_CONFIG_FOLDER.
+
+* Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
+
+* You can also copy some files from /usr/lib/ws-session/app to
+  $S_CONFIG_FOLDER/app to change the default behavior or to test new ones.
+
+* Global variables:
+<dl>
+<dt>S_ROOT_FOLDER</dt>
+<dd>Points to the folder with all the code in it. If you install it the its
+$PREFIX/lib/ws-session, but it can also point to a checkout of this repo.</dd>
+<dd>Must be set in every executable in bin/.</dd>
+<dt>S_CONFIG_FOLDER</dt>
+<dd>Usually points to $XDG_CONFI_HOME/ws-session, but if you name your rc file
+$HOME/.ws-session.rc you can set this to wathever you like</dd>
+<dd>Can be set in the rc file.</dd>
+<dt>S_DATA_FOLDER</dt>
+<dd>Usually in $XDG_DATA_HOME/ws-session. Here are all the sessions saved.</dd>
+<dd>Can be set in the rc file.</dd>
+<dt>S_TEMP_FOLDER</dt>
+<dd>I put this in /tmp/ws-session.<dd> 
+<dd>Can be set in the rc file.</dd>
+<dt>S_DEFAULT_TAG</dt>
+<dd>If you close a session your window manager changes to this workspace</dd>
+<d>Name it 1 or arch or whatever.</dd>
+<dt>S_SEL_TAG</dt>
+<dd>Contains the active workspace. Can be used in files in bin/ or app/.</dd>
+<dd>Do not set this variable in the rc file, it gets set automatically.</dd>
+<dt>S_MENU</dt>
+<dd>Points to your favorite menu. Eg. dmenu -nf #333 but can also be another
+menu application</dd>
+<dd>Can be set in the rc file.</dd>
+<dt>S_SHELL_HISTORY</dt>
+<dd>The file name of your shell history. To have a separate shell history on
+every workspace the script bin/selecthistfile can be used. Eg. in your .zshrc:
+export HISTFILE="$(selecthistfile)". selecthisfile echos
+$HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
+<dd>Can be set in the rc file.</dd>
+
 
 Extending ws-session
 ===================
 
-Global variable:
-```bash
-$SELTAG
-```
+You must not change a global variable from the section above, exept you change
+a file in lib/.
 
-To use the tests (make test) you have to set the variable DEFAULTTAG in the file session.rc to the tag you want to run the tests from.
+Window Manager
+--------------
+* To use the tests (make test) you have to set the variable S_DEFAULT_TAG in
+  the file ws-session.rc (in the git repo) to the tag you want to run the tests
+  from.
 
-window manager support
-----------------------
-Create a new file lib/wm/examplewm.sh with the functions:
+* Create a new file lib/wm/examplewm.sh with the functions:
 
 ```bash
 # returns current tag
 s_seltag_examplewm() {
 }
 
-# creates new tag with name "$@" and switch to it
+# create a new tag with name "$@" and switch to it
 s_newtag_examplewm() {
 }
 
-# switch to $DEFAULTTAG and removes $SELTAG
+# switch to $S_DEFAULT_TAG and remove $S_SEL_TAG
 s_closetag_examplewm() {
 }
 
-# list winid and class of all open windows on $SELTAG
+# list winid and class of all open windows on $S_SEL_TAG
 s_list_app_seltag_examplewm() {
 }
 
@@ -59,12 +101,13 @@ s_focus_window_examplewm() {
 }
 ```
 
-and run make test until the wm related tests dont throw wrong output (and no tag with name tagname exists afterwards).
+* Run make test until the wm related tests dont throw wrong output (and no tag
+  with name tagname exists afterwards).
 
-application support
--------------------
-Searching for tests.
-Create a new file lib/wm/exampleapp.sh with the functions:
+Application
+-----------
+* Searching for tests.
+* Create a new file lib/wm/exampleapp.sh with the functions:
 
 ```bash
 # open exampleapp from data folder, lockfiles and state should be stored in the temporary folder.
@@ -84,13 +127,13 @@ s_exampleapp_start() {
 }
 ```
 
-Sometimes one can ignore arg1/arg2. Sometimes s_exampleapp_start is not needed but exampleapp needs a setting in its config files.
+Sometimes one can ignore arg1 and/or arg2. Sometimes s_exampleapp_start is not needed but exampleapp needs a setting in its config files.
 There is no s_urxvt_start, but the history file of the shell gets set by  $(selecthistfile).
 
 
 TODO
 ====
 
-* Implement make install
+* s_save_workspace_layout_$WM(), s_apply_workspace_layout_$WM()
 * improve (english of) this README
 
