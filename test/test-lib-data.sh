@@ -4,7 +4,7 @@
 # override some settings
 S_ROOT_FOLDER="."
 source $S_ROOT_FOLDER/ws-session.rc
-NUMBER_OF_BACKUPS=3
+S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 S_DATA_FOLDER="$test_dir/session"
 source ./lib/data.sh

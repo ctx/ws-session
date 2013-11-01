@@ -12,7 +12,7 @@ s_mupdf_open_session() {
 # arg2: winids of all mupdfs on current tag.
 s_mupdf_close_session() {
   # save the tmp file because it will get empty bevore the data gets saved 
-  cp $S_TEMP_FOLDER/$SELTAG/mupdf{-tmp,}
+  cp $S_TEMP_FOLDER/$S_SEL_TAG/mupdf{-tmp,}
 }
 
 # start exampleapp in a way that close_session can close/save it
@@ -20,7 +20,7 @@ s_mupdf_start() {
   if [[ $@ ]] ; then
     {
       local file="$(pwd)/$@"
-      local temp_dir="$S_TEMP_FOLDER/$SELTAG"
+      local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
       echo $file >> $temp_dir/mupdf-tmp
       /usr/bin/mupdf $@
       sed -i ";${file};d" $temp_dir/mupdf-tmp

@@ -12,7 +12,7 @@ s_newtag_i3() {
 }
 
 s_closetag_i3() {
-  i3-msg workspace "$DEFAULTTAG" 2>&1 >/dev/null
+  i3-msg workspace "$S_DEFAULT_TAG" 2>&1 >/dev/null
 }
   
 s_list_app_seltag_i3() {

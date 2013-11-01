@@ -11,7 +11,7 @@ if [[ $WM = "NULL" ]] ; then
   exit 0
 fi
 
-DIR="$S_TEMP_FOLDER/$SELTAG"
+DIR="$S_TEMP_FOLDER/$S_SEL_TAG"
 FILE="$DIR/$S_SHELL_HISTORY"
 [[ -f $FILE ]] || mkdir -p "$DIR" && touch "$FILE"
 

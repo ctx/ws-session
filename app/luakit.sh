@@ -53,7 +53,7 @@ s_luakit_start() {
   else
     url="$1"
   fi
-  local dir="$S_TEMP_FOLDER/$SELTAG/$XDGAPPLICATION"
+  local dir="$S_TEMP_FOLDER/$S_SEL_TAG/$XDGAPPLICATION"
   if ! [ -d "$dir" ]
   then
     s_luakit_new_instance "$dir" "$url"

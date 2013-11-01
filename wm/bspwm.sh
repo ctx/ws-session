@@ -8,7 +8,7 @@ s_seltag_bspwm() {
 }
 
 s_list_app_seltag_bspwm() {
-  bspc query -T -d "$SELTAG" \
+  bspc query -T -d "$S_SEL_TAG" \
     | grep "^ " | grep "0x" \
     | awk '{print $3" "$2}'
 }
@@ -19,8 +19,8 @@ s_newtag_bspwm() {
 }
 
 s_closetag_bspwm() {
-  bspc desktop -f "$DEFAULTTAG"
-  bspc monitor -r "$SELTAG"
+  bspc desktop -f "$S_DEFAULT_TAG"
+  bspc monitor -r "$S_SEL_TAG"
 }
 
 s_focus_window_bspwm() {

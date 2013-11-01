@@ -11,7 +11,7 @@ s_assert_equals() {
 }
 
 S_ROOT_FOLDER="."
-DEFAULTTAG=1
+S_DEFAULT_TAG=1
 source ./lib/source.sh
 source ./lib/wm.sh
 
@@ -22,7 +22,7 @@ echo -n "##   "
 # test seltag stupid
 tag="$(s_seltag)"
 
-s_assert_equals "$tag" "$DEFAULTTAG" test1
+s_assert_equals "$tag" "$S_DEFAULT_TAG" test1
 
 # test 2 ----------------------------------------------------------------------
 # create and change to tag newtag 
@@ -33,20 +33,20 @@ s_assert_equals "$(s_seltag)" "$tag" test2
 
 # test 3 ---------------------------------------------------------------------
 # close newtag and go to tag 1 per default
-SELTAG=$(s_seltag)
+S_SEL_TAG=$(s_seltag)
 s_closetag
-s_assert_equals "$(s_seltag)" "$DEFAULTTAG" test3
+s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG" test3
 
 
 # test 4 ---------------------------------------------------------------------
 s_newtag
-s_assert_equals "$(s_seltag)" "$DEFAULTTAG" test4
+s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG" test4
 
 # test 5 ---------------------------------------------------------------------
 echo test 5:
 echo This should be a list of your open windows on the current tag.
 echo "id         class"
-SELTAG=$(s_seltag)
+S_SEL_TAG=$(s_seltag)
 s_list_app_seltag
 
 echo

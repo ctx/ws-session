@@ -11,9 +11,9 @@ s_mv() {
 s_rotate_data() {
   local data_dir="$1"
   if [[ -n "$data_dir" ]] ; then
-    [[ -d $S_DATA_FOLDER/$data_dir-$(($NUMBER_OF_BACKUPS)) ]] && \
-      rm -rf "$S_DATA_FOLDER/$data_dir-$(($NUMBER_OF_BACKUPS))"
-    for ((i=$((NUMBER_OF_BACKUPS-1)); i>=0; i--)) ; do
+    [[ -d $S_DATA_FOLDER/$data_dir-$(($S_NUMBER_OF_BACKUPS)) ]] && \
+      rm -rf "$S_DATA_FOLDER/$data_dir-$(($S_NUMBER_OF_BACKUPS))"
+    for ((i=$((S_NUMBER_OF_BACKUPS-1)); i>=0; i--)) ; do
         s_mv "$S_DATA_FOLDER/$data_dir-$i" "$S_DATA_FOLDER/$data_dir-$(($i+1))"
     done
   fi
@@ -32,7 +32,7 @@ s_restore_data() {
   if [[ -d $S_DATA_FOLDER/$data_dir-2 ]] ; then
     [[ -d $S_DATA_FOLDER/$data_dir-$restored-1 ]] && s_rotate_data "$data_dir-$restored"
     s_mv "$S_DATA_FOLDER/$data_dir-1" "$S_DATA_FOLDER/$data_dir-$restored-1"
-    for  ((i=2; i<=$(($NUMBER_OF_BACKUPS)); i++)) ; do
+    for  ((i=2; i<=$(($S_NUMBER_OF_BACKUPS)); i++)) ; do
       s_mv "$S_DATA_FOLDER/$data_dir-$i" "$S_DATA_FOLDER/$data_dir-$(($i-1))"
     done
   fi

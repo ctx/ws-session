@@ -31,7 +31,7 @@ if [[ $WM != NULL ]] ; then
   }
 
   s_list_app_seltag() {
-    s_list_app_seltag_$WM "$SELTAG"
+    s_list_app_seltag_$WM "$S_SEL_TAG"
   }
 
   if [[ $WM == bspwm ]] ; then
@@ -44,7 +44,7 @@ if [[ $WM != NULL ]] ; then
     }
   fi
 
-  SELTAG="$(s_seltag)"
+  S_SEL_TAG="$(s_seltag)"
 fi
 
 # vim: ft=sh ts=2 et sw=2:

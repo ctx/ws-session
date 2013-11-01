@@ -8,7 +8,7 @@ source $S_ROOT_FOLDER/lib/data.sh
 source $S_ROOT_FOLDER/lib/wm.sh
 source $S_ROOT_FOLDER/lib/session.sh
 
-for app in ${SAAPPLICATIONS[@]} ${APPLICATIONS[@]} ; do
+for app in ${SAS_APPLICATIONS[@]} ${S_APPLICATIONS[@]} ; do
   s_source app/${app}.sh
 done
 
