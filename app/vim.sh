@@ -2,7 +2,7 @@
 # arg1: session file (the file/the folder)
 s_vim_open_session() {
   local session="$1"
-  find $session/vim -type f -exec bash -cxv "$S_TERM -name vim -e /usr/bin/vim --servername $SELTAG- -S "{}"&" disown \; 
+  find $session/vim -type f -exec bash -c "$S_TERM -name vim -e /usr/bin/vim --servername $SELTAG- -S "{}"&" disown \; 
 }
 
 # close vim session
@@ -23,9 +23,7 @@ s_vim_start() {
   VIMINFO="$S_TEMP_FOLDER/$SELTAG/viminfo"
   if [[ $TERM ]] ; then
     WINID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
-    xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $WINID
     /usr/bin/vim -i $VIMINFO --servername "$SELTAG-" $@
-    xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $WINID
   else
     $S_TERM -name vim -e /usr/bin/vim -i $VIMINFO --servername "$SELTAG-" $@ & disown
   fi

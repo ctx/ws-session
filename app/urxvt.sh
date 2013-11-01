@@ -15,13 +15,8 @@ s_urxvt_close_session() {
   local temp_dir="$1"
   local urxvts="$2"
 
-  if [[ $urxvts ]] ; then 
-    echo -n > $temp_dir/urxvt
-  fi
-
   for urxvt in $urxvts ; do
-    local PID=$(xprop -id $urxvt | grep -m 1 PID | cut -d " " -f 3 )
-    #[[ -z $PID ]] && local PID=$(( $(xprop -id $urxvt | grep -m 1 PID | cut -d " " -f 3 ) + 3 ))
+    local PID=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
     ZSHPID=$(ps --ppid $PID | grep zsh | head -1 | awk '{print $1}' )
     local cwd=$(readlink /proc/$ZSHPID/cwd)
     [[ $cwd ]] && echo $cwd >> $temp_dir/urxvt
