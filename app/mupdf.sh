@@ -12,7 +12,8 @@ s_mupdf_open_session() {
 # arg2: winids of all mupdfs on current tag.
 s_mupdf_close_session() {
   # save the tmp file because it will get empty bevore the data gets saved 
-  cp $S_TEMP_FOLDER/$S_SEL_TAG/mupdf{-tmp,}
+  local temp_dir="$1"
+  cp "$temp_dir"/mupdf{-tmp,}
 }
 
 # start exampleapp in a way that close_session can close/save it

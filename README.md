@@ -9,27 +9,48 @@ Session management for window managers with 'dynamic tags':
 
 Session Management Solutions
 ----------------------------
-* xsm and all other *-session programs eg xfce-session can only stop _all_ open windows.
+* xsm and all other *-session programs eg xfce-session can only stop _all_ open
+  windows.
 * KDE has activites. They are working for KDE applications.
 * dmtcp cannot save the state of X11 applications.
-* Files can change during the 'sleep' of an application. If there is no builtin session support this has to be addressed in the session manager. 
+* Files can change during the 'sleep' of an application. If there is no builtin
+  session support this has to be addressed in the session manager. 
 
-* ws-session is a small library of BASH functions and a wrapper around every used application to handle every special case seperately.
-* For many applications there is no point in saving the state.
+* ws-session is a small library of BASH functions and a wrapper around every
+  used application to handle every special case seperately.
+* For many applications there is no point in saving the state. You can put such
+  applications in the autostart file.
 
 Using ws-session
 ----------------
+* In the shell
 ```bash
-$ opensession sname   # open/create the session with name sname ;)
-$ opensessionmenu     # open/create a session, show sessions if no menu is set
-$ closesession sname  # close session, dont be on that tag for now
-$ restoresession      # restore the state of a session 1 step before the last save
+$ opensession sname     # open/create the session with name sname ;)
+$ opensessionmenu       # open/create a session, show sessions if no menu is set
+$ closesession sname    # close session
+$ restoresession sname  # restore the state of a session 1 step before the last save
+$ editatuostart         # edit the autostart file of the active session
 ```
+
+* From your window manager
 Bind a key to opensessionmenu to create new workspaces.
 Bind a key to closesession to close a workspace.
 
+Dependecies
+-----------
+<dl>
+<dt>Window Manager</dt>
+<dd>One of: bspwm,i3,wmii</dd>
+<dt>Applications</dt>
+<dd>Some of: luakit,mupdf,urxvt,vim</dd>
+<dt>Helpers</dt>
+<dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
+</dl>
+
 Installation/Configuration
 ============
+
+
 * make install or git checkout
 
 * Copy /etx/xdg/ws-session/ws-session.rc to
@@ -37,8 +58,8 @@ Installation/Configuration
 
 * Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
 
-* You can also copy some files from /usr/lib/ws-session/app to
-  $S_CONFIG_FOLDER/app to change the default behavior or to test new ones.
+* You can also copy some files from /usr/lib/ws-session/{app,wm} to
+  $S_CONFIG_FOLDER/{app,wm} to change the default behavior or to test new ones.
 
 * Global variables:
 <dl>
@@ -156,5 +177,5 @@ TODO
 * s_save_workspace_layout_$WM(), s_apply_workspace_layout_$WM()
 * improve (english of) this README
 * write a manual page
-* help output and bash completion for bin/{opensession,closesession,opensessionmenu}
+* help output and bash completion for bin/{opensession,closesession,opensessionmenu,restoresession,editautostart}
 
