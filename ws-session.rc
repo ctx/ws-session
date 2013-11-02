@@ -1,5 +1,5 @@
-S_DATA_FOLDER="$XDG_DATA_HOME/sess"
-S_TEMP_FOLDER="/tmp/session-data"
+S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
+S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
 S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 
 S_NUMBER_OF_BACKUPS="5"

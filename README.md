@@ -20,10 +20,10 @@ Session Management Solutions
 Using ws-session
 ----------------
 ```bash
-$ opensession sessionname   # open/create the session with name sessionname ;)
-$ opensessionmenu           # open/create a session, show sessions if no menu is set
-$ closesession sessionname  # close session, dont be on that tag for now 
-$ restoresession            # restore the state of a session 1 step before the last save
+$ opensession sname   # open/create the session with name sname ;)
+$ opensessionmenu     # open/create a session, show sessions if no menu is set
+$ closesession sname  # close session, dont be on that tag for now
+$ restoresession      # restore the state of a session 1 step before the last save
 ```
 Bind a key to opensessionmenu to create new workspaces.
 Bind a key to closesession to close a workspace.
@@ -42,6 +42,9 @@ Installation/Configuration
 
 * Global variables:
 <dl>
+<dt>S_APPLICATIONS<dt>
+<dd>Array with the applications you want open and close with this script.<dd>
+<dd>Should be set in the rc file.</dd>
 <dt>S_ROOT_FOLDER</dt>
 <dd>Points to the folder with all the code in it. If you install it, then this
 is $PREFIX/lib/ws-session, but it can also point to a checkout of this
@@ -56,6 +59,9 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_TEMP_FOLDER</dt>
 <dd>I put this in /tmp/ws-session.<dd> 
+<dd>Can be set in the rc file.</dd>
+<dt>S_NUMBER_OF_BACKUPS<dt>
+<dd>How many backups of a session should get stored in S_DATA_FOLDER</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DEFAULT_TAG</dt>
 <dd>If you close a session your window manager changes to this workspace</dd>
