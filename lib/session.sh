@@ -31,20 +31,21 @@ s_opensession() {
   S_SEL_TAG=$name
   dir="$S_DATA_FOLDER/$name-1"
   tmp_dir="$S_TEMP_FOLDER/$name"
-  mkdir -p "$tmp_dir"
   if [[ -d "$dir" ]] ; then
 
-    for f in ${FILESTOCOPY[@]} ; do
+    mkdir -p "$tmp_dir"
+
+    for f in ${S_FILES_TO_COPY[@]} ; do
       [[ -f $dir/$f ]] && cp "$dir/$f" "$tmp_dir"
     done
-
-    if [[ -f "$dir/autostart" ]] ; then
-      bash $dir/autostart
-    fi
 
     for app in ${S_APPLICATIONS[@]} ; do
       eval s_${app}_open_session "$dir" "$tmp_dir"
     done
+
+    if [[ -f "$tmp_dir/autostart" ]] ; then
+      bash $tmp_dir/autostart
+    fi
 
   fi
 }

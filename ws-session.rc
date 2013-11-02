@@ -1,12 +1,17 @@
+# FOLDERS
 S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
 S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
 S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 
+# SETTINGS
 S_NUMBER_OF_BACKUPS="5"
 S_DEFAULT_TAG="1"
 
+# APPLICATIONS
 S_MENU='dmenu -i'
-
-S_APPLICATIONS=(vim luakit urxvt)
 S_TERM=urxvt
 S_SHELL_HISTORY=zsh_history
+
+# OPEN/CLOSE SESSION
+S_APPLICATIONS=( "vim" "luakit" "$S_TERM" )
+S_FILES_TO_COPY=( "viminfo" "$S_SHELL_HISTORY" "autostart" )
