@@ -23,20 +23,21 @@ Session Management Solutions
 
 Using ws-session
 ----------------
-* In the shell
+* In the Shell
 ```bash
 $ opensession sname     # open/create the session with name sname ;)
 $ opensessionmenu       # open/create a session, show sessions if no menu is set
 $ closesession sname    # close session
-$ restoresession sname  # restore the state of a session 1 step before the last save
+$ restoresession sname  # restore the second last state of a session.
 $ editatuostart         # edit the autostart file of the active session
 ```
 
-* From your window manager
+* From your window manager:
+
 Bind a key to opensessionmenu to create new workspaces.
 Bind a key to closesession to close a workspace.
 
-Dependecies
+Dependencies
 -----------
 <dl>
 <dt>Window Manager</dt>
