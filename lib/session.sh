@@ -1,10 +1,8 @@
 s_closesession() {
   if [[ $@ ]] ; then
-    session="$@"  
     S_SEL_TAG="$@"
-  else
-    session="$S_SEL_TAG"
   fi
+  session="$S_SEL_TAG"
 
   applications=$(s_list_app_seltag)
   for app in ${S_APPLICATIONS[@]} ; do
@@ -35,16 +33,19 @@ s_opensession() {
   tmp_dir="$S_TEMP_FOLDER/$name"
   mkdir -p "$tmp_dir"
   if [[ -d "$dir" ]] ; then
+
     for f in ${FILESTOCOPY[@]} ; do
       [[ -f $dir/$f ]] && cp "$dir/$f" "$tmp_dir"
     done
+
     if [[ -f "$dir/autostart" ]] ; then
-      bash $dir/autostart &
-    else
-      for app in ${S_APPLICATIONS[@]} ; do
-        eval s_${app}_open_session "$dir" "$tmp_dir"
-      done
+      bash $dir/autostart
     fi
+
+    for app in ${S_APPLICATIONS[@]} ; do
+      eval s_${app}_open_session "$dir" "$tmp_dir"
+    done
+
   fi
 }
 
