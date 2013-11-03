@@ -99,9 +99,9 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 menu application</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_SHELL_HISTORY</dt>
-<dd>The file name of your shell history. To have a separate shell history on
-every workspace the script bin/selecthistfile can be used. Eg. in your .zshrc:
-export HISTFILE="$(selecthistfile)". selecthisfile echos
+<dd>The file name of your shell history without the dot. To have a separate
+shell history on every workspace the script bin/selecthistfile can be used. Eg.
+in your .zshrc: export HISTFILE="$(selecthistfile)". selecthisfile echos
 $HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
 <dd>Can be set in the rc file.</dd>
 
@@ -109,8 +109,8 @@ $HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
 Extending ws-session
 ===================
 
-You must not change a global variable from the section above, exept you change
-a file in lib/.
+You must not change a global variable from the section above, exept you are
+changing a file in lib/.
 
 Window Manager
 --------------
