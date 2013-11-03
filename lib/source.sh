@@ -27,5 +27,15 @@ s_source() {
   fi
 }
 
+s_run_cmd_opensession() {
+  local cmd="$1"
+  $cmd > /dev/null 2>&1 & disown
+}
+
+s_run_cmd() {
+  local cmd="$1"
+  $cmd > /dev/null 2>&1 & disown
+}
+
 # vim: ft=sh ts=2 et sw=2:
 
