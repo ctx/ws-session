@@ -3,7 +3,7 @@
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
   while read file ; do
-    s_run_cmd_opensession "mupdf $file"
+    s_mupdf_start $file
   done < <(cat "$1/mupdf" | grep -v "^$")
 }
 
@@ -14,15 +14,16 @@ s_mupdf_close_session() {
   # save the tmp file because it will get empty bevore the data gets saved 
   local temp_dir="$1"
   cp "$temp_dir"/mupdf{-tmp,}
+  rm "$temp_dir/mupdf-tmp"
 }
 
 # start exampleapp in a way that close_session can close/save it
 s_mupdf_start() {
   if [[ $@ ]] ; then
     {
-      local file="$(pwd)/$@"
+      local file="$(readlink -f "$@")"
       local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
-      echo $file >> $temp_dir/mupdf-tmp
+      echo "$file" >> "$temp_dir/mupdf-tmp"
       /usr/bin/mupdf $@
       sed -i ";${file};d" $temp_dir/mupdf-tmp
     } & disown
