@@ -66,31 +66,31 @@ Installation/Configuration
 <dl>
 <dt>S_APPLICATIONS<dt>
 <dd>Array with the applications you want open and close with this script.<dd>
-<dd>Should be set in the rc file.</dd>
+<dd>Must be set in the rc file.</dd>
 <dt>S_FILES_TO_COPY</dt>
 <dd>Array with files which will be copied automatically for every session.</dd>
-<dd>Should be set in the rc file.</dd>
+<dd>Must be set in the rc file.</dd>
 <dt>S_ROOT_FOLDER</dt>
 <dd>Points to the folder with all the code in it. If you install it, then this
 is $PREFIX/lib/ws-session, but it can also point to a checkout of this
 repo.</dd>
 <dd>Must be set in every executable in bin/.</dd>
 <dt>S_CONFIG_FOLDER</dt>
-<dd>Usually points to $XDG_CONFIG_HOME/ws-session, but if you name your rc file
+<dd>Defaults to $XDG_CONFIG_HOME/ws-session, but if you name your rc file
 $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DATA_FOLDER</dt>
-<dd>Usually in $XDG_DATA_HOME/ws-session. Here are all the sessions saved.</dd>
+<dd>Per default points to $XDG_DATA_HOME/ws-session. Here are all the sessions saved.</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_TEMP_FOLDER</dt>
-<dd>I put this in /tmp/ws-session.<dd> 
+<dd>Default: /tmp/ws-session.<dd> 
 <dd>Can be set in the rc file.</dd>
 <dt>S_NUMBER_OF_BACKUPS<dt>
-<dd>How many backups of a session should get stored in S_DATA_FOLDER</dd>
+<dd>How many backups of a session should get stored in S_DATA_FOLDER. Default 5.</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DEFAULT_TAG</dt>
-<dd>If you close a session your window manager changes to this workspace</dd>
-<dd>Name it 1 or arch or whatever.</dd>
+<dd>If you close a session your window manager changes to this workspace.</dd>
+<dd>Name it 1 or arch or whatever. There is no default.</dd>
 <dt>S_SEL_TAG</dt>
 <dd>Contains the active workspace. Can be used in files in bin/ or app/.</dd>
 <dd>Do not set this variable in the rc file, it gets set automatically.</dd>

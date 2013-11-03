@@ -1,4 +1,11 @@
 s_source_rc() {
+
+  # set defaults
+  S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
+  S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
+  S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+  S_NUMBER_OF_BACKUPS="5"
+
   if [[ -f $HOME/.ws-session.rc ]] ; then
     source $HOME/.ws-session.rc
   elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
