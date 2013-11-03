@@ -3,7 +3,7 @@
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
   while read file ; do
-    mupdf $file > /dev/null 2>&1 & disown
+    s_run_cmd_opensession "mupdf $file"
   done < <(cat "$1/mupdf" | grep -v "^$")
 }
 

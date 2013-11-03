@@ -13,7 +13,7 @@ s_luakit_open_session() {
   cp -r $dir/$XDGAPPLICATION $tmp_dir
   {
     export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-    $XDGCMD > /dev/null 2>&1 & disown
+    s_run_cmd_opensession "$XDGCMD"
   }&
 }
 
@@ -34,7 +34,7 @@ s_luakit_new_instance() {
   mkdir -p "$1"
   {
     export XDG_DATA_HOME="$1" 
-    $XDGCMD "$2" > /dev/null 2>&1 & disown
+    s_run_cmd "$XDGCMD \"$2\""
   }&
 }
 
