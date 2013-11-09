@@ -46,6 +46,7 @@ Dependencies
 <dd>Some of: luakit,mupdf,urxvt,vim</dd>
 <dt>Helpers</dt>
 <dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
+<dd>i3: jshon<dd>
 </dl>
 
 Installation/Configuration
