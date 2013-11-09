@@ -34,7 +34,7 @@ s_luakit_new_instance() {
   mkdir -p "$1"
   {
     export XDG_DATA_HOME="$1" 
-    s_run_cmd "$XDGCMD \"$2\""
+    s_run_cmd "$XDGCMD $2"
   }&
 }
 

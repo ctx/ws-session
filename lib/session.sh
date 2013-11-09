@@ -60,6 +60,5 @@ s_run_cmd() {
   $cmd > /dev/null 2>&1 & disown
 }
 
-
 # vim: ft=sh ts=2 et sw=2:
 
