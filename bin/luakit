@@ -8,7 +8,7 @@ source $S_ROOT_FOLDER/lib/wm.sh
 
 s_source app/luakit.sh
 
-if [[ $WM == "NULL" ]] ; then 
+if [[ $S_WM == "NULL" ]] ; then
   /usr/bin/luakit $@
   exit 0
 fi

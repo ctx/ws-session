@@ -65,6 +65,10 @@ Installation/Configuration
 
 * Global variables:
 <dl>
+<dt>S_WM</dt>
+<dd>This is a list of your preferred window manager(s). Can be one or more and
+it get's truncated to the running wm.</dd>
+<dd>Can be set in the rc file. But it gets set automatically otherwise.</dd>
 <dt>S_APPLICATIONS<dt>
 <dd>Array with the applications you want open and close with this script.<dd>
 <dd>Must be set in the rc file.</dd>
@@ -105,6 +109,7 @@ shell history on every workspace the script bin/selecthistfile can be used. Eg.
 in your .zshrc: export HISTFILE="$(selecthistfile)". selecthisfile echos
 $HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
 <dd>Can be set in the rc file.</dd>
+</dl>
 
 
 Extending ws-session

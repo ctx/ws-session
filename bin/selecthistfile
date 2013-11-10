@@ -6,7 +6,7 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
-if [[ $WM = "NULL" ]] ; then
+if [[ $S_WM = "NULL" ]] ; then
   echo "$HOME/.$S_SHELL_HISTORY"
   exit 0
 fi

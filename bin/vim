@@ -8,7 +8,7 @@ source $S_ROOT_FOLDER/lib/wm.sh
 
 s_source app/vim.sh
 
-if [[ $WM == "NULL" ]] ; then 
+if [[ $S_WM == "NULL" ]] ; then
   vim $@
   exit 0
 fi
