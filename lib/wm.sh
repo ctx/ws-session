@@ -1,23 +1,21 @@
-if [[ $(wmiir ls / 2>/dev/null) ]] ; then
-  WM=wmii
-  s_source wm/wmii.sh
-elif [[ $(wmctrl -m | grep llwm) ]]; then
-  WM=llwm
-  s_source wm/llwm.sh
-elif [[ $(i3-msg -t get_version 2>/dev/null) ]]; then
-  WM=i3
-  s_source wm/i3.sh
-elif [[ $(wmctrl -m | grep bspwm) ]] ; then
-  WM=bspwm
-  s_source wm/bspwm.sh
-elif [[ $(wmctrl -m | grep Openbox) ]]; then
-  WM=ob
-  s_source wm/ob.sh
-else
-  WM=NULL
+s_source wm/is-wm-running.sh
+
+if [[ -z $WM ]] ; then
+  [[ -d $S_CONFIG_FOLDER ]] && s_wms="$(find $S_CONFIG_FOLDER/wm/ -type f)"
+  [[ -d $S_ROOT_FOLDER ]] && s_wms="$s_wms $(find $S_ROOT_FOLDER/wm/ -type f)"
+  s_wms=$(echo "$s_wms" | sort -u | grep -v running.sh)
+  for f in $s_wms ; do
+    s_wm=$(basename -s .sh $f)
+    if [[ $(s_running_wm_$s_wm) ]] ; then
+      WM="$s_wm"
+      break
+    fi
+  done
 fi
 
-if [[ $WM != NULL ]] ; then
+if [[ -n $WM ]] ; then
+  s_source wm/${WM}.sh
+
   s_seltag() {
     s_seltag_$WM
   }

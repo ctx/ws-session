@@ -11,7 +11,7 @@ s_assert_equals() {
 }
 
 S_ROOT_FOLDER="."
-S_DEFAULT_TAG=1
+S_DEFAULT_TAG=session
 source ./lib/source.sh
 source ./lib/wm.sh
 
