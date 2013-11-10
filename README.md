@@ -124,6 +124,9 @@ Window Manager
   the file ws-session.rc (in the git repo) to the tag you want to run the tests
   from.
 
+* Copy lib/wm/is-wm-running.sh to your lib/wm folder and add a test for your wm.
+  The function should echo the name of your wm if it's running and nothing else.
+
 * Create a new file lib/wm/examplewm.sh with the functions:
 
 ```bash
