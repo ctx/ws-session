@@ -14,7 +14,7 @@ Session Management Solutions
 * KDE has activites. They are working for KDE applications.
 * dmtcp cannot save the state of X11 applications.
 * Files can change during the 'sleep' of an application. If there is no builtin
-  session support this has to be addressed in the session manager. 
+  session support this may has to be addressed by the session manager.
 
 * ws-session is a small library of BASH functions and a wrapper around every
   used application to handle every special case seperately.
@@ -23,7 +23,7 @@ Session Management Solutions
 
 Using ws-session
 ----------------
-* In the Shell
+* In the shell
 ```bash
 $ opensession sname     # open/create the session with name sname ;)
 $ opensessionmenu       # open/create a session, show sessions if no menu is set
@@ -41,9 +41,9 @@ Dependencies
 -----------
 <dl>
 <dt>Window Manager</dt>
-<dd>One of: bspwm,i3,wmii</dd>
+<dd>One of: bspwm, i3, wmii</dd>
 <dt>Applications</dt>
-<dd>Some of: luakit,mupdf,urxvt,vim</dd>
+<dd>Some of: luakit, mupdf, urxvt, vim</dd>
 <dt>Helpers</dt>
 <dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
 <dd>i3: jshon<dd>
@@ -69,7 +69,7 @@ Installation/Configuration
 <dd>This is a list of your preferred window manager(s). Can be one or more and
 it get's truncated to the running wm.</dd>
 <dd>Can be set in the rc file. But it gets set automatically otherwise.</dd>
-<dt>S_APPLICATIONS<dt>
+<dt>S_APPLICATIONS</dt>
 <dd>Array with the applications you want open and close with this script.<dd>
 <dd>Must be set in the rc file.</dd>
 <dt>S_FILES_TO_COPY</dt>
@@ -97,11 +97,11 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>If you close a session your window manager changes to this workspace.</dd>
 <dd>Name it 1 or arch or whatever. There is no default.</dd>
 <dt>S_SEL_TAG</dt>
-<dd>Contains the active workspace. Can be used in files in bin/ or app/.</dd>
+<dd>Contains the active workspace.</dd>
 <dd>Do not set this variable in the rc file, it gets set automatically.</dd>
 <dt>S_MENU</dt>
-<dd>Points to your favorite menu. Eg. dmenu -nf #333 but can also be another
-menu application</dd>
+<dd>Points to your favorite menu e.g. dmenu -nf #333 but can also be another
+menu application.</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_SHELL_HISTORY</dt>
 <dd>The file name of your shell history without the dot. To have a separate
@@ -115,8 +115,9 @@ $HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
 Extending ws-session
 ===================
 
-You must not change a global variable from the section above, exept you are
-changing a file in lib/.
+You must not change the value of a global variable from the section above,
+exept you are changing a file in lib/.
+But you can access those from whithin all files in the other folders.
 
 Window Manager
 --------------
@@ -177,8 +178,10 @@ s_exampleapp_start() {
 }
 ```
 
-Sometimes one can ignore arg1 and/or arg2. Sometimes s_exampleapp_start is not needed but exampleapp needs a setting in its config files.
-There is no s_urxvt_start, but the history file of the shell gets set by  $(selecthistfile).
+Sometimes one can ignore arg1 and/or arg2. Sometimes s_exampleapp_start is not
+needed but exampleapp needs a setting in its config files.  There is no
+s_urxvt_start, but the history file of the shell gets set by
+$(selecthistfile).
 
 
 TODO
