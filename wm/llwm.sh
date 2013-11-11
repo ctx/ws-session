@@ -15,12 +15,20 @@ s_list_app_seltag_llwm() {
   done
 }
 
+s_list_open_tags_llwm() {
+  xprop -root _NET_DESKTOP_NAMES | sed 's/.*= //;s/,//g'
+}
+
 s_newtag_llwm() {
   xprop -root -f _LL_ACTIVE_DESKTOP 8s -set _LL_ACTIVE_DESKTOP "$@"
 }
 
 s_closetag_llwm() {
   s_newtag_llwm $S_DEFAULT_TAG
+}
+
+s_focus_window_llwm() {
+  xdotool windowactivate --sync "$@"
 }
 
 # vim: ft=sh ts=2 et sw=2:

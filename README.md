@@ -143,11 +143,15 @@ s_newtag_examplewm() {
 s_closetag_examplewm() {
 }
 
+# list all open tags
+s_list_open_tags_examplewm() [
+}
+
 # list winid and class of all open windows on $S_SEL_TAG
 s_list_app_seltag_examplewm() {
 }
 
-# needed if xdotool windowactivate --sync "$@" fails
+# focus a window by its winid "$@"
 s_focus_window_examplewm() {
 }
 ```

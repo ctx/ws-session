@@ -13,6 +13,10 @@ s_list_app_seltag_bspwm() {
     | awk '{print $3" "$2}'
 }
 
+s_list_open_tags_bspwm() {
+  bspc query -D
+}
+
 s_newtag_bspwm() {
   bspc monitor -a "$@"
   bspc desktop -f "$@"

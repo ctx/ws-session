@@ -39,6 +39,10 @@ if [[ -n $S_WM ]] ; then
     [[ $@ ]] && s_newtag_$S_WM "$@"
   }
 
+  s_list_open_tags() {
+    s_list_open_tags_$S_WM
+  }
+
   s_closetag() {
     s_closetag_$S_WM
   }
@@ -47,15 +51,9 @@ if [[ -n $S_WM ]] ; then
     s_list_app_seltag_$S_WM "$S_SEL_TAG"
   }
 
-  if [[ $S_WM == bspwm ]] ; then
-    s_focus_window() {
-      s_focus_window_$S_WM "$@"
-    }
-  else
-    s_focus_window() {
-      xdotool windowactivate --sync "$@"
-    }
-  fi
+  s_focus_window() {
+    s_focus_window_$S_WM "$@"
+  }
 
   S_SEL_TAG="$(s_seltag)"
 fi
