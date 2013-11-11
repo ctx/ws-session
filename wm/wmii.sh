@@ -15,12 +15,11 @@ s_closetag_wmii() {
 }
 
 s_list_app_seltag_wmii() {
-  wmiir cat /tag/sel/index | grep -v "^#" \
-    | awk '{print $2" "$5}' | sed 's/:.*$//'
+  wmiir cat /tag/sel/index | awk '!/^#/{split($5,a,";"); print $2" "a[1]}'
 }
 
 s_focus_window_wmii() {
-  echo not yet
+  xdotool windowactivate --sync "$@"
 }
 
 # vim: ft=sh ts=2 et sw=2:
