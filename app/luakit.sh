@@ -10,11 +10,15 @@ XDGNEWARG="http://google.com"
 s_luakit_open_session() {
   local dir="$1"
   local tmp_dir="$2"
-  cp -r $dir/$XDGAPPLICATION $tmp_dir
-  {
-    export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-    s_run_cmd_opensession "$XDGCMD"
-  }&
+  if [[ -d "$dir/$XDGAPPLICATION"  ]] ; then
+    if [[ ! -d "$tmp_dir/$XDGAPPLICATION" && ]] ; then
+      cp -r $dir/$XDGAPPLICATION $tmp_dir
+    fi
+    {
+      export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
+      s_run_cmd_opensession "$XDGCMD"
+    }&
+  fi
 }
 
 # close luakit session
