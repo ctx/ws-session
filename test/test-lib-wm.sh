@@ -44,14 +44,34 @@ s_newtag
 s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG" test4
 
 # test 5 ---------------------------------------------------------------------
+echo
+echo
 echo test 5:
 echo This should be a list of your open windows on the current tag.
 echo "id         class"
 S_SEL_TAG=$(s_seltag)
 s_list_app_seltag
 
+# test 6 ---------------------------------------------------------------------
+echo
+echo test 6:
+echo WAIT: every window on the current tag should get focus once.
+S_SEL_TAG=$(s_seltag)
+for app in $(s_list_app_seltag | cut -f1 -d" ") ; do
+  s_focus_window $app
+  sleep 1
+done
+
+# test 7 ---------------------------------------------------------------------
+echo
+echo test 7:
+echo This should be a list of all your open tags:
+S_SEL_TAG=$(s_seltag)
+s_list_open_tags
+
 echo
 echo "##   All tests passed!"
+echo
 
 exit 0
 
