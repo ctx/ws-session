@@ -13,7 +13,7 @@ for app in ${S_APPLICATIONS[@]} ; do
 done
 
 AVAILABLE=$(for d in ~/.local/share/sess/* ; do basename $d | sed 's/-[0-5]$//' ; done | uniq)
-OPEN=$(xprop -root _NET_DESKTOP_NAMES|sed 's/.*=//;s/\"//g;s/, /\n/g;s/^ *//g;s/ *$//g')
+OPEN=$(s_list_open_tags)
 TOOPEN=$( printf "$AVAILABLE\n$OPEN" | sort | uniq -u | grep -v ^$)
 
 if [[ -z $1 && -n $S_MENU ]] ;then
