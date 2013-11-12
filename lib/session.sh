@@ -44,7 +44,9 @@ s_opensession() {
     done
 
     if [[ -f "$tmp_dir/autostart" ]] ; then
-      bash $tmp_dir/autostart
+      while read -r app; do
+        s_run_cmd "$app"
+      done < <(cat $tmp_dir/autostart)
     fi
 
   fi

@@ -24,7 +24,7 @@ s_mupdf_start() {
       local file="$(readlink -f "$@")"
       local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
       echo "$file" >> "$temp_dir/mupdf-tmp"
-      /usr/bin/mupdf $@
+      s_run_cmd "/usr/bin/mupdf $@"
       sed -i ";${file};d" $temp_dir/mupdf-tmp
     } & disown
   else
