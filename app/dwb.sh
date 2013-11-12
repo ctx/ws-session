@@ -7,7 +7,7 @@ DWB=dwb
 s_dwb_open_session() {
   local dir="$1"
   local tmp_dir="$2"
-  if [[ -d "$dir/$DWB" ]]
+  if [[ -d "$dir/$DWB" ]] ; then
     if ! [[  -d "$tmp_dir/$DWB" ]] ; then
       cp -R "$dir/$DWB" "$tmp_dir"
     fi
