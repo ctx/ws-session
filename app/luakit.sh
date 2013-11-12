@@ -10,8 +10,8 @@ XDGNEWARG="http://google.com"
 s_luakit_open_session() {
   local dir="$1"
   local tmp_dir="$2"
-  if [[ -d "$dir/$XDGAPPLICATION"  ]] ; then
-    if [[ ! -d "$tmp_dir/$XDGAPPLICATION" && ]] ; then
+  if [[ -d "$dir/$XDGAPPLICATION" ]] ; then
+    if [[ ! -d "$tmp_dir/$XDGAPPLICATION" ]] ; then
       cp -r $dir/$XDGAPPLICATION $tmp_dir
     fi
     {
