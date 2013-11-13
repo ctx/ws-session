@@ -12,5 +12,4 @@ else
   s_vim_start "$@"
 fi
 
-
 # vim: ft=sh ts=2 et sw=2:

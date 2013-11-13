@@ -5,13 +5,11 @@ S_ROOT_FOLDER=/usr/lib/ws-session
 source $S_ROOT_FOLDER/lib/source.sh
 source $S_ROOT_FOLDER/lib/wm.sh
 
-
 if [[ -n $S_WM ]] ; then 
   /usr/bin/dwb $@
 else
   s_source app/dwb.sh
   s_dwb_start "$@"
 fi
-
 
 # vim: ft=sh ts=2 et sw=2:

@@ -5,7 +5,6 @@ S_ROOT_FOLDER=/usr/lib/ws-session
 source $S_ROOT_FOLDER/lib/source.sh
 source $S_ROOT_FOLDER/lib/wm.sh
 
-
 if [[ -n $S_WM ]] ; then
   /usr/bin/luakit $@
 else
