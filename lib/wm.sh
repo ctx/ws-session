@@ -1,5 +1,12 @@
 s_source wm/is-wm-running.sh
 
+s_stop_if_no_wm() {
+  if [[ -n $S_WM ]] ; then
+    echo ERROR: no supported wm is running. stopping
+    exit 1
+  fi
+}
+
 if [[ -z $S_WM ]] ; then
   [[ -d $S_CONFIG_FOLDER ]] && s_wms="$(find $S_CONFIG_FOLDER/wm/ -type f 2>/dev/null)"
   [[ -d $S_ROOT_FOLDER ]] && s_wms="$s_wms $(find $S_ROOT_FOLDER/wm/ -type f 2>/dev/null)"

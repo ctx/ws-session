@@ -1,20 +1,17 @@
-s_source_rc() {
+# set defaults
+S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
+S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
+S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+S_NUMBER_OF_BACKUPS="5"
 
-  # set defaults
-  S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
-  S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
-  S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
-  S_NUMBER_OF_BACKUPS="5"
-
-  if [[ -f $HOME/.ws-session.rc ]] ; then
-    source $HOME/.ws-session.rc
-  elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
-    source $HOME/.config/ws-session/ws-session.rc
-  else
-    echo Error session.rc not found!
-    echo install it to $HOME/.ws-session.rc or $XDG_COFIG_HOME/ws-session/ws-session.rc
-  fi
-}
+if [[ -f $HOME/.ws-session.rc ]] ; then
+  source $HOME/.ws-session.rc
+elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
+  source $HOME/.config/ws-session/ws-session.rc
+else
+  echo Error session.rc not found!
+  echo install it to $HOME/.ws-session.rc or $XDG_COFIG_HOME/ws-session/ws-session.rc
+fi
 
 s_source() {
   if [[ -f "$S_CONFIG_FOLDER/$1" ]] ; then

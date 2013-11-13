@@ -4,9 +4,10 @@
   S_ROOT_FOLDER=/usr/lib/ws-session
 
   source $S_ROOT_FOLDER/lib/source.sh
-  s_source_rc
   source $S_ROOT_FOLDER/lib/data.sh
   source $S_ROOT_FOLDER/lib/wm.sh
+  s_stop_if_no_wm
+
   source $S_ROOT_FOLDER/lib/session.sh
 
   for app in ${S_APPLICATIONS[@]} ; do
