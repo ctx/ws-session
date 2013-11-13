@@ -6,6 +6,11 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
+if [[ -n $S_WM ]] ; then
+  echo ERROR: no supported wm is running.
+  exit 1
+fi
+
 s_source app/luakit.sh
 
 SR_BOOKMARKS="$HOME/.config/surfraw/bookmarks"

@@ -6,13 +6,12 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
-s_source app/vim.sh
-
-if [[ $S_WM == "NULL" ]] ; then
+if [[ -n $S_WM ]] ; then
   vim $@
-  exit 0
+else
+  s_source app/vim.sh
+  s_vim_start "$@"
 fi
 
-s_vim_start "$@"
 
 # vim: ft=sh ts=2 et sw=2:

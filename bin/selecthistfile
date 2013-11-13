@@ -6,16 +6,15 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
-if [[ $S_WM = "NULL" ]] ; then
+if [[ -n $S_WM ]] ; then
   echo "$HOME/.$S_SHELL_HISTORY"
-  exit 0
+else
+  dir="$S_TEMP_FOLDER/$S_SEL_TAG"
+  file="$dir/$S_SHELL_HISTORY"
+  [[ -f $file ]] || mkdir -p "$dir" && touch "$file"
+
+  echo $file
 fi
-
-DIR="$S_TEMP_FOLDER/$S_SEL_TAG"
-FILE="$DIR/$S_SHELL_HISTORY"
-[[ -f $FILE ]] || mkdir -p "$DIR" && touch "$FILE"
-
-echo $FILE
 
 # vim: ft=sh ts=2 et sw=2:
 

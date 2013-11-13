@@ -6,13 +6,13 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
-s_source app/dwb.sh
 
-if [[ $WM == "NULL" ]] ; then 
+if [[ -n $S_WM ]] ; then 
   /usr/bin/dwb $@
-  exit 0
+else
+  s_source app/dwb.sh
+  s_dwb_start "$@"
 fi
 
-s_dwb_start "$@"
 
 # vim: ft=sh ts=2 et sw=2:

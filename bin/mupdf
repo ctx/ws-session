@@ -6,13 +6,13 @@ source $S_ROOT_FOLDER/lib/source.sh
 s_source_rc
 source $S_ROOT_FOLDER/lib/wm.sh
 
-s_source app/mupdf.sh
 
-if [[ $S_WM == "NULL" ]] ; then
+if [[ -n $S_WM ]] ; then
   /usr/bin/mupdf $@
-  exit 0
+else
+  s_source app/mupdf.sh
+  s_mupdf_start "$@"
 fi
 
-s_mupdf_start "$@"
 
 # vim: ft=sh ts=2 et sw=2:
