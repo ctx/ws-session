@@ -35,13 +35,11 @@ s_opensession() {
 
     mkdir -p "$tmp_dir"
 
-    for f in ${S_FILES_TO_COPY[@]} ; do
-      [[ -f $dir/$f ]] && cp "$dir/$f" "$tmp_dir"
-    done
-
     for app in ${S_APPLICATIONS[@]} ; do
       eval s_${app}_open_session "$dir" "$tmp_dir"
     done
+
+    s_restore_file autostart
 
     if [[ -f "$tmp_dir/autostart" ]] ; then
       while read -r app; do
@@ -60,6 +58,12 @@ s_run_cmd_opensession() {
 s_run_cmd() {
   local cmd="$1"
   $cmd > /dev/null 2>&1 & disown
+}
+
+s_restore_file() {
+  for f in $@ do
+    cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
+  done
 }
 
 # vim: ft=sh ts=2 et sw=2:

@@ -72,9 +72,6 @@ it get's truncated to the running wm.</dd>
 <dt>S_APPLICATIONS</dt>
 <dd>Array with the applications you want open and close with this script.<dd>
 <dd>Must be set in the rc file.</dd>
-<dt>S_FILES_TO_COPY</dt>
-<dd>Array with files which will be copied automatically for every session.</dd>
-<dd>Must be set in the rc file.</dd>
 <dt>S_ROOT_FOLDER</dt>
 <dd>Points to the folder with all the code in it. If you install it, then this
 is $PREFIX/lib/ws-session, but it can also point to a checkout of this

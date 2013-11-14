@@ -15,4 +15,3 @@ S_SHELL_HISTORY=zsh_history
 
 # OPEN/CLOSE SESSION
 S_APPLICATIONS=( "vim" "luakit" "$S_TERM" )
-S_FILES_TO_COPY=( "viminfo" "$S_SHELL_HISTORY" "autostart" )

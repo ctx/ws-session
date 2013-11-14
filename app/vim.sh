@@ -2,6 +2,7 @@
 # arg1: session file (the file/the folder)
 s_vim_open_session() {
   local session="$1"
+  s_restore_file viminfo
   find $session/vim -type f -exec bash -c "$S_TERM -name vim -e /usr/bin/vim --servername $S_SEL_TAG- -S "{}"&" disown \; 
 }
 
