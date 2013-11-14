@@ -2,7 +2,10 @@
 
 s_seltag_bspwm() {
   cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
-  dn=($(xprop -root _NET_DESKTOP_NAMES|sed 's/.*= //;s/,//g'))
+  DEFIFS=$IFS
+  IFS=,
+  dn=( $(xprop -root _NET_DESKTOP_NAMES|sed 's/.*= //') )
+  IFS=$DEFIFS
 
   echo ${dn[$cdid]} | tr -d \"
 }

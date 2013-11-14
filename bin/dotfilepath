@@ -8,8 +8,8 @@ source $S_ROOT_FOLDER/lib/wm.sh
 if [[ -n $S_WM ]] ; then
   dir="$S_TEMP_FOLDER/$S_SEL_TAG"
   file="$dir/$1"
-  [[ -f $file ]] || mkdir -p "$dir" && touch "$file"
-  echo $file
+  [[ -f "$file" ]] || mkdir -p "$dir" && touch "$file"
+  echo "$file"
 else
   echo "$HOME/.$1"
 fi

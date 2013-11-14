@@ -28,12 +28,14 @@ s_opensession() {
     exit 1
   fi
   s_newtag "$name"
-  S_SEL_TAG=$name
+  S_SEL_TAG="$name"
   dir="$S_DATA_FOLDER/$name-1"
   tmp_dir="$S_TEMP_FOLDER/$name"
+
+  mkdir -p "$tmp_dir"
+
   if [[ -d "$dir" ]] ; then
 
-    mkdir -p "$tmp_dir"
 
     for app in ${S_APPLICATIONS[@]} ; do
       eval s_${app}_open_session "$dir" "$tmp_dir"
@@ -44,7 +46,7 @@ s_opensession() {
     if [[ -f "$tmp_dir/autostart" ]] ; then
       while read -r app; do
         s_run_cmd "$app"
-      done < $tmp_dir/autostart
+      done < "$tmp_dir/autostart"
     fi
 
   fi
