@@ -6,10 +6,10 @@ source $S_ROOT_FOLDER/lib/source.sh
 source $S_ROOT_FOLDER/lib/wm.sh
 
 if [[ -n $S_WM ]] ; then
-  vim $@
-else
   s_source app/vim.sh
   s_vim_start "$@"
+else
+  vim $@
 fi
 
 # vim: ft=sh ts=2 et sw=2:

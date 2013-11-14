@@ -6,10 +6,10 @@ source $S_ROOT_FOLDER/lib/source.sh
 source $S_ROOT_FOLDER/lib/wm.sh
 
 if [[ -n $S_WM ]] ; then
-  /usr/bin/luakit $@
-else
   s_source app/luakit.sh
   s_luakit_start "$@"
+else
+  /usr/bin/luakit $@
 fi
 
 # vim: ft=sh ts=2 et sw=2:
