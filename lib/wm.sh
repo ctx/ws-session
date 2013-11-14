@@ -28,7 +28,7 @@ else
   if [[ "$s_wm" ]] ; then
     S_WM="$s_wm"
   else
-    echo ERROR: you set \$S_WM to $S_WM and you dont run (one of) this wm
+    echo "ERROR: you set \$S_WM to $S_WM and you dont run (one of) this wm"
     unset S_WM
   fi
 fi
