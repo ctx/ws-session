@@ -16,7 +16,7 @@ s_list_app_seltag_llwm() {
 }
 
 s_list_open_tags_llwm() {
-  xprop -root _NET_DESKTOP_NAMES | sed 's/.*= //;s/,//g'
+  xprop -root _NET_DESKTOP_NAMES | sed 's/.*= //;s/,//g;s/\"//g'
 }
 
 s_newtag_llwm() {
