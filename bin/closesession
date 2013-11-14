@@ -14,7 +14,7 @@
     s_source app/${app}.sh
   done
 
-  s_closesession $@ 
+  s_closesession "$@"
 } & disown
 
 # vim: ft=sh ts=2 et sw=2:

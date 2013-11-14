@@ -13,6 +13,6 @@ for app in ${S_APPLICATIONS[@]} ; do
   s_source app/$app.sh
 done
 
-s_opensession $@
+s_opensession "$@"
 
 # vim: ft=sh ts=2 et sw=2:

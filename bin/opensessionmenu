@@ -19,9 +19,9 @@ TOOPEN=$( printf "$AVAILABLE\n$OPEN" | sort | uniq -u | grep -v ^$)
 
 if [[ -z $1 && -n $S_MENU ]] ;then
         startsession="$(printf "$TOOPEN" | $S_MENU -p "choose a session:")"
-        [[ -n $startsession ]] && s_opensession $startsession
+        [[ -n $startsession ]] && s_opensession "$startsession"
 elif [[ $TOOPEN =~ $1 ]] ; then
-        s_opensession $1
+        s_opensession "$1"
 else
         echo Available sessions: $TOOPEN
         "The session manager says"
