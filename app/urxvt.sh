@@ -5,7 +5,7 @@ s_urxvt_open_session() {
   s_restore_file $S_SHELL_HISTORY
   while read wd ;do
     s_run_cmd_opensession "urxvt -cd $wd"
-  done < <(cat "$1"/urxvt | grep -v "^$" )
+  done < <(grep -v "^$" "$1"/urxvt)
 }
 
 # close urxvt, save working directory

@@ -4,7 +4,7 @@
 s_mupdf_open_session() {
   while read file ; do
     s_mupdf_start $file
-  done < <(cat "$1/mupdf" | grep -v "^$")
+  done < <(grep -v "^$" | "$1/mupdf")
 }
 
 # close mupdf, save state to temporary folder
