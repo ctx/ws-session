@@ -1,7 +1,7 @@
 s_source wm/is-wm-running.sh
 
 s_stop_if_no_wm() {
-  if [[ -n $S_WM ]] ; then
+  if [[ -z $S_WM ]] ; then
     echo ERROR: no supported wm is running. stopping
     exit 1
   fi
