@@ -87,7 +87,7 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dt>S_TEMP_FOLDER</dt>
 <dd>Default: /tmp/ws-session.<dd> 
 <dd>Can be set in the rc file.</dd>
-<dt>S_NUMBER_OF_BACKUPS<dt>
+<dt>S_NUMBER_OF_BACKUPS</dt>
 <dd>How many backups of a session should get stored in S_DATA_FOLDER. Default 5.</dd>
 <dd>Can be set in the rc file.</dd>
 <dt>S_DEFAULT_TAG</dt>

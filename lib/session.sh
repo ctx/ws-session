@@ -63,7 +63,7 @@ s_run_cmd() {
 }
 
 s_restore_file() {
-  for f in $@ do
+  for f in $@ ; do
     cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
   done
 }
