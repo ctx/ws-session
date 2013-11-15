@@ -73,10 +73,10 @@ it get's truncated to the running wm.</dd>
 <dd>Array with the applications you want open and close with this script.<dd>
 <dd>Must be set in the rc file.</dd>
 <dt>S_ROOT_FOLDER</dt>
-<dd>Points to the folder with all the code in it. If you install it, then this
-is $PREFIX/lib/ws-session, but it can also point to a checkout of this
-repo.</dd>
-<dd>Must be set in every executable in bin/.</dd>
+<dd>Points to the folder with all the code in it. The executables in bin have
+set it to /usr/lib/ws-session.</dd>
+<dd>Set this like your other environement variables, if you dont want to use
+the code in /usr/lib/ws-session. You can just export it for testing purposes.</dd>
 <dt>S_CONFIG_FOLDER</dt>
 <dd>Defaults to $XDG_CONFIG_HOME/ws-session, but if you name your rc file
 $HOME/.ws-session.rc you can set this to wathever you like</dd>

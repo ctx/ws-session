@@ -25,7 +25,7 @@ s_mupdf_start() {
       local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
       echo "$file" >> "$temp_dir/mupdf-tmp"
       /usr/bin/mupdf $@
-      sed -i ";${file};d" $temp_dir/mupdf-tmp
+      sed -i "\|${file}|d" $temp_dir/mupdf-tmp
     } & disown
   else
     /usr/bin/mupdf
