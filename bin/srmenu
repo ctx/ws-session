@@ -1,11 +1,8 @@
 #!/bin/bash
 
 S_ROOT_FOLDER=${S_ROOT_FOLDER:-/usr/lib/ws-session}
-
 source $S_ROOT_FOLDER/lib/source.sh
-source $S_ROOT_FOLDER/lib/wm.sh
-s_stop_if_no_wm
-
+s_source_lib wm stopwm
 s_source app/luakit.sh
 
 SR_BOOKMARKS="$HOME/.config/surfraw/bookmarks"
