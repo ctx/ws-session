@@ -1,8 +1,0 @@
-#!/bin/bash
-
-S_ROOT_FOLDER=${S_ROOT_FOLDER:-/usr/lib/ws-session}
-
-source $S_ROOT_FOLDER/lib/source.sh
-source $S_ROOT_FOLDER/lib/wm.sh
-  
-vim $S_TEMP_FOLDER/$S_SEL_TAG/autostart

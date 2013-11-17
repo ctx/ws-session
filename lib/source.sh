@@ -24,6 +24,23 @@ s_source() {
   fi
 }
 
+s_source_lib() {
+  for a in $@ ; do
+    case $a in
+      stopwm)
+        s_stop_if_no_wm
+        ;;
+      allapp)
+        for app in ${S_APPLICATIONS[@]} ; do
+          s_source app/$app.sh
+        done
+        ;;
+      *)
+        source "$S_ROOT_FOLDER/lib/${a}.sh"
+    esac
+  done
+}
+
 s_run_cmd_opensession() {
   local cmd="$1"
   $cmd > /dev/null 2>&1 & disown

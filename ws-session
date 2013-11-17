@@ -1,0 +1,84 @@
+#!/bin/bash
+
+S_ROOT_FOLDER=${S_ROOT_FOLDER:-/usr/lib/ws-session}
+source $S_ROOT_FOLDER/lib/source.sh
+
+help() {
+cat << EOF
+Usage: 
+  ws-session argument [name]
+        You can only use one argument at a time.
+        Some arguments need a session name.
+
+Arguments:
+ -c|close [name]
+        Without name: close active session.
+        If no session with name is open, then close active session to name.
+        If a session with name is open, then close it.
+ -l|list
+        List all saved sessions in '\$S_DATA_FOLDER'
+ -m|menu
+        Start a session from a menu.
+        You have to set '\$S_MENU' in the rc file.
+ -o|open name
+        Start the session with name name.
+ -p|path:
+        Prints the temporary path for dotfiles etc.
+ -r|restore name:
+        Restore a session to a previous state.
+        You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
+
+More information about configuration at http://github.com/ctx/ws-session.
+Please report bugs at http://github.com/ctx/ws-session/issues.
+EOF
+}
+
+case $1 in
+  -l|list)
+    s_source_lib data
+    s_list_sessions
+    ;;
+  -p|path)
+    s_source_lib wm stopwm
+    echo "$S_TEMP_FOLDER/$S_SEL_TAG"
+    ;;
+  -m|menu)
+    if [[ -n "$S_MENU" ]] ; then
+      s_source_lib wm stopwm data
+
+      a="$(s_list_sessions)"
+      o="$(s_list_open_tags)"
+      t="$(printf "$a\n$o" | sort | uniq -u | grep -v ^$)"
+      s="$(printf "$t" | $S_MENU -p "start a session:")"
+
+      if [[ -n $s ]] ; then
+        s_source_lib session allapp
+        s_opensession "$s"
+      else
+        echo Error: no session selected.
+      fi
+    else
+      echo Error: cannot show menu.
+    fi
+    ;;
+  -o|open)
+    shift
+    s_source_lib wm stopwm data session allapp
+    s_opensession "$@"
+    ;;
+  -c|close)
+    shift
+    s_source_lib wm stopwm data session allapp
+    s_closesession "$@"
+    ;;
+  -r|restore)
+    shift
+    s_source_lib wm stopwm data
+    s_restore_edata "$@"
+    ;;
+  *)
+    help
+    ;;
+esac
+
+# vim: ft=sh ts=2 et sw=2:

@@ -7,9 +7,17 @@ s_stop_if_no_wm() {
   fi
 }
 
+s_find_wm() {
+  find $1/wm -type f -not -name '.*' 2>/dev/null
+}
+
 if [[ -z $S_WM ]] ; then
-  [[ -d $S_CONFIG_FOLDER ]] && s_wms="$(find $S_CONFIG_FOLDER/wm/ -type f 2>/dev/null)"
-  [[ -d $S_ROOT_FOLDER ]] && s_wms="$s_wms $(find $S_ROOT_FOLDER/wm/ -type f 2>/dev/null)"
+  if [[ -d $S_CONFIG_FOLDER ]] ; then
+    s_wms="$(s_find_wm $S_CONFIG_FOLDER)"
+  fi
+  if [[ -d $S_ROOT_FOLDER ]] ; then
+    s_wms="$s_wms $(s_find_wm $S_ROOT_FOLDER)"
+  fi
   s_wms=$(echo "$s_wms" | sort -u | grep -v running.sh)
   for f in $s_wms ; do
     s_wm=$(basename -s .sh $f)
