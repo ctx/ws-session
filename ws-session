@@ -46,10 +46,11 @@ case $1 in
     if [[ -n "$S_MENU" ]] ; then
       s_source_lib wm stopwm data
 
-      a="$(s_list_sessions)"
-      o="$(s_list_open_tags)"
-      t="$(printf "$a\n$o" | sort | uniq -u | grep -v ^$)"
-      s="$(printf "$t" | $S_MENU -p "start a session:")"
+      s=$( (s_list_open_tags;s_list_sessions) \
+        | grep -v ^$ \
+        | sort \
+        | uniq -u \
+        | $S_MENU -p "start a session:")
 
       if [[ -n $s ]] ; then
         s_source_lib session allapp

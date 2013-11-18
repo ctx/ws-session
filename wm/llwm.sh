@@ -11,15 +11,21 @@ s_seltag_llwm() {
 }
 
 s_list_app_seltag_llwm() {
-  apps=($(xprop -root _LL_DESKTOP_WINIDS|sed 's/.*= //;s/,//g;s/\"//g'))
+  apps=($(xprop -root _LL_DESKTOP_WINIDS \
+    | cut -f2 -d= \
+    | tr -d '[",]' ))
   for app in ${apps[@]} ; do
     echo -n "${app##*:} "
-    xprop -id ${app##*:} WM_CLASS |sed 's/.*= \"//;s/\",.*$//'
+    xprop -id ${app##*:} WM_CLASS \
+      | cut -f2 -d'"'
   done
 }
 
 s_list_open_tags_llwm() {
-  xprop -root _NET_DESKTOP_NAMES | sed 's/.*= //;s/,//g;s/\"//g'
+  xprop -root _NET_DESKTOP_NAMES \
+    | cut -f2 -d= \
+    | tr -d '[" ]' \
+    | tr ',' '\n'
 }
 
 s_newtag_llwm() {
