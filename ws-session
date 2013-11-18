@@ -15,8 +15,10 @@ Arguments:
         Without name: close active session.
         If no session with name is open, then close active session to name.
         If a session with name is open, then close it.
+ -h|help
+        Print this help.
  -l|list
-        List all saved sessions in '\$S_DATA_FOLDER'
+        List all saved sessions in '\$S_DATA_FOLDER'.
  -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
@@ -64,20 +66,32 @@ case $1 in
     ;;
   -o|open)
     shift
+    name="$@"
     s_source_lib wm stopwm data session allapp
-    s_opensession "$@"
+    s_opensession "$name"
     ;;
   -c|close)
     shift
+    name="$@"
     s_source_lib wm stopwm data session allapp
-    s_closesession "$@"
+    s_closesession "$name"
     ;;
   -r|restore)
     shift
+    name="$@"
     s_source_lib wm stopwm data
-    s_restore_edata "$@"
+    if [[ -n "$(s_list_sessions | grep -e "^$name$")" ]] ; then
+      s_restore_data "$name"
+    else
+      echo "Error: no session with name '$name'"
+    fi
+    ;;
+  -h|help)
+    help
     ;;
   *)
+    echo "Error: no such argument '$1'"
+    echo
     help
     ;;
 esac
