@@ -2,8 +2,8 @@
 # arg1: Data folder: where the last session was stored.
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
-  while read file ; do
-    s_mupdf_start $file
+  while read -r file ; do
+    s_mupdf_start "$file"
   done < <(grep -v "^$" "$1/mupdf")
 }
 
@@ -13,7 +13,13 @@ s_mupdf_open_session() {
 s_mupdf_close_session() {
   # save the tmp file because it will get empty bevore the data gets saved 
   local temp_dir="$1"
+  local winids="$2"
   cp "$temp_dir"/mupdf{-tmp,}
+
+  for id in $winids ;  do
+    xdotool windowkill $id
+  done
+
   rm "$temp_dir/mupdf-tmp"
 }
 
@@ -24,7 +30,7 @@ s_mupdf_start() {
       local file="$(readlink -f "$@")"
       local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
       echo "$file" >> "$temp_dir/mupdf-tmp"
-      /usr/bin/mupdf $@
+      /usr/bin/mupdf "$@"
       sed -i "\|${file}|d" $temp_dir/mupdf-tmp
     } & disown
   else

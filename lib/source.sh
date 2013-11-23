@@ -48,7 +48,8 @@ s_run_cmd_opensession() {
 
 s_run_cmd() {
   local cmd="$1"
-  $cmd > /dev/null 2>&1 & disown
+  #$cmd > /dev/null 2>&1 & disown
+  $cmd 2>&1 & disown
 }
 
 # vim: ft=sh ts=2 et sw=2:

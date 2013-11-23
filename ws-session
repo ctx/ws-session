@@ -4,7 +4,7 @@ S_ROOT_FOLDER=${S_ROOT_FOLDER:-/usr/lib/ws-session}
 source $S_ROOT_FOLDER/lib/source.sh
 
 help() {
-cat << EOF
+cat << HELPFILE
 Usage: 
   ws-session argument [name]
         You can only use one argument at a time.
@@ -32,7 +32,7 @@ Arguments:
 
 More information about configuration at http://github.com/ctx/ws-session.
 Please report bugs at http://github.com/ctx/ws-session/issues.
-EOF
+HELPFILE
 }
 
 case $1 in
@@ -48,15 +48,17 @@ case $1 in
     if [[ -n "$S_MENU" ]] ; then
       s_source_lib wm stopwm data
 
-      s=$( (s_list_open_tags;s_list_sessions) \
+      s="$( (s_list_open_tags;s_list_sessions) \
         | grep -v ^$ \
         | sort \
         | uniq -u \
-        | $S_MENU -p "start a session:")
+        | $S_MENU -p "start a session:")"
 
       if [[ -n $s ]] ; then
-        s_source_lib session allapp
-        s_opensession "$s"
+        {
+          s_source_lib session allapp
+          s_opensession "$s"
+        } & disown
       else
         echo Error: no session selected.
       fi
@@ -66,15 +68,19 @@ case $1 in
     ;;
   -o|open)
     shift
-    name="$@"
-    s_source_lib wm stopwm data session allapp
-    s_opensession "$name"
+    {
+      name="$@"
+      s_source_lib wm stopwm data session allapp
+      s_opensession "$name"
+    } & disown
     ;;
   -c|close)
     shift
-    name="$@"
-    s_source_lib wm stopwm data session allapp
-    s_closesession "$name"
+    {
+      name="$@"
+      s_source_lib wm stopwm data session allapp
+      s_closesession "$name"
+    } & disown
     ;;
   -r|restore)
     shift
