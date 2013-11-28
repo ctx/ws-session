@@ -1,5 +1,5 @@
 s_closesession() {
-  if [[ $@ ]] ; then
+  if [[ -n $@ ]] ; then
     S_SEL_TAG="$@"
   fi
   session="$S_SEL_TAG"
@@ -25,7 +25,7 @@ s_closesession() {
 
 s_opensession() {
   name="$@"
-  if ! [[ $name ]] ; then
+  if [[ -z $name ]] ; then
     echo error no session name
     exit 1
   fi

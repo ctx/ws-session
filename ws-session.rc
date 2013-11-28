@@ -1,17 +1,21 @@
-# FOLDERS
-S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
-S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
-S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+# This is an example ws-session.rc copy it to $HOME/.ws-session.rc. If you
+# have set XDG_CONFIG_HOME as environment variable you can copy it to
+# $XDG_CONFIG_HOME/ws-session. Default values are commented out.
 
-# SETTINGS
-S_NUMBER_OF_BACKUPS="5"
+### FOLDERS
+#S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
+#S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
+#S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+
+### SETTINGS
+#S_NUMBER_OF_BACKUPS="5"
 S_DEFAULT_TAG="1"
 S_WM="bspwm i3"
 
 # APPLICATIONS
 S_MENU='dmenu -i'
 S_TERM=urxvt
-S_SHELL_HISTORY=zsh_history
+S_SHELL_HISTORY=history
 
 # OPEN/CLOSE SESSION
 S_APPLICATIONS=( "vim" "luakit" "$S_TERM" )

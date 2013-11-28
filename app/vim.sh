@@ -12,7 +12,7 @@ s_vim_open_session() {
 s_vim_close_session() {
   local tmp_dir="$1"
   vimservers=$(vim --serverlist | grep -i "^$S_SEL_TAG-")
-  [[ $vimservers ]] && mkdir -p "$tmp_dir/vim"
+  [[ -n $vimservers ]] && mkdir -p "$tmp_dir/vim"
   for vimserver in $vimservers ; do
     sessionfile="$tmp_dir/vim/$vimserver"
     /usr/bin/vim --remote-send \
@@ -23,8 +23,7 @@ s_vim_close_session() {
 
 s_vim_start() {
   VIMINFO="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
-  if [[ $TERM ]] ; then
-    WINID=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
+  if [[ -n $TERM ]] ; then
     /usr/bin/vim -i $VIMINFO --servername "$S_SEL_TAG-" $@
   else
     $S_TERM -name vim -e /usr/bin/vim -i $VIMINFO --servername "$S_SEL_TAG-" $@ & disown

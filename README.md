@@ -5,9 +5,10 @@ ws-session
 Session management for window managers with 'dynamic tags':
 * Save the state of all windows of one tag and close them.
 * Open a saved session on a new tag.
+* ws-session is a small library of BASH functions and a wrapper around every
+  used application to handle every special case seperately.
 
-
-Session Management Solutions
+Other Session Management Solutions
 ----------------------------
 * xsm and all other *-session programs eg xfce-session can only stop _all_ open
   windows.
@@ -15,27 +16,43 @@ Session Management Solutions
 * dmtcp cannot save the state of X11 applications.
 * Files can change during the 'sleep' of an application. If there is no builtin
   session support this may has to be addressed by the session manager.
+* For many applications there is no point in saving the state.
 
-* ws-session is a small library of BASH functions and a wrapper around every
-  used application to handle every special case seperately.
-* For many applications there is no point in saving the state. You can put such
-  applications in the autostart file.
 
 Using ws-session
 ----------------
-* In the shell
 ```bash
-$ opensession sname     # open/create the session with name sname ;)
-$ opensessionmenu       # open/create a session, show sessions if no menu is set
-$ closesession sname    # close session
-$ restoresession sname  # restore the second last state of a session.
-$ editatuostart         # edit the autostart file of the active session
+Usage:
+  ws-session option [sessionname]
+        You can only use one argument at a time.
+        Some arguments need a session name.
+        Session names should not contain '=' or ','.
+
+Option:
+  -c|close [sessionname]
+        Without name: close active session.
+        If no session with name is open, then close active session to name.
+        If a session with name is open, then close it.
+  -h|help
+        Print this help.
+  -l|list
+        List all saved sessions in '$S_DATA_FOLDER'.
+  -m|menu
+        Start a session from a menu.
+        You have to set '$S_MENU' in the rc file.
+  -o|open sessionname
+        Start the session with name name.
+  -p|path:
+        Prints the temporary path for dotfiles etc.
+  -r|restore sessionname
+        Restore a session to a previous state.
+        You can do it up to '$S_NUMBER_OF_BACKUPS' times.
 ```
 
 * From your window manager:
 
-Bind a key to opensessionmenu to create new workspaces.
-Bind a key to closesession to close a workspace.
+Bind a key to 'ws-session menu' to create new workspaces.
+Bind a key to 'ws-session close' to close a workspace.
 
 Dependencies
 -----------
@@ -43,7 +60,7 @@ Dependencies
 <dt>Window Manager</dt>
 <dd>One of: bspwm, i3, wmii</dd>
 <dt>Applications</dt>
-<dd>Some of: luakit, mupdf, urxvt, vim</dd>
+<dd>Some of: luakit, mupdf, urxvt, vim(gvim), dwb</dd>
 <dt>Helpers</dt>
 <dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
 <dd>i3: jshon<dd>
@@ -52,18 +69,39 @@ Dependencies
 Installation/Configuration
 ============
 
+* Optain the source.
 
-* make install or git checkout
+* Do export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/bin/ws-session.
+  In this section the paths in () are the default installation dirs. Use /path/to/source if you didn't install.
 
-* Copy /etx/xdg/ws-session/ws-session.rc to
-  $XDG_CONFIG_HOME/ws-session/ws-session.rc or $HOME/.ws-session.rc.
+* Copy the template (/etc/xdb/ws-session/)ws-session.rc to
+  $HOME/.ws-session.rc. If you have set XDG_CONFIG_HOME as environment
+  variable you can copy it to $XDG_CONFIG_HOME/ws-session.
+  Adjust your ws-session.rc to your liking.
 
-* Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
+* Copy or link the executables you like from (/etc/xdg/ws-session/)bin/* to a folder in your $PATH.
 
-* You can also copy some files from /usr/lib/ws-session/{app,wm} to
+* You can also copy some files from (/usr/lib/ws-session/){app,wm} to
   $S_CONFIG_FOLDER/{app,wm} to change the default behavior or to test new ones.
 
-* Global variables:
+* Configure your applications e.g. in your shellrc:
+```bash
+sessionpath="$(ws-session -p)"
+[[ -z $sessionpath ]] && sessionpath="$HOME/."
+export HISTFILE="${sessionpath}zsh_history"
+export DIRSTACKFILE="${sessionpath}zdirs"
+unset p
+```
+
+Extending ws-session
+===================
+
+You must not change the value of a global variable from the following section.
+There are a few exeptions in some files in the lib/ folder.
+You should access those from whithin all files in the other folders.
+
+Global variables
+----------------
 <dl>
 <dt>S_WM</dt>
 <dd>This is a list of your preferred window manager(s). Can be one or more and
@@ -72,7 +110,7 @@ it get's truncated to the running wm.</dd>
 <dt>S_APPLICATIONS</dt>
 <dd>Array with the applications you want open and close with this script.<dd>
 <dd>Must be set in the rc file.</dd>
-<dt>S_ROOT_FOLDER</dt>
+<dt>S_LIB_FOLDER</dt>
 <dd>Points to the folder with all the code in it. The executables in bin have
 set it to /usr/lib/ws-session.</dd>
 <dd>Set this like your other environement variables, if you dont want to use
@@ -100,21 +138,12 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Points to your favorite menu e.g. dmenu -nf #333 but can also be another
 menu application.</dd>
 <dd>Can be set in the rc file.</dd>
-<dt>S_SHELL_HISTORY</dt>
 <dd>The file name of your shell history without the dot. To have a separate
-shell history on every workspace the script bin/selecthistfile can be used. Eg.
-in your .zshrc: export HISTFILE="$(selecthistfile)". selecthisfile echos
-$HOME/.$S_SHELL_HISTORY if no supported wm is running.</dd>
+shell history on every workspace the command ws-session -p can be used. Eg.
+in your shellrc:
+</dd>
 <dd>Can be set in the rc file.</dd>
 </dl>
-
-
-Extending ws-session
-===================
-
-You must not change the value of a global variable from the section above,
-exept you are changing a file in lib/.
-But you can access those from whithin all files in the other folders.
 
 Window Manager
 --------------
@@ -180,10 +209,7 @@ s_exampleapp_start() {
 ```
 
 Sometimes one can ignore arg1 and/or arg2. Sometimes s_exampleapp_start is not
-needed but exampleapp needs a setting in its config files.  There is no
-s_urxvt_start, but the history file of the shell gets set by
-$(selecthistfile).
-
+needed but exampleapp needs a setting in its config files, eg. urxvt.
 
 TODO
 ====
@@ -191,5 +217,5 @@ TODO
 * s_save_workspace_layout_$WM(), s_apply_workspace_layout_$WM()
 * improve (english of) this README
 * write a manual page
-* help output and bash completion for bin/{opensession,closesession,opensessionmenu,restoresession,editautostart}
+* bash completion for ws-session
 

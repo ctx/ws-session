@@ -10,7 +10,7 @@ s_assert_equals() {
   fi
 }
 
-S_ROOT_FOLDER="."
+S_LIB_FOLDER="."
 source ./lib/source.sh
 S_DEFAULT_TAG=session
 source ./lib/wm.sh
@@ -53,20 +53,22 @@ s_list_app_seltag
 
 # test 6 ---------------------------------------------------------------------
 echo
-echo test 6:
-echo WAIT: every window on the current tag should get focus once.
-S_SEL_TAG=$(s_seltag)
-for app in $(s_list_app_seltag | cut -f1 -d" ") ; do
-  s_focus_window $app
-  sleep 1
-done
+#echo test 6:
+#echo WAIT: every window on the current tag should get focus once.
+#S_SEL_TAG=$(s_seltag)
+#for app in $(s_list_app_seltag | cut -f1 -d" ") ; do
+#  s_focus_window $app
+#  sleep 1
+#done
 
 # test 7 ---------------------------------------------------------------------
 echo
 echo test 7:
 echo This should be a list of all your open tags:
+s_newtag '~!@~`#$%^&*()_+"-0\][{}|;'\'':/.'
 S_SEL_TAG=$(s_seltag)
 s_list_open_tags
+s_closetag
 
 echo
 echo "##   All tests passed!"

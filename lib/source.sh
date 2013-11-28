@@ -5,9 +5,9 @@ S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 S_NUMBER_OF_BACKUPS="5"
 
 if [[ -f $HOME/.ws-session.rc ]] ; then
-  source $HOME/.ws-session.rc
+  source "$HOME/.ws-session.rc"
 elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
-  source $HOME/.config/ws-session/ws-session.rc
+  source "$HOME/.config/ws-session/ws-session.rc"
 else
   echo Error session.rc not found!
   echo install it to $HOME/.ws-session.rc or $XDG_COFIG_HOME/ws-session/ws-session.rc
@@ -16,8 +16,8 @@ fi
 s_source() {
   if [[ -f "$S_CONFIG_FOLDER/$1" ]] ; then
     source "$S_CONFIG_FOLDER/$1"
-  elif [[ -f "$S_ROOT_FOLDER/$1" ]] ; then
-    source "$S_ROOT_FOLDER/$1"
+  elif [[ -f "$S_LIB_FOLDER/$1" ]] ; then
+    source "$S_LIB_FOLDER/$1"
   else
     echo ERROR: $1 not found
     exit 1
@@ -36,7 +36,7 @@ s_source_lib() {
         done
         ;;
       *)
-        source "$S_ROOT_FOLDER/lib/${a}.sh"
+        source "$S_LIB_FOLDER/lib/${a}.sh"
     esac
   done
 }

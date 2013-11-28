@@ -2,8 +2,8 @@
 
 # setup =======================================================================
 # override some settings
-S_ROOT_FOLDER="."
-source $S_ROOT_FOLDER/ws-session.rc
+S_LIB_FOLDER="."
+source $S_LIB_FOLDER/ws-session.rc
 S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 S_DATA_FOLDER="$test_dir/session"

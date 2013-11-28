@@ -1,36 +1,36 @@
 #!/bin/bash
 
-S_ROOT_FOLDER=${S_ROOT_FOLDER:-/usr/lib/ws-session}
-source $S_ROOT_FOLDER/lib/source.sh
+S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
+source $S_LIB_FOLDER/lib/source.sh
 
 help() {
 cat << HELPFILE
 Usage: 
-  ws-session argument [name]
+  ws-session option [sessionname]
         You can only use one argument at a time.
         Some arguments need a session name.
+        Session names should not contain '=' or ','.
 
-Arguments:
- -c|close [name]
+Options:
+  -c|close [sessionname]
         Without name: close active session.
         If no session with name is open, then close active session to name.
         If a session with name is open, then close it.
- -h|help
+  -h|help
         Print this help.
- -l|list
+  -l|list
         List all saved sessions in '\$S_DATA_FOLDER'.
- -m|menu
+  -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
- -o|open name
+  -o|open sessionname
         Start the session with name name.
- -p|path:
+  -p|path:
         Prints the temporary path for dotfiles etc.
- -r|restore name:
+  -r|restore sessionname
         Restore a session to a previous state.
         You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
 
-More information about configuration at http://github.com/ctx/ws-session.
 Please report bugs at http://github.com/ctx/ws-session/issues.
 HELPFILE
 }
@@ -42,7 +42,7 @@ case $1 in
     ;;
   -p|path)
     s_source_lib wm stopwm
-    echo "$S_TEMP_FOLDER/$S_SEL_TAG"
+    echo "$S_TEMP_FOLDER/$S_SEL_TAG/"
     ;;
   -m|menu)
     if [[ -n "$S_MENU" ]] ; then

@@ -1,7 +1,7 @@
 restored=res # name of current after restore
 
 s_install_data() {
-  mkdir -p $S_DATA_FOLDER
+  mkdir -p "$S_DATA_FOLDER"
 }
 
 s_mv() {
@@ -58,9 +58,9 @@ s_delete_all_backups() {
 }
 
 s_list_sessions() {
-  find $S_DATA_FOLDER -maxdepth 1 -type d -exec basename {} \; \
+  find "$S_DATA_FOLDER" -maxdepth 1 -type d -exec basename {} \; \
     | sed 's/-[0-9]$//' \
-    | uniq
+    | sort -u
 }
 
 # vim: ft=sh ts=2 et sw=2:
