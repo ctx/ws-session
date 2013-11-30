@@ -11,6 +11,21 @@ s_find_wm() {
   find "$1/wm" -type f -not -name '.*' 2>/dev/null
 }
 
+s_run_cmd_opensession() {
+  local cmd="$1"
+  local winid="$2"
+  local pid=""
+  $cmd > /dev/null 2>&1 &
+  pid="$!"
+  disown $pid
+  echo "$pid $winid" >> $S_TEMP_FOLDER/$S_SEL_TAG/pid-winid
+}
+
+s_run_cmd() {
+  local cmd="$1"
+  $cmd > /dev/null 2>&1 & disown
+}
+
 if [[ -z $S_WM ]] ; then
   if [[ -d $S_CONFIG_FOLDER ]] ; then
     s_wms="$(s_find_wm $S_CONFIG_FOLDER)"
@@ -65,6 +80,21 @@ if [[ -n "$s_wm" ]] ; then
   s_focus_window() {
     s_focus_window_$S_WM "$@"
   }
+
+  if [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] ; then
+    s_save_layout() {
+      [[ -d $@ ]] && s_save_layout_$S_WM  > "$@/$S_WM.layout"
+    }
+
+    s_reload_layout() {
+      local file="$S_TEMP_FOLDER/$S_SEL_TAG/${S_WM}.layout"
+      [[ -f $file ]] && s_reload_layout_$S_WM "$file"
+    }
+  else
+    s_run_cmd_opensession() {
+      s_run_cmd "$1"
+    }
+  fi
 
 else
   echo "ERROR: you set \$S_WM to $S_WM and you dont run (one of) this wm"

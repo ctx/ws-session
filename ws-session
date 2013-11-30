@@ -9,7 +9,6 @@ Usage:
   ws-session option [sessionname]
         You can only use one argument at a time.
         Some arguments need a session name.
-        Session names should not contain '=' or ','.
 
 Options:
   -c|close [sessionname]
@@ -24,7 +23,7 @@ Options:
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
   -o|open sessionname
-        Start the session with name name.
+        Start the session with name sessionname.
   -p|path:
         Prints the temporary path for dotfiles etc.
   -r|restore sessionname

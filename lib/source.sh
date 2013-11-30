@@ -43,7 +43,13 @@ s_source_lib() {
 
 s_run_cmd_opensession() {
   local cmd="$1"
-  $cmd > /dev/null 2>&1 & disown
+  local winid="$2"
+  local pid=""
+  $cmd > /dev/null 2>&1 &
+  pid="$!"
+  disown $pid
+  #[[ $(pgrep -P $pid) ]] && pid=$(pgrep -P $pid)
+  echo "$pid $winid" >> $S_TEMP_FOLDER/$S_SEL_TAG/pid-winid
 }
 
 s_run_cmd() {

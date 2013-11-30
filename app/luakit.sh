@@ -1,5 +1,5 @@
 XDGAPPLICATION=luakit
-XDGCMD="/usr/bin/luakit -U -n"
+XDGCMD="/usr/bin/luakit -U"
 XDGNEWARG="http://google.com"
 
 
@@ -16,7 +16,7 @@ s_luakit_open_session() {
     fi
     {
       export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-      s_run_cmd_opensession "$XDGCMD"
+      s_run_cmd_opensession "$XDGCMD" "$(cat $XDG_DATA_HOME/windowid)"
     }&
   fi
 }
@@ -30,6 +30,7 @@ s_luakit_close_session() {
   s_focus_window $2
   xdotool type :wqall
   xdotool key KP_Enter
+  echo $2 > "$tmp_dir/windowid"
 }
 
 # start luakit

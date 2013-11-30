@@ -1,9 +1,17 @@
+s_mupdf_hack() {
+  local file="$(readlink -f "$@")"
+  local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
+  echo "$file" >> "$temp_dir/mupdf-tmp"
+  /usr/bin/mupdf "$@"
+  sed -i "\|${file}|d" $temp_dir/mupdf-tmp
+}
+
 # open mupdf from data folder, lockfiles and state should be stored in the temporary folder.
 # arg1: Data folder: where the last session was stored.
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
   while read -r file ; do
-    s_mupdf_start "$file"
+    s_run_cmd_opensession "s_mupdf_hack ${file% *}" ${file#* }
   done < <(grep -v "^$" "$1/mupdf")
 }
 
@@ -11,7 +19,7 @@ s_mupdf_open_session() {
 # arg1: Temporary folder: this folder will be stored in the end.
 # arg2: winids of all mupdfs on current tag.
 s_mupdf_close_session() {
-  # save the tmp file because it will get empty bevore the data gets saved 
+  # save the tmp file because it will get empty before the data gets saved
   local temp_dir="$1"
   local winids="$2"
   cp "$temp_dir"/mupdf{-tmp,}
@@ -26,13 +34,7 @@ s_mupdf_close_session() {
 # start exampleapp in a way that close_session can close/save it
 s_mupdf_start() {
   if [[ $@ ]] ; then
-    {
-      local file="$(readlink -f "$@")"
-      local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
-      echo "$file" >> "$temp_dir/mupdf-tmp"
-      /usr/bin/mupdf "$@"
-      sed -i "\|${file}|d" $temp_dir/mupdf-tmp
-    } & disown
+    s_run_cmd "s_mupdf_hack $@"
   else
     /usr/bin/mupdf
   fi

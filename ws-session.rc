@@ -20,5 +20,3 @@ S_SHELL_HISTORY=history
 ### OPEN/CLOSE SESSION
 # The following applications have a wrapper
 S_APPLICATIONS=( "vim" "luakit" "$S_TERM" )
-# For this applications it's enough to store the pwd and cmd from /proc
-S_SIMPLE_APPLICATIONS=( "thunar" )

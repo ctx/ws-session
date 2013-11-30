@@ -73,10 +73,10 @@ for app in $(s_list_app_seltag | cut -f1 -d" ") ; do
   s_focus_window $app || exit 1
 done
 
+
 echo
 echo "##   All tests passed!"
 
-s_cleanup
 # test list app seltag ---------------------------------------------------------------------
 # cannot compare 
 echo
@@ -90,8 +90,14 @@ s_list_app_seltag
 echo
 echo This should be a list of your open tags line by line:
 s_list_open_tags
+echo
+echo test the layout: run the function and cat the file
+mkdir -p "$S_TEMP_FOLDER/$S_SEL_TAG"
+s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
+cat "$S_TEMP_FOLDER/$S_SEL_TAG"/*.layout
+echo
 
-
+s_cleanup
 
 exit 0
 

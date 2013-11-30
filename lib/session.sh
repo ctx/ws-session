@@ -4,6 +4,8 @@ s_closesession() {
   fi
   session="$S_SEL_TAG"
 
+  s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
+
   applications=$(s_list_app_seltag)
   for app in ${S_APPLICATIONS[@]} ; do
     winids="$(echo -e "$applications" | grep -i $app | cut -f1 -d" " | tr '\n' ' ')"
@@ -17,6 +19,7 @@ s_closesession() {
   while read -r app; do
     xdotool windowkill ${app%% *}
   done < <(echo "$applications")
+  unset app
 
   rm -rf "$S_TEMP_FOLDER/$S_SEL_TAG"
 
@@ -24,7 +27,9 @@ s_closesession() {
 }
 
 s_opensession() {
-  name="$@"
+  local name="$@"
+  local app=""
+  local applications=""
   if [[ -z $name ]] ; then
     echo error no session name
     exit 1
@@ -38,12 +43,11 @@ s_opensession() {
 
   if [[ -d "$dir" ]] ; then
 
-
     for app in ${S_APPLICATIONS[@]} ; do
       eval s_${app}_open_session "$dir" "$tmp_dir"
     done
 
-    s_restore_file autostart
+    s_restore_file autostart ${S_WM}.layout
 
     if [[ -f "$tmp_dir/autostart" ]] ; then
       while read -r app; do
@@ -51,18 +55,23 @@ s_opensession() {
       done < "$tmp_dir/autostart"
     fi
 
+    sleep 0.2
+
+    while read -r app; do
+      pid="$(xprop _NET_WM_PID -id ${app%% *}|sed 's/^.* = //')"
+      [[ $pid ]] && sed -i "/${pid}/s/$/ ${app%% *}/" "$tmp_dir/pid-winid"
+    done < <(s_list_app_seltag)
+
+    while read -r line ; do
+      local oldwinid=$(echo $line | cut -f2 -d" ")
+      local newwinid=$(echo $line | cut -f3 -d" ")
+      [[ $oldwinid && $newwinid ]] && sed -i "s/${oldwinid}/${newwinid}/" $tmp_dir/${S_WM}.layout
+    done < "$tmp_dir/pid-winid"
+
+    s_reload_layout "$tmp_dir"
+
   fi
 }
-
-#s_run_cmd_opensession() {
-#  local cmd="$1"
-#  $cmd > /dev/null 2>&1 & disown
-#}
-#
-#s_run_cmd() {
-#  local cmd="$1"
-#  $cmd > /dev/null 2>&1 & disown
-#}
 
 s_restore_file() {
   for f in $@ ; do

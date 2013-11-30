@@ -1,5 +1,3 @@
-#!/bin/bash
-
 s_seltag_llwm() {
   cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
   dn=( $(xprop -root _NET_DESKTOP_NAMES \
@@ -41,6 +39,16 @@ s_closetag_llwm() {
 
 s_focus_window_llwm() {
   xdotool windowactivate --sync "$@"
+}
+
+s_save_layout_llwm() {
+  xprop -root _LL_DESKTOP_WINIDS \
+    | cut -f2 -d= \
+    | tr -d '[",]'
+}
+
+s_reload_layout_llwm() {
+  echo no can do
 }
 
 # vim: ft=sh ts=2 et sw=2:

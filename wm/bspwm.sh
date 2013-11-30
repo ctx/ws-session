@@ -1,20 +1,9 @@
-#!/bin/bash
-
 s_seltag_bspwm() {
-  cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
-  difs="$IFS"
-  IFS=,
-  dn=( $(xprop -root _NET_DESKTOP_NAMES|sed 's/.*= //') )
-  IFS="$difs"
-  unset difs
-
-  echo ${dn[$cdid]} | tr -d \"
+  bspc query -D -d
 }
 
 s_list_app_seltag_bspwm() {
-  bspc query -T -d "$S_SEL_TAG" \
-    | grep "^ " | grep "0x" \
-    | awk '{print $3" "$2}'
+  bspc query -T -d "$S_SEL_TAG" | awk 'NR<=1 {next} /0x/{print $3" "$2}'
 }
 
 s_list_open_tags_bspwm() {
@@ -33,6 +22,16 @@ s_closetag_bspwm() {
 
 s_focus_window_bspwm() {
   bspc window -f "$@"
+}
+
+S_WM_SUPPORTS_LAYOUT_SAVING="1"
+
+s_save_layout_bspwm() {
+  bspc query -T -d
+}
+
+s_reload_layout_bspwm() {
+  bspc restore -T "$1"
 }
 
 # vim: ft=sh ts=2 et sw=2:

@@ -4,7 +4,7 @@
 s_urxvt_open_session() {
   s_restore_file $S_SHELL_HISTORY zdirs
   while read -r wd ;do
-    s_run_cmd_opensession "urxvt -cd $wd"
+    s_run_cmd_opensession "urxvt -cd ${wd% *}" ${wd#* }
   done < <(grep -v "^$" "$1"/urxvt)
 }
 
@@ -20,7 +20,7 @@ s_urxvt_close_session() {
     local PID=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
     ZSHPID=$(ps --ppid $PID | grep zsh | head -1 | awk '{print $1}' )
     local cwd=$(readlink /proc/$ZSHPID/cwd)
-    [[ $cwd ]] && echo $cwd >> $temp_dir/urxvt
+    [[ $cwd ]] && echo $cwd $urxvt >> "$temp_dir/urxvt"
     xdotool windowkill --sync $urxvt
   done
 }
