@@ -10,8 +10,8 @@ help :
 
 # target:  test       - Run the tests
 test:
-	@bash test/test-lib-wm.sh
 	@bash test/test-lib-data.sh
+	@bash test/test-lib-wm.sh
 
 
 # target:  install    - Install

@@ -17,6 +17,7 @@ s_cleanup() {
 
   ! [[ -d $test_dir ]] && \
     echo " .. done."
+  echo "##----------------------------------"
 }
 
 # in this tests we compare the folder $test_dir/$dir (compare) with the
@@ -35,7 +36,7 @@ s_assert_data_dir() {
 }
 
 # start =======================================================================
-echo "#### Running data tests: "
+echo "#### Running data tests: -----------"
 echo -n "##   "
 
 # test 0 ----------------------------------------------------------------------

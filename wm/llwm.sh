@@ -2,13 +2,13 @@
 
 s_seltag_llwm() {
   cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
-  difs="$IFS"
-  IFS=,
-  dn=( $(xprop -root _NET_DESKTOP_NAMES|sed 's/.*= //') )
-  IFS="$difs"
-  unset difs
+  dn=( $(xprop -root _NET_DESKTOP_NAMES \
+           | sed 's/^\"//;
+                  s/\"$//;
+                  s/.*= //;
+                  s/\", \"/\n/g') )
 
-  echo ${dn[$cdid]} | sed 's/^\"//;s/\"$//;s/\\\"/\"/g'
+  echo ${dn[$cdid]} | sed 's/\\\"/\"/g'
 }
 
 s_list_app_seltag_llwm() {
@@ -24,9 +24,11 @@ s_list_app_seltag_llwm() {
 
 s_list_open_tags_llwm() {
   xprop -root _NET_DESKTOP_NAMES \
-    | cut -f2 -d= \
-    | sed 's/^\"//;s/\"$//;s/\\\"/\"/g' \
-    | tr ',' '\n'
+           | sed 's/^.*) = //;
+                  s/^\"//;
+                  s/\"$//;
+                  s/\", \"/\n/g;
+                  s/\\\"/\"/g'
 }
 
 s_newtag_llwm() {

@@ -41,7 +41,7 @@ Option:
         Start a session from a menu.
         You have to set '$S_MENU' in the rc file.
   -o|open sessionname
-        Start the session with name name.
+        Start the session with name sessionname.
   -p|path:
         Prints the temporary path for dotfiles etc.
   -r|restore sessionname
@@ -49,10 +49,8 @@ Option:
         You can do it up to '$S_NUMBER_OF_BACKUPS' times.
 ```
 
-* From your window manager:
-
-Bind a key to 'ws-session menu' to create new workspaces.
-Bind a key to 'ws-session close' to close a workspace.
+* Bind a key to 'ws-session menu' to create new workspaces.
+* Bind a key to 'ws-session close' to close a workspace.
 
 Dependencies
 -----------
@@ -71,7 +69,7 @@ Installation/Configuration
 
 * Optain the source.
 
-* Do export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/bin/ws-session.
+* Export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/bin/ws-session.
   In this section the paths in () are the default installation dirs. Use /path/to/source if you didn't install.
 
 * Copy the template (/etc/xdb/ws-session/)ws-session.rc to
@@ -90,7 +88,7 @@ sessionpath="$(ws-session -p)"
 [[ -z $sessionpath ]] && sessionpath="$HOME/."
 export HISTFILE="${sessionpath}zsh_history"
 export DIRSTACKFILE="${sessionpath}zdirs"
-unset p
+unset sessionpath
 ```
 
 Extending ws-session
