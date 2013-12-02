@@ -10,7 +10,7 @@
 ### SETTINGS
 #S_NUMBER_OF_BACKUPS="5"
 S_DEFAULT_TAG="1"
-S_WM="bspwm i3"
+S_WM="bspwm i3 herbstluftwm"
 
 # APPLICATIONS
 S_MENU='dmenu -i'

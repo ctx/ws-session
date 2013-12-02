@@ -12,6 +12,10 @@ s_running_wm_bspwm() {
   wmctrl -m | grep bspwm
 }
 
+s_running_wm_herbstluftwm() {
+  wmctrl -m | grep herbstluftwm
+}
+
 s_running_wm_llwm() {
   wmctrl -m | grep llwm
 }
