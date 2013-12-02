@@ -8,7 +8,7 @@ if [[ -n $S_WM ]] ; then
   s_source app/vim.sh
   s_vim_start "$@"
 else
-  vim $@
+  /usr/bin/vim $@
 fi
 
 # vim: ft=sh ts=2 et sw=2:
