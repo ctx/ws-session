@@ -45,6 +45,7 @@ s_assert_equals "$(s_seltag)" "$tag"
 
 # test close tag ---------------------------------------------------------------------
 # close newtag and go to tag 1 per default
+S_SEL_TAG=$(s_seltag)
 s_closetag
 s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG"
 
