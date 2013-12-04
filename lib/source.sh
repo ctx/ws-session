@@ -20,7 +20,6 @@ s_source() {
     source "$S_LIB_FOLDER/$1"
   else
     echo ERROR: $1 not found
-    exit 1
   fi
 }
 

@@ -7,7 +7,7 @@ s_seltag_herbstluftwm() {
 
 s_list_app_seltag_herbstluftwm() {
   while read -r client ; do
-    class=$(xprop -id $client WM_CLASS | sed 's/^.* = \"//;s/\", \".*$//')
+    class=$(xprop -id $client WM_CLASS | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//')
     echo "$client $class"
   done < <(herbstclient stack \
     | grep "Client 0x" \
@@ -29,7 +29,7 @@ s_newtag_herbstluftwm() {
 }
 
 s_closetag_herbstluftwm() {
-  herbstclient use "$S_DEFAULT_TAG" 2>/dev/null
+  herbstclient use "$S_DEFAULT_TAG"
   herbstclient merge_tag "$S_SEL_TAG" "$S_DEFAULT_TAG"
 }
 
@@ -40,11 +40,11 @@ s_focus_window_herbstluftwm() {
 S_WM_SUPPORTS_LAYOUT_SAVING="1"
 
 s_save_layout_herbstluftwm() {
-  echo dui
+  herbstclient dump
 }
 
 s_reload_layout_herbstluftwm() {
-  echo dui
+  herbstclient load "$(cat "$1")"
 }
 
 # vim: ft=sh ts=2 et sw=2:

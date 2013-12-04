@@ -12,18 +12,31 @@ s_find_wm() {
 }
 
 s_run_cmd_opensession() {
+  local winid="$1"
+  shift
   local cmd="$1"
-  local winid="$2"
+  shift
+  local args="$@"
   local pid=""
-  $cmd > /dev/null 2>&1 &
+
+  if [[ -n $args ]] ; then
+    $cmd "$args" > /dev/null 2>&1 & disown
+  else
+    $cmd > /dev/null 2>&1 & disown
+  fi
   pid="$!"
-  disown $pid
-  echo "$pid $winid" >> $S_TEMP_FOLDER/$S_SEL_TAG/pid-winid
+  pid_winid[$pid]="$winid"
 }
 
 s_run_cmd() {
   local cmd="$1"
-  $cmd > /dev/null 2>&1 & disown
+  shift
+  local args="$@"
+  if [[ -n $args ]] ; then
+    $cmd "$args" > /dev/null 2>&1 & disown
+  else
+    $cmd > /dev/null 2>&1 & disown
+  fi
 }
 
 if [[ -z $S_WM ]] ; then

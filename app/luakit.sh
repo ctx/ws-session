@@ -9,38 +9,37 @@ XDGNEWARG="http://google.com"
 # Copy the luakit data folder arg1/luakit to arg2
 s_luakit_open_session() {
   local dir="$1"
-  local tmp_dir="$2"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
   if [[ -d "$dir/$XDGAPPLICATION" ]] ; then
     if [[ ! -d "$tmp_dir/$XDGAPPLICATION" ]] ; then
       cp -r $dir/$XDGAPPLICATION $tmp_dir
     fi
-    {
+    (
       export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-      s_run_cmd_opensession "$XDGCMD" "$(cat $XDG_DATA_HOME/windowid)"
-    }&
+      s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$XDGCMD"
+    )
   fi
 }
 
 # close luakit session
-# arg1: Temporary folder: this folder will be stored in the end.
-# Nothing to be done.
-# The folder will be backed up and everything will be closed anyway.
 s_luakit_close_session() {
-  local tmp_dir="$1/$XDGAPPLICATION"
-  s_focus_window $2
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$XDGAPPLICATION"
+  echo $1 > "$tmp_dir/windowid"
+  s_focus_window $1
   xdotool type :wqall
   xdotool key KP_Enter
-  echo $2 > "$tmp_dir/windowid"
 }
 
 # start luakit
 
 s_luakit_new_instance() {
-  mkdir -p "$1"
-  {
-    export XDG_DATA_HOME="$1" 
-    s_run_cmd "$XDGCMD $2"
-  }&
+  local tmp_dir="$1"
+  shift
+  mkdir -p "$tmp_dir"
+  (
+    export XDG_DATA_HOME="$tmp_dir"
+    s_run_cmd "$XDGCMD" "$@"
+  )
 }
 
 s_luakit_focus() {

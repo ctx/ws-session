@@ -9,7 +9,7 @@ s_closesession() {
   applications=$(s_list_app_seltag)
   for app in ${S_APPLICATIONS[@]} ; do
     winids="$(echo -e "$applications" | grep -i $app | cut -f1 -d" " | tr '\n' ' ')"
-    s_${app}_close_session "$S_TEMP_FOLDER/$S_SEL_TAG" "$winids"
+    s_${app}_close_session "$winids"
   done
 
   s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
@@ -28,46 +28,40 @@ s_closesession() {
 
 s_opensession() {
   local name="$@"
-  local app=""
-  local applications=""
   if [[ -z $name ]] ; then
     echo error no session name
     exit 1
   fi
+  local app=""
+  local applications=""
+  local dir="$S_DATA_FOLDER/$name-1"
+  local tmp_dir="$S_TEMP_FOLDER/$name"
+  local pid_winid=""
+
   s_newtag "$name"
   S_SEL_TAG="$name"
-  dir="$S_DATA_FOLDER/$name-1"
-  tmp_dir="$S_TEMP_FOLDER/$name"
 
   mkdir -p "$tmp_dir"
 
   if [[ -d "$dir" ]] ; then
 
     for app in ${S_APPLICATIONS[@]} ; do
-      eval s_${app}_open_session "$dir" "$tmp_dir"
+      eval s_${app}_open_session "$dir"
     done
-
-    s_restore_file autostart ${S_WM}.layout
-
-    if [[ -f "$tmp_dir/autostart" ]] ; then
-      while read -r app; do
-        s_run_cmd "$app"
-      done < "$tmp_dir/autostart"
-    fi
 
     sleep 0.2
 
-    while read -r app; do
-      pid="$(xprop _NET_WM_PID -id ${app%% *}|sed 's/^.* = //')"
-      [[ $pid ]] && sed -i "/${pid}/s/$/ ${app%% *}/" "$tmp_dir/pid-winid"
-    done < <(s_list_app_seltag)
-
-    while read -r line ; do
-      local oldwinid=$(echo $line | cut -f2 -d" ")
-      local newwinid=$(echo $line | cut -f3 -d" ")
-      [[ $oldwinid && $newwinid ]] && sed -i "s/${oldwinid}/${newwinid}/" $tmp_dir/${S_WM}.layout
-    done < "$tmp_dir/pid-winid"
-
+    s_restore_file ${S_WM}.layout
+    if [[ -f $tmp_dir/${S_WM}.layout ]] ; then
+      while read -r newwinid ; do
+        pid="$(xprop _NET_WM_PID -id ${newwinid%% *}|sed 's/^.* = //')"
+        if [[ -n ${pid_winid[$pid]} ]] ; then
+          sed -i "s/${pid_winid[$pid]}/${newwinid%% *}/" "$tmp_dir/${S_WM}.layout"
+        else
+          echo Error: cannot find old winid: $pid $newwinid
+        fi
+      done < <(s_list_app_seltag)
+    fi
     s_reload_layout "$tmp_dir"
 
   fi
