@@ -26,13 +26,10 @@ Usage:
   ws-session option [sessionname]
         You can only use one argument at a time.
         Some arguments need a session name.
-        Session names should not contain '=' or ','.
 
-Option:
-  -c|close [sessionname]
-        Without name: close active session.
-        If no session with name is open, then close active session to name.
-        If a session with name is open, then close it.
+Options:
+  -c|close
+        Close session on active workspace.
   -h|help
         Print this help.
   -l|list
@@ -56,9 +53,9 @@ Dependencies
 -----------
 <dl>
 <dt>Window Manager</dt>
-<dd>One of: bspwm, i3, wmii</dd>
+<dd>One of: herbstluftwm, bspwm, i3, wmii</dd>
 <dt>Applications</dt>
-<dd>Some of: luakit, mupdf, urxvt, vim(gvim), dwb</dd>
+<dd>Some of: luakit, zathura, mupdf, urxvt, vim(gvim), dwb</dd>
 <dt>Helpers</dt>
 <dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
 <dd>i3: jshon<dd>
