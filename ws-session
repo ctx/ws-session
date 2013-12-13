@@ -7,14 +7,14 @@ help() {
 cat << HELPFILE
 Usage: 
   ws-session option [sessionname]
-        You can only use one argument at a time.
-        Some arguments need a session name.
+        You can only use one option at a time.
+        Some options need a session name as argument.
 
 Options:
-  -c|close [sessionname]
-        Without name: close active session.
-        If no session with name is open, then close active session to name.
-        If a session with name is open, then close it.
+  -a|all
+        Close all sessions.
+  -c|close
+        Close active session.
   -h|help
         Print this help.
   -l|list
@@ -51,7 +51,7 @@ case $1 in
         | grep -v ^$ \
         | sort \
         | uniq -u \
-        | $S_MENU -p "start a session:")"
+        | eval "$S_MENU -p 'start a session:'")"
 
       if [[ -n $s ]] ; then
         {
@@ -77,14 +77,24 @@ case $1 in
     shift
     {
       name="$@"
+      if grep -q "$name" <<< $(s_list_open_tags) ; then
+        s_source_lib wm stopwm data session allapp
+        s_closesession "$name"
+      fi
+    } & disown
+    ;;
+  -a|all)
+    {
       s_source_lib wm stopwm data session allapp
-      s_closesession "$name"
+      while read -r name ; do
+        s_closesession "$name"
+      done < <(s_list_open_tags)
     } & disown
     ;;
   -r|restore)
     shift
     name="$@"
-    s_source_lib wm stopwm data
+    s_source_lib data
     if [[ -n "$(s_list_sessions | grep -e "^$name$")" ]] ; then
       s_restore_data "$name"
     else

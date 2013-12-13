@@ -2,11 +2,6 @@ XDGAPPLICATION=luakit
 XDGCMD="/usr/bin/luakit -U"
 XDGNEWARG="http://google.com"
 
-
-# open a luakit session
-# arg1: Data folder: where the last session was stored.
-# arg2: Temporary folder: this folder will be stored by s_$app_close_session
-# Copy the luakit data folder arg1/luakit to arg2
 s_luakit_open_session() {
   local dir="$1"
   local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
@@ -14,14 +9,14 @@ s_luakit_open_session() {
     if [[ ! -d "$tmp_dir/$XDGAPPLICATION" ]] ; then
       cp -r $dir/$XDGAPPLICATION $tmp_dir
     fi
-    (
-      export XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-      s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$XDGCMD"
-    )
+    xdh="$XDG_DATA_HOME"
+    XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
+    s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$XDGCMD"
+    XDG_DATA_HOME=$xdh
+    unset xdh
   fi
 }
 
-# close luakit session
 s_luakit_close_session() {
   local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$XDGAPPLICATION"
   echo $1 > "$tmp_dir/windowid"
@@ -36,10 +31,11 @@ s_luakit_new_instance() {
   local tmp_dir="$1"
   shift
   mkdir -p "$tmp_dir"
-  (
-    export XDG_DATA_HOME="$tmp_dir"
-    s_run_cmd "$XDGCMD" "$@"
-  )
+  xdh="$XDG_DATA_HOME"
+  XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
+  s_run_cmd "$XDGCMD" "$@"
+  XDG_DATA_HOME=$xdh
+  unset xdh
 }
 
 s_luakit_focus() {
@@ -62,7 +58,7 @@ s_luakit_start() {
   then
     s_luakit_new_instance "$dir" "$url"
   else
-    winid="$(s_list_app_seltag | grep $XDGAPPLICATION | cut -f1)"
+    winid="$(s_list_app_seltag | grep $XDGAPPLICATION | cut -f1 -d" ")"
     if [ -z "$winid" ] ; then
       s_luakit_new_instance "$dir" "$url"
     else

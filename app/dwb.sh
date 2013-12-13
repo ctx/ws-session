@@ -6,7 +6,7 @@ DWB=dwb
 # Copy the dwb data folder arg1/dwb to arg2
 s_dwb_open_session() {
   local dir="$1"
-  local tmp_dir="$2"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
   if [[ -d "$dir/$DWB" ]] ; then
     if ! [[  -d "$tmp_dir/$DWB" ]] ; then
       cp -R "$dir/$DWB" "$tmp_dir"
@@ -20,7 +20,7 @@ s_dwb_open_session() {
 # Nothing to be done.
 # The folder will be backed up and everything will be closed anyway.
 s_dwb_close_session() {
-  local tmp_dir="$1/$DWB"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$DWB"
   s_focus_window $2
   xdotool type :wq
   xdotool key KP_Enter

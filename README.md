@@ -24,12 +24,14 @@ Using ws-session
 ```bash
 Usage:
   ws-session option [sessionname]
-        You can only use one argument at a time.
-        Some arguments need a session name.
+        You can only use one option at a time.
+        Some options need a session name as argument.
 
 Options:
+  -a|all
+        Close all sessions.
   -c|close
-        Close session on active workspace.
+        Close active session.
   -h|help
         Print this help.
   -l|list
@@ -66,17 +68,17 @@ Installation/Configuration
 
 * Optain the source.
 
-* Export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/bin/ws-session.
-  In this section the paths in () are the default installation dirs. Use /path/to/source if you didn't install.
+* Export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/lib/ws-session.
+  Replace the de/path/to/source if you didn't install.
 
-* Copy the template (/etc/xdb/ws-session/)ws-session.rc to
+* Copy the template /etc/xdb/ws-session/ws-session.rc to
   $HOME/.ws-session.rc. If you have set XDG_CONFIG_HOME as environment
   variable you can copy it to $XDG_CONFIG_HOME/ws-session.
   Adjust your ws-session.rc to your liking.
 
-* Copy or link the executables you like from (/etc/xdg/ws-session/)bin/* to a folder in your $PATH.
+* Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
 
-* You can also copy some files from (/usr/lib/ws-session/){app,wm} to
+* You can also copy some files from /usr/lib/ws-session/{app,wm} to
   $S_CONFIG_FOLDER/{app,wm} to change the default behavior or to test new ones.
 
 * Configure your applications e.g. in your shellrc:

@@ -12,11 +12,20 @@ SR_DEFAULT_ELVI="google"
 SR_MENU_TITLE="search the web:"
 SR_BROWSER="s_luakit_start"
 
+s_update_elvi() {
+  cut -f 1 -d" " "$SR_BOOKMARKS" \
+    | grep -v -e "^#" \
+    | sort > "$SR_ELVIFILE"
+  sr -elvi \
+    | grep -v -e "GLOBAL" -e "LOCAL" -e "Activate Surfraw defined" \
+    | cut -f1 >> "$SR_ELVIFILE"
+}
+
 s_surfraw_menu() {
   if ! [ -f $SR_ELVIFILE ];then
-    update_elvi
+    s_update_elvi
   fi
-  search="$($MENU -p "$SR_MENU_TITLE" <$SR_ELVIFILE)"
+  search="$(eval "$MENU -p \"$SR_MENU_TITLE\"" <"$SR_ELVIFILE")"
   if ! [ "$search" ]; then
     return 1
   fi

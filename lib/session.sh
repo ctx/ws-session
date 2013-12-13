@@ -1,6 +1,7 @@
 s_closesession() {
   if [[ -n $@ ]] ; then
     S_SEL_TAG="$@"
+    s_new_tag "$@"
   fi
   session="$S_SEL_TAG"
 
@@ -12,17 +13,20 @@ s_closesession() {
     s_${app}_close_session "$winids"
   done
 
-  s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
-
   applications=$(s_list_app_seltag)
 
+  echo -n > "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+
   while read -r app; do
+    cwd="$(readlink /proc/$(xdotool getwindowpid ${app%% *})/cwd)"
+    exe="$(readlink /proc/$(xdotool getwindowpid ${app%% *})/exe)"
+    echo -e "${app%% *} cd $cwd;$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
     xdotool windowkill ${app%% *}
   done < <(echo "$applications")
+
   unset app
-
+  s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
   rm -rf "$S_TEMP_FOLDER/$S_SEL_TAG"
-
   s_closetag
 }
 
@@ -49,14 +53,19 @@ s_opensession() {
       eval s_${app}_open_session "$dir"
     done
 
-    sleep 0.2
+    while read -r pid cmd ; do
+      s_run_cmd_opensession "$pid" "$cmd"
+    done < <(cat "$dir/autostart")
+
+    sleep 0.5
 
     s_restore_file ${S_WM}.layout
     if [[ -f $tmp_dir/${S_WM}.layout ]] ; then
       while read -r newwinid ; do
-        pid="$(xprop _NET_WM_PID -id ${newwinid%% *}|sed 's/^.* = //')"
+        pid="$(xdotool getwindowpid ${newwinid%% *})"
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${newwinid%% *}/" "$tmp_dir/${S_WM}.layout"
+          echo "replaced ${pid_winid[$pid]} with ${newwinid%% *}"
         else
           echo Error: cannot find old winid: $pid $newwinid
         fi

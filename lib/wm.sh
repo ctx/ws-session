@@ -20,12 +20,16 @@ s_run_cmd_opensession() {
   local pid=""
 
   if [[ -n $args ]] ; then
-    $cmd "$args" > /dev/null 2>&1 & disown
+    eval $cmd "$args" > /dev/null 2>&1 & disown
+    pid="$!"
   else
-    $cmd > /dev/null 2>&1 & disown
+    eval $cmd > /dev/null 2>&1 & disown
+    pid="$!"
   fi
-  pid="$!"
-  pid_winid[$pid]="$winid"
+  pid_winid[$(ps --ppid $pid -o pid=)]="$winid"
+  echo 
+  echo "STARTED: $cmd $pid $winid"
+  echo "USED: $(ps --ppid $pid -o pid=)"
 }
 
 s_run_cmd() {
@@ -33,9 +37,9 @@ s_run_cmd() {
   shift
   local args="$@"
   if [[ -n $args ]] ; then
-    $cmd "$args" > /dev/null 2>&1 & disown
+    eval $cmd "$args" > /dev/null 2>&1 & disown
   else
-    $cmd > /dev/null 2>&1 & disown
+    eval $cmd > /dev/null 2>&1 & disown
   fi
 }
 
