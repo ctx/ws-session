@@ -3,10 +3,10 @@ s_zathura_open_session() {
   local file="$1/zathura"
   if [[ -f $file ]] ;then 
     while read -r id document ; do
-      [[ -n $line ]] && \
+      [[ -n $id ]] && \
         s_run_cmd_opensession $id /usr/bin/zathura "$document" 
-    done <"$1/zathura"
-    unset line
+    done <"$file"
+    unset id document
   fi
 }
 

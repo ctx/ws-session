@@ -25,7 +25,7 @@ s_surfraw_menu() {
   if ! [ -f $SR_ELVIFILE ];then
     s_update_elvi
   fi
-  search="$(eval "$MENU -p \"$SR_MENU_TITLE\"" <"$SR_ELVIFILE")"
+  search="$(eval "$S_MENU $S_MENU_PROMPT_SWITCH \"$SR_MENU_TITLE\"" <"$SR_ELVIFILE")"
   if ! [ "$search" ]; then
     return 1
   fi
@@ -33,9 +33,9 @@ s_surfraw_menu() {
   if [ "$SR_GO_TO_URL" = "$elvi" ]; then
     url="${search#* }"
   elif [ "$(grep -x -e "$elvi" "$SR_ELVIFILE")" ]; then
-    url="$(sr -p $search)"
+    url="$(surfraw -p $search)"
   else
-    url="$(sr -p $SR_DEFAULT_ELVI $search)"
+    url="$(surfraw -p $SR_DEFAULT_ELVI $search)"
   fi
   if [ "$url" ] ; then
     $SR_BROWSER "$url" &

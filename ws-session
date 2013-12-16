@@ -51,7 +51,7 @@ case $1 in
         | grep -v ^$ \
         | sort \
         | uniq -u \
-        | eval "$S_MENU -p 'start a session:'")"
+        | eval "$S_MENU $S_MENU_PROMPT_SWITCH 'start a session:'")"
 
       if [[ -n $s ]] ; then
         {
@@ -76,11 +76,13 @@ case $1 in
   -c|close)
     shift
     {
-      name="$@"
-      if grep -q "$name" <<< $(s_list_open_tags) ; then
+      # for now you can only close the current session
+      #name="$@"
+      #if grep -q "$name" <<< $(s_list_open_tags) ; then
         s_source_lib wm stopwm data session allapp
-        s_closesession "$name"
-      fi
+        #s_closesession "$name"
+        s_closesession
+      #fi
     } & disown
     ;;
   -a|all)

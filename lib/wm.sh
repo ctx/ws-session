@@ -27,9 +27,6 @@ s_run_cmd_opensession() {
     pid="$!"
   fi
   pid_winid[$(ps --ppid $pid -o pid=)]="$winid"
-  echo 
-  echo "STARTED: $cmd $pid $winid"
-  echo "USED: $(ps --ppid $pid -o pid=)"
 }
 
 s_run_cmd() {

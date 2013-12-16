@@ -2,13 +2,15 @@
 
 s_vim_open_session() {
   local folder="$1/vim"
-  s_restore_file viminfo vimwinids
-  local viminfo="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
-  while read -r f ; do
-    id=$(grep -e "$(basename $f)" "$1/vimwinids" | cut -f1 -d" ")
-    s_run_cmd_opensession $id "$S_TERM -name vim -e /usr/bin/vim -i $viminfo --servername $S_SEL_TAG- -S $f"
-  done< <(find "$folder" -type f)
-  unset id f
+  if  [[ -d "$folder" ]] ;then
+    s_restore_file viminfo vimwinids
+    local viminfo="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
+    while read -r f ; do
+      id=$(grep -e "$(basename $f)" "$1/vimwinids" | cut -f1 -d" ")
+      s_run_cmd_opensession $id "$S_TERM -name vim -e /usr/bin/vim -i $viminfo --servername $S_SEL_TAG- -S $f"
+    done< <(find "$folder" -type f)
+    unset id f
+  fi
 }
 
 s_vim_close_session() {

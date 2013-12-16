@@ -3,6 +3,8 @@ S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
 S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
 S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 S_NUMBER_OF_BACKUPS="5"
+S_LOAD_LAYOUT_SLEEP=1
+S_BLACKLIST=
 
 if [[ -f $HOME/.ws-session.rc ]] ; then
   source "$HOME/.ws-session.rc"

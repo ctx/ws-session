@@ -1,22 +1,41 @@
-# This is an example ws-session.rc copy it to $HOME/.ws-session.rc. If you
-# have set XDG_CONFIG_HOME as environment variable you can copy it to
-# $XDG_CONFIG_HOME/ws-session. Default values are commented out.
+# This is the example ws-session.rc.
+# Default values are commented out.
+# Copy it to $HOME/.ws-session.rc.
+# Or if you have set XDG_CONFIG_HOME as environment variable
+# you can copy it to $XDG_CONFIG_HOME/ws-session.
 
-### FOLDERS
+### FOLDERS --------------------
 #S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
 #S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
 #S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 
-### SETTINGS
+### SETTINGS -------------------
 #S_NUMBER_OF_BACKUPS="5"
+
+# Close session ends on this tag/workspace
 S_DEFAULT_TAG="1"
+
+# Whitelist of your window manager(s)
 S_WM="bspwm i3 herbstluftwm"
 
-# APPLICATIONS
-S_MENU='dmenu -i'
-S_TERM=urxvt
-S_SHELL_HISTORY=history
+# Before we can apply the old layout we have to wait for the windows to open.
+#S_LOAD_LAYOUT_SLEEP="1"
 
-### OPEN/CLOSE SESSION
-# The following applications have a wrapper
-S_APPLICATIONS=( "vim" "luakit" "$S_TERM" )
+### APPLICATIONS ---------------
+# Only 'dmenu -p' is tested but you could probably use any menu program.
+S_MENU='dmenu -i'
+S_MENU_PROMPT_SWITCH="-p"
+
+S_TERM=urxvt
+# The next two variables are used in the file app/urxvt.sh only.
+S_SHELL_HISTORY=history
+S_SHELL_DIRS=zdirs
+
+### OPEN/CLOSE SESSION ---------
+# The following applications have a wrapper.
+# Put your terminal at the end so that terminal applications
+# don't get terminatet before we had the cance to save them.
+S_APPLICATIONS=( "vim" "luakit" "zathura" "$S_TERM" )
+
+# Completely ignore windows with these window classes:
+S_BLACKLIST=( "firefox" )

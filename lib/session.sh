@@ -7,24 +7,26 @@ s_closesession() {
 
   s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
 
-  applications=$(s_list_app_seltag)
   for app in ${S_APPLICATIONS[@]} ; do
-    winids="$(echo -e "$applications" | grep -i $app | cut -f1 -d" " | tr '\n' ' ')"
-    s_${app}_close_session "$winids"
+    openapps="$(s_list_app_seltag)"
+    winids="$(awk -v IGNORECASE=1 -v ap="$app" 'match ($0,ap) {print $1}' <<< "$openapps" | tr '\n' ' ')"
+    if [[ -n $winids ]] ; then
+      s_${app}_close_session "$winids"
+    fi
   done
-
-  applications=$(s_list_app_seltag)
+  unset app openapps winids
 
   echo -n > "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+  while read -r id app ; do
+    if ! [[ -n "${S_BLACKLIST[@]}" && "${S_BLACKLIST[@]}" =~ "${app} " || "${S_BLACKLIST[${#S_BLACKLIST[@]}-1]}" == "${app}" ]] ; then 
+      cwd="$(readlink /proc/$(xdotool getwindowpid $id)/cwd)"
+      exe="$(readlink /proc/$(xdotool getwindowpid $id)/exe)"
+      echo -e "$id cd $cwd;$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+    fi
+    xdotool windowkill $id
+  done < <(s_list_app_seltag)
+  unset id app cwd exe
 
-  while read -r app; do
-    cwd="$(readlink /proc/$(xdotool getwindowpid ${app%% *})/cwd)"
-    exe="$(readlink /proc/$(xdotool getwindowpid ${app%% *})/exe)"
-    echo -e "${app%% *} cd $cwd;$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
-    xdotool windowkill ${app%% *}
-  done < <(echo "$applications")
-
-  unset app
   s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
   rm -rf "$S_TEMP_FOLDER/$S_SEL_TAG"
   s_closetag
@@ -44,7 +46,6 @@ s_opensession() {
 
   s_newtag "$name"
   S_SEL_TAG="$name"
-
   mkdir -p "$tmp_dir"
 
   if [[ -d "$dir" ]] ; then
@@ -52,26 +53,30 @@ s_opensession() {
     for app in ${S_APPLICATIONS[@]} ; do
       eval s_${app}_open_session "$dir"
     done
+    unset app
 
     while read -r pid cmd ; do
       s_run_cmd_opensession "$pid" "$cmd"
-    done < <(cat "$dir/autostart")
+    done < "$dir/autostart"
+    unset pid cmd
 
-    sleep 0.5
 
     s_restore_file ${S_WM}.layout
     if [[ -f $tmp_dir/${S_WM}.layout ]] ; then
-      while read -r newwinid ; do
-        pid="$(xdotool getwindowpid ${newwinid%% *})"
+      sleep $S_LOAD_LAYOUT_SLEEP
+
+      while read -r id app ; do
+        pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
-          sed -i "s/${pid_winid[$pid]}/${newwinid%% *}/" "$tmp_dir/${S_WM}.layout"
-          echo "replaced ${pid_winid[$pid]} with ${newwinid%% *}"
+          sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
+          echo "replaced ${pid_winid[$pid]} with ${id}"
         else
-          echo Error: cannot find old winid: $pid $newwinid
+          echo Error: cannot find old winid: $pid $id $app
         fi
       done < <(s_list_app_seltag)
+      unset id app pid
+      s_reload_layout "$tmp_dir"
     fi
-    s_reload_layout "$tmp_dir"
 
   fi
 }
