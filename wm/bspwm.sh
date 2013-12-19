@@ -27,7 +27,7 @@ s_focus_window_bspwm() {
 S_WM_SUPPORTS_LAYOUT_SAVING="1"
 
 s_save_layout_bspwm() {
-  bspc query -T -d
+  bspc query -T -d "$S_SEL_TAG"
 }
 
 s_reload_layout_bspwm() {

@@ -5,7 +5,7 @@ s_closesession() {
   fi
   session="$S_SEL_TAG"
 
-  s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
+  s_save_layout
 
   for app in ${S_APPLICATIONS[@]} ; do
     winids="$(s_list_app_seltag | awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " 'match ($0,ap) {print $1}')"
@@ -72,7 +72,7 @@ s_opensession() {
         fi
       done < <(s_list_app_seltag)
       unset id app pid
-      s_reload_layout "$tmp_dir"
+      s_reload_layout
     fi
 
   fi

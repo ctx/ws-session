@@ -97,7 +97,7 @@ if [[ -n "$s_wm" ]] ; then
 
   if [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] ; then
     s_save_layout() {
-      [[ -d $@ ]] && s_save_layout_$S_WM  > "$@/$S_WM.layout"
+      s_save_layout_$S_WM  > "$S_TEMP_FOLDER/$S_SEL_TAG/$S_WM.layout"
     }
 
     s_reload_layout() {
