@@ -13,8 +13,7 @@ s_dwb_open_session() {
     fi
 
     xch="$XDG_CONFIG_HOME"
-    XDG_CONFIG_HOME="$S_TEMP_FOLDER"
-    #s_run_cmd_opensession "$(cat $tmp_dir/$DWB/windowid)" "$dwbcmd $S_SEL_TAG"
+    XDG_CONFIG_HOME="$tmp_dir"
     s_run_cmd_opensession "$(cat $tmp_dir/$DWB/windowid)" "$dwbcmd"
     XDG_CONFIG_HOME="$xch"
     unset xch
@@ -42,14 +41,14 @@ s_dwb_focus() {
 }
 
 s_dwb_start() {
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$DWB"
-  if ! [[ -d $tmp_dir ]] ; then
-    mkdir "$tmp_dir"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
+  if ! [[ -d $tmp_dir/$DWB ]] ; then
+    mkdir "$tmp_dir/$DWB"
     for f in $(find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -not -name default) ; do
-      [[ $f != $XDG_CONFIG_HOME/$DWB ]] && ln -s "$f" "$tmp_dir/$(basename "$f")"
+      [[ $f != $XDG_CONFIG_HOME/$DWB ]] && ln -s "$f" "$tmp_dir/$DWB/$(basename "$f")"
     done
     xch="$XDG_CONFIG_HOME"
-    XDG_CONFIG_HOME="$S_TEMP_FOLDER/$S_SEL_TAG"
+    XDG_CONFIG_HOME="$tmp_dir"
     #s_run_cmd "$dwbcmd $S_SEL_TAG"
     s_run_cmd "$dwbcmd"
     XDG_CONFIG_HOME="$xch"
@@ -60,7 +59,7 @@ s_dwb_start() {
       s_dwb_focus "$winid" "$@"
     else
       xch="$XDG_CONFIG_HOME"
-      XDG_CONFIG_HOME="$S_TEMP_FOLDER/$S_SEL_TAG"
+      XDG_CONFIG_HOME="$tmp_dir"
       #s_run_cmd "$dwbcmd $S_SEL_TAG -f" "$@"
       s_run_cmd "$dwbcmd -f" "$@"
       XDG_CONFIG_HOME="$xch"

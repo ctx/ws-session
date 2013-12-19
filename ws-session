@@ -41,7 +41,7 @@ case $1 in
     ;;
   -p|path)
     s_source_lib wm stopwm
-    echo "$S_TEMP_FOLDER/$S_SEL_TAG/"
+    echo "$S_TEMP_FOLDER/$S_SEL_TAG"
     ;;
   -m|menu)
     if [[ -n "$S_MENU" ]] ; then
