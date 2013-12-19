@@ -8,17 +8,16 @@ s_closesession() {
   s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
 
   for app in ${S_APPLICATIONS[@]} ; do
-    openapps="$(s_list_app_seltag)"
-    winids="$(awk -v IGNORECASE=1 -v ap="$app" 'match ($0,ap) {print $1}' <<< "$openapps" | tr '\n' ' ')"
+    winids="$(s_list_app_seltag | awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " 'match ($0,ap) {print $1}')"
     if [[ -n $winids ]] ; then
       s_${app}_close_session "$winids"
     fi
   done
-  unset app openapps winids
+  unset app winids
 
   echo -n > "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
   while read -r id app ; do
-    if ! [[ -n "${S_BLACKLIST[@]}" && "${S_BLACKLIST[@]}" =~ "${app} " || "${S_BLACKLIST[${#S_BLACKLIST[@]}-1]}" == "${app}" ]] ; then 
+    if ! [[ "${S_BLACKLIST[@]}" =~ "${app} " || "${S_BLACKLIST[${#S_BLACKLIST[@]}-1]}" == "${app}" ]] ; then 
       cwd="$(readlink /proc/$(xdotool getwindowpid $id)/cwd)"
       exe="$(readlink /proc/$(xdotool getwindowpid $id)/exe)"
       echo -e "$id cd $cwd;$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
@@ -38,11 +37,9 @@ s_opensession() {
     echo error no session name
     exit 1
   fi
-  local app=""
-  local applications=""
   local dir="$S_DATA_FOLDER/$name-1"
   local tmp_dir="$S_TEMP_FOLDER/$name"
-  local pid_winid=""
+  declare -a pid_winid
 
   s_newtag "$name"
   S_SEL_TAG="$name"
@@ -79,12 +76,14 @@ s_opensession() {
     fi
 
   fi
+  unset pid_winid
 }
 
 s_restore_file() {
   for f in $@ ; do
     cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
   done
+  unset f
 }
 
 # vim: ft=sh ts=2 et sw=2:

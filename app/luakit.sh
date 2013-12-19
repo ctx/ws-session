@@ -1,24 +1,24 @@
-XDGAPPLICATION=luakit
-XDGCMD="/usr/bin/luakit -U"
+LUAKIT=luakit
+luakitcmd="/usr/bin/luakit -U"
 XDGNEWARG="http://google.com"
 
 s_luakit_open_session() {
   local dir="$1"
   local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
-  if [[ -d "$dir/$XDGAPPLICATION" ]] ; then
-    if [[ ! -d "$tmp_dir/$XDGAPPLICATION" ]] ; then
-      cp -r $dir/$XDGAPPLICATION $tmp_dir
+  if [[ -d "$dir/$LUAKIT" ]] ; then
+    if [[ ! -d "$tmp_dir/$LUAKIT" ]] ; then
+      cp -r $dir/$LUAKIT $tmp_dir
     fi
     xdh="$XDG_DATA_HOME"
-    XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-    s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$XDGCMD"
+    XDG_DATA_HOME="$tmp_dir/$LUAKIT"
+    s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$luakitcmd"
     XDG_DATA_HOME=$xdh
     unset xdh
   fi
 }
 
 s_luakit_close_session() {
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$XDGAPPLICATION"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$LUAKIT"
   echo $1 > "$tmp_dir/windowid"
   s_focus_window $1
   xdotool type :wqall
@@ -32,8 +32,8 @@ s_luakit_new_instance() {
   shift
   mkdir -p "$tmp_dir"
   xdh="$XDG_DATA_HOME"
-  XDG_DATA_HOME="$tmp_dir/$XDGAPPLICATION"
-  s_run_cmd "$XDGCMD" "$@"
+  XDG_DATA_HOME="$tmp_dir/$LUAKIT"
+  s_run_cmd "$luakitcmd" "$@"
   XDG_DATA_HOME=$xdh
   unset xdh
 }
@@ -49,21 +49,20 @@ s_luakit_focus() {
 
 s_luakit_start() {
   if [ -z "$1" ] ; then
-    url="$XDGNEWARG"
-  else
-    url="$1"
+    local url="$1"
   fi
-  local dir="$S_TEMP_FOLDER/$S_SEL_TAG/$XDGAPPLICATION"
+  local dir="$S_TEMP_FOLDER/$S_SEL_TAG/$LUAKIT"
   if ! [ -d "$dir" ]
   then
     s_luakit_new_instance "$dir" "$url"
   else
-    winid="$(s_list_app_seltag | grep $XDGAPPLICATION | cut -f1 -d" ")"
+    winid="$(s_list_app_seltag | grep $LUAKIT | cut -f1 -d" ")"
     if [ -z "$winid" ] ; then
       s_luakit_new_instance "$dir" "$url"
     else
       s_luakit_focus "$winid" "$url"
     fi
+    unset winid
   fi
 
 }
