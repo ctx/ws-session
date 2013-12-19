@@ -92,6 +92,11 @@ case $1 in
         s_closesession "$name"
       done < <(s_list_open_tags)
     } & disown
+    pid=$!
+    while [[ -d /proc/$pid ]] ; do
+      sleep 1
+    done
+    unset pid
     ;;
   -r|restore)
     shift
