@@ -1,0 +1,14 @@
+#!/bin/bash
+
+S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
+source $S_LIB_FOLDER/lib/source.sh
+s_source_lib wm
+
+if [[ -n $S_WM ]] ; then
+  s_source app/command.sh
+  s_command_start "$@"
+else
+  eval "$@"
+fi
+
+# vim: ft=sh ts=2 et sw=2:

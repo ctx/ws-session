@@ -66,6 +66,7 @@ s_opensession() {
         pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
+          sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
           echo "replaced ${pid_winid[$pid]} with ${id}"
         else
           echo Error: cannot find old winid: $pid $id $app
