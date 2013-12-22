@@ -4,6 +4,22 @@ S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
 source $S_LIB_FOLDER/lib/source.sh
 s_source_lib wm
 
+if [[ -z "$@" ]] ; then
+cat << WSCMDHELP
+Usage:
+  ws-cmd terminal command "'with quoted argument'"
+  Be shure that you cannot lose your work when the termial window gets termiated.
+
+Example:
+  ws-cmd htop
+  ws-cmd mutt
+  ws-cmd man archlinux
+  ws-cmd ncmpcpp -h 10.0.0.5
+  ws-cmd ssh -l user 10.0.0.5 "'tmux attach'"
+WSCMDHELP
+exit 0
+fi
+
 if [[ -n $S_WM ]] ; then
   s_source app/command.sh
   s_command_start "$@"
