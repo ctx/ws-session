@@ -106,7 +106,8 @@ if [[ -n "$s_wm" ]] ; then
     }
   else
     s_run_cmd_opensession() {
-      s_run_cmd "$1"
+      shift
+      s_run_cmd "$@"
     }
   fi
 

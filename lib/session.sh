@@ -5,7 +5,7 @@ s_closesession() {
   fi
   session="$S_SEL_TAG"
 
-  s_save_layout
+  [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] && s_save_layout
 
   for app in ${S_APPLICATIONS[@]} ; do
     winids="$(s_list_app_seltag | awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " 'match ($0,ap) {print $1}')"
@@ -58,15 +58,18 @@ s_opensession() {
     unset pid cmd
 
 
-    s_restore_file ${S_WM}.layout
-    if [[ -f $tmp_dir/${S_WM}.layout ]] ; then
+    if [[ -f $dir/${S_WM}.layout && $S_WM_SUPPORTS_LAYOUT_SAVING == "1" ]] ; then
+
       sleep $S_LOAD_LAYOUT_SLEEP
 
+      s_restore_file ${S_WM}.layout
       while read -r id app ; do
         pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
-          sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
-          sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
+          [[ -f ${S_WM}.layout ]] && \
+            sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
+          [[ -f command.tmp ]] && \
+            sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
           echo "replaced ${pid_winid[$pid]} with ${id}"
         else
           echo Error: cannot find old winid: $pid $id $app
