@@ -11,7 +11,7 @@ s_list_open_tags_bspwm() {
 }
 
 s_newtag_bspwm() {
-  bspc monitor -a "$@"
+  [[ -z $(bspc query -D | grep -F "$@") ]] && bspc monitor -a "$@"
   bspc desktop -f "$@"
 }
 
@@ -24,14 +24,32 @@ s_focus_window_bspwm() {
   bspc window -f "$@"
 }
 
-S_WM_SUPPORTS_LAYOUT_SAVING="1"
+S_WM_SUPPORTS_LAYOUT_SAVING="0"
 
 s_save_layout_bspwm() {
   bspc query -T -d "$S_SEL_TAG"
 }
 
 s_reload_layout_bspwm() {
-  bspc restore -T "$1"
+  nexttag="$(bspc query -D | grep "^$S_SEL_TAG$" -A1 | tail -1)"
+  nexttag="${nexttag:- xxxxxxx}"
+  oifs="$IFS"
+  IFS=''
+  hide=0
+  bspc query -T | \
+    while read -r l ; do
+      if [[ "$l" =~ ^"  $S_SEL_TAG"  ]] ; then
+        hide=1
+        tail -n +2 "$1"
+      elif [[ "$l" =~ ^"  $nexttag " ]] ; then
+        hide=0
+      fi
+      [[ $hide == 0 ]] && echo "$l"
+    done >> "${1}.tmp"
+  bspc restore -T "${1}.tmp"
+  rm -rf "${1}.tmp"
+  IFS="$oifs"
+  unset netxttag hide l oifs
 }
 
 # vim: ft=sh ts=2 et sw=2:
