@@ -2,66 +2,60 @@ ws-session
 ==========
 ----------
 
-Session management for window managers with 'dynamic tags':
-* Save the state of all windows of one tag and close them.
-* Open a saved session on a new tag.
-* ws-session is a small library of BASH functions and a wrapper around every
-  used application to handle every special case seperately.
+Session management for window managers with support for adding and removing 'virtual desktops' aka 'dynamic tags' or 'workspaces':
+* Save the state of all windows of one workspace and close them.
+* Open a saved session on a new workspace.
 
-Other Session Management Solutions
-----------------------------
+
+Why not use one of the existing session managers:
+
 * xsm and all other *-session programs eg xfce-session can only stop _all_ open
-  windows.
+  windows at one time.
 * KDE has activites. They are working for KDE applications.
 * dmtcp cannot save the state of X11 applications.
 * Files can change during the 'sleep' of an application. If there is no builtin
   session support this may has to be addressed by the session manager.
-* For many applications there is no point in saving the state.
+* For many applications there is no point in saving the state but it differs from user to user.
+
+ws-session is a small library of BASH functions and a wrapper around every used
+application to handle every special case seperately.
+Or if an applicaion is not a special case, ws-session saves per default the cmd and cwd of all running applications. There is a blacklist to exclude some applications.
 
 
 Using ws-session
 ----------------
-```bash
-Usage:
-  ws-session option [sessionname]
-        You can only use one option at a time.
-        Some options need a session name as argument.
-
-Options:
-  -a|all
-        Close all sessions.
-  -c|close
-        Close active session.
-  -h|help
-        Print this help.
-  -l|list
-        List all saved sessions in '$S_DATA_FOLDER'.
-  -m|menu
-        Start a session from a menu.
-        You have to set '$S_MENU' in the rc file.
-  -o|open sessionname
-        Start the session with name sessionname.
-  -p|path:
-        Prints the temporary path for dotfiles etc.
-  -r|restore sessionname
-        Restore a session to a previous state.
-        You can do it up to '$S_NUMBER_OF_BACKUPS' times.
-```
+The ws-session executable is the entry point for all session management:
 
 * Bind a key to 'ws-session menu' to create new workspaces.
 * Bind a key to 'ws-session close' to close a workspace.
+* Run 'ws-session all' before you reboot/poweroff.
+
+Only applications that are started through a wrapper in the bin folder can be saved.
+With the 'ws-cmd' executable you can start ncurses applications.
 
 Dependencies
------------
-<dl>
-<dt>Window Manager</dt>
-<dd>One of: herbstluftwm, bspwm, i3, wmii</dd>
-<dt>Applications</dt>
-<dd>Some of: luakit, zathura, mupdf, urxvt, vim(gvim), dwb</dd>
-<dt>Helpers</dt>
-<dd>Probably most of: xprop, xdotool, bash, ls, and some others</dd>
-<dd>i3: jshon<dd>
-</dl>
+------------
+* Window Manager, one of:
+  * herbstluftwm ++ supports saving and reloading the layout
+  * bspwm
+  * i3
+  * wmii
+  * or add support for your own: write wm/yourwm.sh
+
+* Applications, some of:
+  * luakit
+  * dwb
+  * zathura
+  * (g)vim
+  * urxvt
+  * mupdf -- don't support layout saving
+
+* Helpers, probably most of
+  * xprop
+  * xdotool
+  * bash
+  * ls
+  * ...
 
 Installation/Configuration
 ============
@@ -69,7 +63,7 @@ Installation/Configuration
 * Optain the source.
 
 * Export S_LIB_FOLDER="/path/to/source" if you dont install to /usr/lib/ws-session.
-  Replace the de/path/to/source if you didn't install.
+  Replace the paths in this section with the /path/to/source if you didn't install.
 
 * Copy the template /etc/xdb/ws-session/ws-session.rc to
   $HOME/.ws-session.rc. If you have set XDG_CONFIG_HOME as environment
@@ -93,9 +87,9 @@ unset sessionpath
 Extending ws-session
 ===================
 
-You must not change the value of a global variable from the following section.
+You must not change the value of a global variable from the following section in any of the app, wm or bin files.
 There are a few exeptions in some files in the lib/ folder.
-You should access those from whithin all files in the other folders.
+You should access those from whithin all files/functions you want to write.
 
 Global variables
 ----------------
@@ -135,9 +129,10 @@ $HOME/.ws-session.rc you can set this to wathever you like</dd>
 <dd>Points to your favorite menu e.g. dmenu -nf #333 but can also be another
 menu application.</dd>
 <dd>Can be set in the rc file.</dd>
-<dd>The file name of your shell history without the dot. To have a separate
-shell history on every workspace the command ws-session -p can be used. Eg.
-in your shellrc:
+<dt>S_SHELL_HISTORY/S_SHELL_DIRS</dt>
+<dd>The file name of your shell history/zdirs without the dot. To have a separate
+shell history on every workspace the command ws-session -p can be used.
+Those two variables are only used in the functions of app/urxvt.sh there might be a app/xterm.sh where those two variables could be used too.
 </dd>
 <dd>Can be set in the rc file.</dd>
 </dl>
@@ -145,13 +140,13 @@ in your shellrc:
 Window Manager
 --------------
 * To use the tests (make test) you have to set the variable S_DEFAULT_TAG in
-  the file ws-session.rc (in the git repo) to the tag you want to run the tests
+  the file test/test-lib-wm.sh to the tag you want to run the tests
   from.
 
-* Copy lib/wm/is-wm-running.sh to your lib/wm folder and add a test for your wm.
-  The function should echo the name of your wm if it's running and nothing else.
+* Copy wm/is-wm-running.sh to your lib/wm folder and add a test for your wm.
+  The function should echo something if it's running and nothing if not.
 
-* Create a new file lib/wm/examplewm.sh with the functions:
+* Create a new file wm/examplewm.sh with the functions:
 
 ```bash
 # returns current tag
@@ -159,6 +154,7 @@ s_seltag_examplewm() {
 }
 
 # create a new tag with name "$@" and switch to it
+# dont create the tag if there is already one with that name
 s_newtag_examplewm() {
 }
 
@@ -171,12 +167,30 @@ s_list_open_tags_examplewm() [
 }
 
 # list winid and class of all open windows on $S_SEL_TAG
+# in the form of:
+# 0x300000c3 urxvt
+# 0x20000005 luakit
 s_list_app_seltag_examplewm() {
 }
 
 # focus a window by its winid "$@"
 s_focus_window_examplewm() {
 }
+
+# if the following variable is set to 1 ws-session tries to save
+# and reload the layout.
+S_WM_SUPPORTS_LAYOUT_SAVING="0"
+
+# save the layout, the windowids will get replaced with the new
+# ones when you start the session.
+s_save_layout_examplewm() {
+}
+
+# reload the layout. The file in $1 contains the stored layout
+# with the new windowids.
+s_reload_layout_examplewm() {
+}
+
 ```
 
 * Run make test until the wm related tests dont throw wrong output (and no tag
@@ -190,29 +204,33 @@ Application
 ```bash
 # open exampleapp from data folder, lockfiles and state should be stored in the temporary folder.
 # arg1: Data folder: where the last session was stored.
-# arg2: Temporary folder: this folder will be stored by s_exampleapp_close_session
 s_exampleapp_open_session() {
+  # you have to start the application with the following command.
+  # you want to load the old windowid to load the layout.
+  s_run_cmd_opensession "$oldwinid" "command with -arguments"
 }
 
 # close exampleapp, save state to temporary folder
-# arg1: Temporary folder: this folder will be stored in the end.
-# arg2: winids of all exampleapps on current tag.
+# arg1: winids of all exampleapps on current tag.
 s_exampleapp_close_session() {
+  # you want to save the actual windowid(s) to reload the layout.
+  # In this example there is only one.
+  echo $1 > "$S_TEMP_FOLDER/$S_SEL_TAG/exampleapp.winid"
 }
 
 # start exampleapp in a way that close_session can close/save it
 s_exampleapp_start() {
+  # to correctly disown your app you should use the following function
+  s_run_cmd "command -arg" "argument with space.file"
 }
 ```
 
-Sometimes one can ignore arg1 and/or arg2. Sometimes s_exampleapp_start is not
-needed but exampleapp needs a setting in its config files, eg. urxvt.
+Sometimes s_exampleapp_start is not needed but exampleapp needs a setting in its config files, eg. urxvt.
 
 TODO
 ====
 
-* s_save_workspace_layout_$WM(), s_apply_workspace_layout_$WM()
 * improve (english of) this README
 * write a manual page
-* bash completion for ws-session
+* bash completion for ws-session/ws-cmd
 
