@@ -2,7 +2,7 @@ ws-session
 ==========
 ----------
 
-Session management for window managers with support for adding and removing 'virtual desktops' aka 'dynamic tags' or 'workspaces':
+This adds session management to window managers with support for adding and removing 'virtual desktops' aka 'workspaces'. This is nothing for people who use the functionality of tags like dwm propagates, because moving one application from one tag to another or having one application on more than one tag results in undefined/untested behaviour. But if you are a  traditional 'virtual desktop' or 'workspace' user ws-session makes it possible to do this two things:
 * Save the state of all windows of one workspace and close them.
 * Open a saved session on a new workspace.
 
@@ -58,7 +58,7 @@ Dependencies
   * ...
 
 Installation/Configuration
-============
+--------------
 
 * Optain the source.
 
