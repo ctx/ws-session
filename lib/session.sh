@@ -20,7 +20,7 @@ s_closesession() {
     if ! [[ "${S_BLACKLIST[@]}" =~ "${app} " || "${S_BLACKLIST[${#S_BLACKLIST[@]}-1]}" == "${app}" ]] ; then 
       cwd="$(readlink /proc/$(xdotool getwindowpid $id)/cwd)"
       exe="$(readlink /proc/$(xdotool getwindowpid $id)/exe)"
-      echo -e "$id cd $cwd;$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+      echo -e "$id\t$cwd\t$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
     fi
     xdotool windowkill $id
   done < <(s_list_app_seltag)
@@ -52,10 +52,13 @@ s_opensession() {
     done
     unset app
 
-    while read -r pid cmd ; do
-      s_run_cmd_opensession "$pid" "$cmd"
+    while read -r l ; do
+      id="$(echo "$l" | cut -f 1)"
+      d="$(echo "$l" | cut -f 2)"
+      cmd="$(echo "$l" | cut -f 3)"
+      s_run_cmd_opensession "$wid" "cd $d && $cmd"
     done < "$dir/autostart"
-    unset pid cmd
+    unset l id d cmd
 
 
     if [[ -f $dir/${S_WM}.layout && $S_WM_SUPPORTS_LAYOUT_SAVING == "1" ]] ; then

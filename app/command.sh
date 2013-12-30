@@ -2,13 +2,16 @@ s_command_open_session() {
   local file="$1/command"
   
   if [[ -f "$file" ]] ; then
-    while read -r id cmd ; do
+    while read -r l ; do
+      id="$(echo "$l" | cut -f 1)"
+      d="$(echo "$l" | cut -f 2)"
+      cmd="$(echo "$l" | cut -f 3)"
       if [[ -n $id ]] ; then
-        echo -e "$id $cmd" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
-        s_run_cmd_opensession "$id" "$S_TERM -name command -e cd $cmd"
+        echo -e "$id\t$d\t$cmd" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
+        s_run_cmd_opensession "$id" "$S_TERM -name command -cd \"$d\" -e $cmd"
       fi
     done <"$file"
-    unset id cmd
+    unset l id d cmd
   fi
 }
 
@@ -23,13 +26,15 @@ s_command_close_session() {
     xdotool windowkill $id
   done
   unset id
+
+  rm "$tmp_command_file"
 }
 
 s_command_start() {
 
   if [[ -n $TERM ]] ; then
     winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
-    echo "$winid $PWD;$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
+    echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
     xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
     eval "$@"
     xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
