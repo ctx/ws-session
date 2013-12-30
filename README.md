@@ -29,9 +29,8 @@ The ws-session executable is the entry point for all session management:
 * Bind a key to 'ws-session menu' to create new workspaces.
 * Bind a key to 'ws-session close' to close a workspace.
 * Run 'ws-session all' before you reboot/poweroff.
-
-Only applications that are started through a wrapper in the bin folder can be saved.
-With the 'ws-cmd' executable you can start ncurses applications.
+* Only applications that are started through a wrapper in the bin folder can be saved.
+* With the 'ws-cmd' executable you can start ncurses applications.
 
 Dependencies
 ------------
@@ -72,9 +71,6 @@ Installation/Configuration
 
 * Copy or link the executables you like from /etc/xdg/ws-session/bin/* to a folder in your $PATH.
 
-* You can also copy some files from /usr/lib/ws-session/{app,wm} to
-  $S_CONFIG_FOLDER/{app,wm} to change the default behavior or to test new ones.
-
 * Configure your applications e.g. in your shellrc:
 ```bash
 sessionpath="$(ws-session -p)"
@@ -84,12 +80,15 @@ export DIRSTACKFILE="${sessionpath}zdirs"
 unset sessionpath
 ```
 
+* Put your own versions of $S_LIB_FOLDER/{app,wm}/* to $S_CONFI_FOLDER/{app,wm}/* if you have new ones or if you want to change the default behaviour of an app or a wm.
+
 Extending ws-session
 ===================
 
 You must not change the value of a global variable from the following section in any of the app, wm or bin files.
 There are a few exeptions in some files in the lib/ folder.
 You should access those from whithin all files/functions you want to write.
+If there exists a file in $S_CONFIG_FOLDER/{app,wm} it will be sourced instead of a file with the same name in $S_LIB_FOLDER/{app,wm}.
 
 Global variables
 ----------------
@@ -199,10 +198,12 @@ s_reload_layout_examplewm() {
 Application
 -----------
 * Searching for tests.
-* Create a new file lib/wm/exampleapp.sh with the functions:
+* Create a new file bin/exampleapp to run the wrapper.
+* Create a new file app/exampleapp.sh with the functions:
 
 ```bash
-# open exampleapp from data folder, lockfiles and state should be stored in the temporary folder.
+# open exampleapp from data folder, lockfiles and state should 
+# be stored in the temporary folder.
 # arg1: Data folder: where the last session was stored.
 s_exampleapp_open_session() {
   # you have to start the application with the following command.
@@ -225,7 +226,7 @@ s_exampleapp_start() {
 }
 ```
 
-Sometimes s_exampleapp_start is not needed but exampleapp needs a setting in its config files, eg. urxvt.
+Sometimes bin/exampleapp and s_exampleapp_start are not needed but exampleapp needs a setting in its config files, eg. urxvt.
 
 TODO
 ====
