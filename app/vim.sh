@@ -32,7 +32,7 @@ s_vim_close_session() {
     for vimserver in $vimservers ; do
       sessionfile="$tmp_vim_dir/$vimserver"
       /usr/bin/vim --remote-send \
-        '<Esc>:wa<CR>:mks '${sessionfile}'<CR>:qa<CR>' \
+        '<Esc>:wa<CR>:mks! '${sessionfile}'<CR>:qa<CR>' \
         --servername $vimserver
     done
     unset vimserver sessionfile
