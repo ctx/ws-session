@@ -47,18 +47,18 @@ s_opensession() {
 
   if [[ -d "$dir" ]] ; then
 
-    for app in ${S_APPLICATIONS[@]} ; do
-      eval s_${app}_open_session "$dir"
-    done
-    unset app
-
     while read -r l ; do
       id="$(echo "$l" | cut -f 1)"
       d="$(echo "$l" | cut -f 2)"
       cmd="$(echo "$l" | cut -f 3)"
-      s_run_cmd_opensession "$wid" "cd $d && $cmd"
+      s_run_cmd_opensession "$id" "cd $d && $cmd"
     done < "$dir/autostart"
     unset l id d cmd
+
+    for app in ${S_APPLICATIONS[@]} ; do
+      eval s_${app}_open_session "$dir"
+    done
+    unset app
 
 
     if [[ -f $dir/${S_WM}.layout && $S_WM_SUPPORTS_LAYOUT_SAVING == "1" ]] ; then
