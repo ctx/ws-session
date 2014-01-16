@@ -24,7 +24,7 @@ if [[ -n $S_WM ]] ; then
   s_source app/command.sh
   s_command_start "$@"
 else
-  eval "$@"
+  $@
 fi
 
 # vim: ft=sh ts=2 et sw=2:

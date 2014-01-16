@@ -14,7 +14,8 @@ s_dwb_open_session() {
 
     xch="$XDG_CONFIG_HOME"
     XDG_CONFIG_HOME="$tmp_dir"
-    s_run_cmd_opensession "$(cat $tmp_dir/$DWB/windowid)" "$dwbcmd"
+    $dwbcmd & >/dev/null 2>&1
+    s_reg_winid $pid "$(cat "$tmp_dir/$DWB/windowid")"
     XDG_CONFIG_HOME="$xch"
     unset xch
   fi
@@ -49,8 +50,7 @@ s_dwb_start() {
     done
     xch="$XDG_CONFIG_HOME"
     XDG_CONFIG_HOME="$tmp_dir"
-    #s_run_cmd "$dwbcmd $S_SEL_TAG"
-    s_run_cmd "$dwbcmd"
+    $dwbcmd & >/dev/null 2>&1
     XDG_CONFIG_HOME="$xch"
     unset xch
   else
@@ -60,8 +60,7 @@ s_dwb_start() {
     else
       xch="$XDG_CONFIG_HOME"
       XDG_CONFIG_HOME="$tmp_dir"
-      #s_run_cmd "$dwbcmd $S_SEL_TAG -f" "$@"
-      s_run_cmd "$dwbcmd -f" "$@"
+      $dwbcmd -f "$@" & >/dev/null 2>&1
       XDG_CONFIG_HOME="$xch"
       unset xch
     fi

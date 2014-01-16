@@ -7,9 +7,13 @@ s_vim_open_session() {
     local viminfo="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
     while read -r f ; do
       id=$(grep -e "$(basename $f)" "$1/vimwinids" | cut -f1 -d" ")
-      s_run_cmd_opensession $id "$S_TERM -name vim -e /usr/bin/vim -i $viminfo --servername $S_SEL_TAG- -S $f"
+      if [[ -n $id ]] ; then
+        $S_TERM -name vim -e /usr/bin/vim -i $viminfo --servername $S_SEL_TAG- -S $f & > /dev/null 2>&1
+        pid="$!"
+        s_reg_winid $pid $id
+      fi
     done< <(find "$folder" -type f)
-    unset id f
+    unset pid id f
   fi
 }
 
@@ -45,10 +49,10 @@ s_vim_start() {
   if [[ -n $TERM ]] ; then
     winid=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
     xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $winid
-    /usr/bin/vim -i $viminfo --servername "$S_SEL_TAG-" "$@"
+    /usr/bin/vim -i $viminfo --servername "$S_SEL_TAG-" "$@" 
     xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
   else
-    s_run_cmd "$S_TERM" "-name vim -e /usr/bin/vim -i $viminfo --servername \"$S_SEL_TAG-\" $@"
+    $S_TERM -name vim -e /usr/bin/vim -i $viminfo --servername "$S_SEL_TAG-" "$@" & > /dev/null 2>&1
   fi
   unset winid
 }

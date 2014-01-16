@@ -11,36 +11,13 @@ s_find_wm() {
   find "$1/wm" -type f -not -name '.*' 2>/dev/null
 }
 
-s_run_cmd_opensession() {
-  local winid="$1"
-  shift
-  local cmd="$1"
-  shift
-  local args="$@"
-  local pid=""
-
-  if [[ -n $args ]] ; then
-    eval $cmd "$args" > /dev/null 2>&1 & disown
-    pid="$!"
-  else
-    eval $cmd > /dev/null 2>&1 & disown
-    pid="$!"
-  fi
-  pid_winid[$(ps --ppid $pid -o pid=)]="$winid"
+s_reg_winid() {
+  pid_winid[$(ps --ppid $1 -o pid-)]="$2"
 }
 
-s_run_cmd() {
-  local cmd="$1"
-  shift
-  local args="$@"
-  if [[ -n $args ]] ; then
-    eval $cmd "$args" > /dev/null 2>&1 & disown
-  else
-    eval $cmd > /dev/null 2>&1 & disown
-  fi
-}
-
-if [[ -z $S_WM ]] ; then
+if [[ -z $DISPLAY ]] ; then 
+  unset S_WM
+elif [[ -z $S_WM ]] ; then
   if [[ -d $S_CONFIG_FOLDER ]] ; then
     s_wms="$(s_find_wm $S_CONFIG_FOLDER)"
   fi

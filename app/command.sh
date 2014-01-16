@@ -8,10 +8,12 @@ s_command_open_session() {
       cmd="$(echo "$l" | cut -f 3)"
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
-        s_run_cmd_opensession "$id" "$S_TERM -name command -cd \"$d\" -e $cmd"
+        $S_TERM -name command -cd "$d" -e "$cmd"
+        pid="$!"
+        s_reg_winid $pid $id
       fi
     done <"$file"
-    unset l id d cmd
+    unset l id d cmd pid
   fi
 }
 
@@ -36,7 +38,7 @@ s_command_start() {
     winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
     echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
     xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
-    eval "$@"
+    $@
     xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
     sed -i "\|${winid}|d" "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
   else

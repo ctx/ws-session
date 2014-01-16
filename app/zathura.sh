@@ -3,10 +3,13 @@ s_zathura_open_session() {
   local file="$1/zathura"
   if [[ -f $file ]] ;then 
     while read -r id document ; do
-      [[ -n $id ]] && \
-        s_run_cmd_opensession $id /usr/bin/zathura "$document" 
+      if [[ -n $id ]] ; then
+        /usr/bin/zathura "$document" & >/dev/null 2>&1
+        pid="$!"
+        s_reg_winid $pid $id
+      fi
     done <"$file"
-    unset id document
+    unset pid id document
   fi
 }
 
@@ -28,7 +31,7 @@ s_zathura_close_session() {
 }
 
 s_zathura_start() {
-  s_run_cmd /usr/bin/zathura "$@"
+  /usr/bin/zathura "$@" & >/dev/null 2>&1
 }
 
 # vim: ft=sh ts=2 et sw=2:

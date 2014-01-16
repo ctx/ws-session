@@ -7,8 +7,11 @@ s_urxvt_open_session() {
 
   if [[ -f "$file" ]] ; then
     while read -r id wd ;do
-      [[ -n $id ]] && \
-        s_run_cmd_opensession $id "/usr/bin/urxvt -cd" "$wd"
+      if [[ -n $id ]] ; then
+        /usr/bin/urxvt -cd "$wd" & >/dev/null 2>&1
+        pid="$!"
+        s_reg_winid $pid $id
+      fi
     done <"$file"
     unset id wd
   fi

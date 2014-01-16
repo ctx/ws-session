@@ -11,7 +11,9 @@ s_luakit_open_session() {
     fi
     xdh="$XDG_DATA_HOME"
     XDG_DATA_HOME="$tmp_dir/$LUAKIT"
-    s_run_cmd_opensession "$(cat $XDG_DATA_HOME/windowid)" "$luakitcmd"
+    $luakitcmd & >/dev/null 2>&1
+    pid="$!"
+    s_reg_winid "$pid" "$(cat "$XDG_DATA_HOME/windowid")"
     XDG_DATA_HOME=$xdh
     unset xdh
   fi
@@ -33,7 +35,7 @@ s_luakit_new_instance() {
   mkdir -p "$tmp_dir"
   xdh="$XDG_DATA_HOME"
   XDG_DATA_HOME="$tmp_dir/$LUAKIT"
-  s_run_cmd "$luakitcmd" "$@"
+  $luakitcmd "$@" & >/dev/null 2>&1
   XDG_DATA_HOME=$xdh
   unset xdh
 }

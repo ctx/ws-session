@@ -56,7 +56,7 @@ s_opensession() {
     unset l id d cmd
 
     for app in ${S_APPLICATIONS[@]} ; do
-      eval s_${app}_open_session "$dir"
+      s_${app}_open_session "$dir"
     done
     unset app
 
@@ -71,7 +71,7 @@ s_opensession() {
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
           echo "replaced ${pid_winid[$pid]} with ${id}"
-          [[ -f $S_TEMP_FOLDER/$name/command.tmp ]] && \
+          [[ -f $tmp_dir/command.tmp ]] && \
             sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
         else
           echo Error: cannot find old winid: $pid $id $app
@@ -83,6 +83,7 @@ s_opensession() {
 
   fi
   unset pid_winid
+  disown -a
 }
 
 s_restore_file() {

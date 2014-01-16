@@ -7,6 +7,7 @@ s_source_lib wm
 if [[ -n $S_WM ]] ; then
   s_source app/luakit.sh
   s_luakit_start "$@"
+  disown -a
 else
   /usr/bin/luakit $@
 fi
