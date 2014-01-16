@@ -50,7 +50,7 @@ s_luakit_focus() {
 }
 
 s_luakit_start() {
-  if [ -z "$1" ] ; then
+  if [ -n "$1" ] ; then
     local url="$1"
   fi
   local dir="$S_TEMP_FOLDER/$S_SEL_TAG/$LUAKIT"
