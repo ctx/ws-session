@@ -38,7 +38,7 @@ s_command_start() {
     winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
     echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
     xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
-    $@
+    "$@"
     xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
     sed -i "\|${winid}|d" "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
   else
