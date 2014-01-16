@@ -47,7 +47,7 @@ Dependencies
   * zathura
   * (g)vim
   * urxvt
-  * mupdf -- don't support layout saving
+  * mupdf -- currently not working
 
 * Helpers, probably most of
   * xprop
@@ -74,10 +74,12 @@ Installation/Configuration
 * Configure your applications e.g. in your shellrc:
 ```bash
 sessionpath="$(ws-session -p)"
-[[ -z $sessionpath ]] && sessionpath="$HOME/."
+[[ ! -d $sessionpath ]] && sessionpath="$HOME/."
 export HISTFILE="${sessionpath}zsh_history"
 export DIRSTACKFILE="${sessionpath}zdirs"
 unset sessionpath
+
+alias mutt='/etc/xdg/ws-session/bin/ws-cmd mutt'
 ```
 
 * Put your own versions of $S_LIB_FOLDER/{app,wm}/* to $S_CONFI_FOLDER/{app,wm}/* if you have new ones or if you want to change the default behaviour of an app or a wm.
@@ -206,23 +208,23 @@ Application
 # be stored in the temporary folder.
 # arg1: Data folder: where the last session was stored.
 s_exampleapp_open_session() {
-  # you have to start the application with the following command.
-  # you want to load the old windowid to load the layout.
-  s_run_cmd_opensession "$oldwinid" "command with -arguments"
+  # you have to start the application.
+  command with -arguments & >/dev/null 2>&1
+  pid="$!"
+  # you want to save the old windowid and the pid to load the layout.
+  s_reg_winid "$pid" "$oldwinid"
 }
 
 # close exampleapp, save state to temporary folder
 # arg1: winids of all exampleapps on current tag.
 s_exampleapp_close_session() {
   # you want to save the actual windowid(s) to reload the layout.
-  # In this example there is only one.
-  echo $1 > "$S_TEMP_FOLDER/$S_SEL_TAG/exampleapp.winid"
+  # This is just an example:
+  echo "$1" > "$S_TEMP_FOLDER/$S_SEL_TAG/exampleapp.winid"
 }
 
 # start exampleapp in a way that close_session can close/save it
 s_exampleapp_start() {
-  # to correctly disown your app you should use the following function
-  s_run_cmd "command -arg" "argument with space.file"
 }
 ```
 
