@@ -15,9 +15,10 @@ s_dwb_open_session() {
     xch="$XDG_CONFIG_HOME"
     XDG_CONFIG_HOME="$tmp_dir"
     $dwbcmd & >/dev/null 2>&1
+    pid="$!"
     s_reg_winid $pid "$(cat "$tmp_dir/$DWB/windowid")"
     XDG_CONFIG_HOME="$xch"
-    unset xch
+    unset xch pid
   fi
 }
 

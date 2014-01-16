@@ -47,13 +47,17 @@ s_opensession() {
 
   if [[ -d "$dir" ]] ; then
 
+    cpwd="$(pwd)"
     while read -r l ; do
       id="$(echo "$l" | cut -f 1)"
       d="$(echo "$l" | cut -f 2)"
       cmd="$(echo "$l" | cut -f 3)"
-      s_run_cmd_opensession "$id" "cd $d && $cmd"
+      cd $d && $cmd & >/dev/null 2>&1
+      pid="$!"
+      s_reg_winid $pid $id
     done < "$dir/autostart"
-    unset l id d cmd
+    cd "$cpwd"
+    unset l id pid d cmd cpwd
 
     for app in ${S_APPLICATIONS[@]} ; do
       s_${app}_open_session "$dir"
@@ -70,7 +74,7 @@ s_opensession() {
         pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
-          echo "replaced ${pid_winid[$pid]} with ${id}"
+          #echo "replaced ${pid_winid[$pid]} with ${id}"
           [[ -f $tmp_dir/command.tmp ]] && \
             sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
         else

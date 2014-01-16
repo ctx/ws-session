@@ -12,7 +12,11 @@ s_find_wm() {
 }
 
 s_reg_winid() {
-  pid_winid[$(ps --ppid $1 -o pid=)]="$2"
+  local pid=$1
+  local winid=$2
+  local ppid=$(ps --ppid $1 -o pid=)
+  [[ -z $ppid ]] && ppid=$pid
+  pid_winid[$ppid]="$2"
 }
 
 if [[ -z $DISPLAY ]] ; then 

@@ -8,7 +8,7 @@ s_command_open_session() {
       cmd="$(echo "$l" | cut -f 3)"
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
-        $S_TERM -name command -cd "$d" -e "$cmd"
+        $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
         pid="$!"
         s_reg_winid $pid $id
       fi
