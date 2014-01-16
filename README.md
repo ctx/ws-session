@@ -78,7 +78,6 @@ sessionpath="$(ws-session -p)"
 export HISTFILE="${sessionpath}zsh_history"
 export DIRSTACKFILE="${sessionpath}zdirs"
 unset sessionpath
-
 alias mutt='/etc/xdg/ws-session/bin/ws-cmd mutt'
 ```
 
