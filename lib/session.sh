@@ -1,3 +1,9 @@
+s_list_winids_app_seltag () {
+  s_list_app_seltag | \
+    awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " \
+      'match ($0,ap) {print $1}'
+}
+
 s_closesession() {
   if [[ -n $@ ]] ; then
     S_SEL_TAG="$@"
@@ -8,7 +14,7 @@ s_closesession() {
   [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] && s_save_layout
 
   for app in ${S_APPLICATIONS[@]} ; do
-    winids="$(s_list_app_seltag | awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " 'match ($0,ap) {print $1}')"
+    winids="$(s_list_winids_app_seltag)"
     if [[ -n $winids ]] ; then
       s_${app}_close_session "$winids"
     fi
@@ -17,14 +23,18 @@ s_closesession() {
 
   echo -n > "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
   while read -r id app ; do
-    if ! [[ "${S_BLACKLIST[@]}" =~ "${app} " || "${S_BLACKLIST[${#S_BLACKLIST[@]}-1]}" == "${app}" ]] ; then 
-      cwd="$(readlink /proc/$(xdotool getwindowpid $id)/cwd)"
-      exe="$(readlink /proc/$(xdotool getwindowpid $id)/exe)"
+    if ! [[ "${S_BLACKLIST[@]}" =~ " $app " \
+         || "${S_BLACKLIST[1]}" == "$app" \
+         || "${S_BLACKLIST[${#S_BLACKLIST[@]}]}" == "$app" \
+         ]] ; then 
+      pid="$(xdotool getwindowpid $id)"
+      cwd="$(readlink /proc/$pid/cwd)"
+      exe="$(readlink /proc/$pid/exe)"
       echo -e "$id\t$cwd\t$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
     fi
     xdotool windowkill $id
   done < <(s_list_app_seltag)
-  unset id app cwd exe
+  unset id pid app cwd exe
 
   s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
   rm -rf "$S_TEMP_FOLDER/$S_SEL_TAG"
@@ -52,7 +62,8 @@ s_opensession() {
       id="$(echo "$l" | cut -f 1)"
       d="$(echo "$l" | cut -f 2)"
       cmd="$(echo "$l" | cut -f 3)"
-      cd $d && $cmd & >/dev/null 2>&1
+      cd $d 
+      $cmd & >/dev/null 2>&1
       pid="$!"
       s_reg_winid $pid $id
     done < "$dir/autostart"
@@ -65,7 +76,7 @@ s_opensession() {
     unset app
 
 
-    if [[ -f $dir/${S_WM}.layout && $S_WM_SUPPORTS_LAYOUT_SAVING == "1" ]] ; then
+    if [[ $S_WM_SUPPORTS_LAYOUT_SAVING == "1" && -f $dir/${S_WM}.layout ]] ; then
 
       sleep $S_LOAD_LAYOUT_SLEEP
 
@@ -74,7 +85,6 @@ s_opensession() {
         pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
-          #echo "replaced ${pid_winid[$pid]} with ${id}"
           [[ -f $tmp_dir/command.tmp ]] && \
             sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
         else

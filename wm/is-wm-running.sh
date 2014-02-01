@@ -16,9 +16,5 @@ s_running_wm_herbstluftwm() {
   wmctrl -m | grep herbstluftwm
 }
 
-s_running_wm_llwm() {
-  wmctrl -m | grep llwm
-}
-
 # vim: ft=sh ts=2 et sw=2:
 

@@ -7,7 +7,7 @@ s_source_lib wm
 if [[ -z "$@" ]] ; then
 cat << WSCMDHELP
 Usage:
-  ws-cmd terminal command "'with quoted argument'"
+  ws-cmd terminal command "with quoted argument"
   Be shure that you cannot lose your work when the termial window gets termiated.
 
 Example:
@@ -15,7 +15,7 @@ Example:
   ws-cmd mutt
   ws-cmd man archlinux
   ws-cmd ncmpcpp -h 10.0.0.5
-  ws-cmd ssh -l user 10.0.0.5 "'tmux attach'"
+  ws-cmd ssh -l user 10.0.0.5 "tmux attach"
 WSCMDHELP
 exit 0
 fi
