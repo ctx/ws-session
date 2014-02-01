@@ -26,8 +26,3 @@ install:
 	cp -p ws-session "$(DESTDIR)$(PREFIX)/bin/ws-session"
 	cp -p ws-session.rc "$(DESTDIR)/etc/xdg/ws-session/ws-session.rc"
 
-# target:  uninstall  - Uninstall
-uninstall:
-	rm -f $(DESTDIR)$(BINDIR)/ws-session
-	rm -f $(DESTDIR)/etc/xdg/ws-session
-	rm -f $(DESTDIR)/usr/bin/ws-session
