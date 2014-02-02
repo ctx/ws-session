@@ -1,30 +1,37 @@
 ws-session
 ==========
 
-Session management on a 'virtual desktop', 'workspace' or 'tag' basis.
+With ws-session you can have seperate sessions for every 'virtual desktop', 'workspace' or 'tag'.
 
-You can configure what should be part of your sessions: browser history/tabs, bash history, terminals with cwd, editors and open files, open pdfs, ncurses applications and commands like mutt, htop, ssh (tmux attach) and everything else you can think of/write a wrapper.
+You can start and stop sessions independent of each other.
 
-Configuration
--------------
-Get the code, export S_LIB_FOLDER=/path/to/code, read, edit and copy ws-session.rc.
+You can configure what should be part of your sessions: browser history/tabs, bash history, terminals with cwd, editors and open files, open pdfs, ncurses applications and commands like mutt, htop, ssh (tmux attach) and everything else you can think of and write a wrapper.
+
+Usage
+----------
+This are some examples for some options. Run 'ws-session help' to find out all other options.
+* Bind a key to 'ws-session menu' to create new workspaces.
+* Bind a key to 'ws-session close' to close a workspace.
+* Run 'ws-session all' before you reboot/poweroff.
+* The state of an application can only be saved it it was started throug a wrapper in the bin folder.
+* With the 'ws-cmd' wrapper you can start ncurses applications and probably others.
+* Applications which are not on the blacklist just get restarted. No state is saved exept the cwd and cmdline. 
+
+Installation
+----------
+Get the code, export S_LIB_FOLDER=/path/to/code. Read, install and adjust ws-session.rc.
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
-Add your own application/window manager
----------------------------------------
+Add a new application/window manager
+----------
 https://github.com/ctx/ws-session/wiki/Extend-ws-session
 
-Bugs, Problems, Extensions, Issues
-----------------------------------
-https://github.com/ctx/ws-session/issues
-
 Author
-------
-Copyright ©2013-2014 Ciril Troxler
+----------
+2013-2014 Ciril Troxler
 
-License GPLv3: GNU GPL version 3: http://gnu.org/licenses/gpl.html
+Copying
+----------
+License GPLv3: http://gnu.org/licenses/gpl.html
 
-This is free software: you are free to change and redistribute it.
-
-There is NO WARRANTY, to the extent permitted by law.
