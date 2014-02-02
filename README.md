@@ -13,7 +13,7 @@ This are some examples for some options. Run 'ws-session help' to find out all o
 * Bind a key to 'ws-session menu' to create new workspaces.
 * Bind a key to 'ws-session close' to close a workspace.
 * Run 'ws-session all' before you reboot/poweroff.
-* The state of an application can only be saved it it was started throug a wrapper in the bin folder.
+* The state of an application can only be saved when it was started through a wrapper in the bin folder.
 * With the 'ws-cmd' wrapper you can start ncurses applications and probably others.
 * Applications which are not on the blacklist just get restarted. No state is saved exept the cwd and cmdline. 
 
