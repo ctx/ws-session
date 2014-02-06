@@ -16,7 +16,7 @@ else you can think of and write a wrapper.
 
 With herbstluftwm you can save and restore the layout of the workspace.
 
-For seamless integration in you workflow you might want to:
+For seamless integration in your windowmanager, you might want to:
 * Bind a key to 'ws-session menu' to create new workspaces.
 * Bind a key to 'ws-session close' to close a workspace.
 * Run 'ws-session all' before you reboot/poweroff.
@@ -31,8 +31,8 @@ There is mostly no native support for such a thing:
 
 Installation
 ----------
-Get the code, export S_LIB_FOLDER=/path/to/code. Read, install and adjust
-ws-session.rc.
+Get the code, export S_LIB_FOLDER=/path/to/code.
+Read, install and adjust ws-session.rc.
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
