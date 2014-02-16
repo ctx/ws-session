@@ -30,8 +30,4 @@ s_zathura_close_session() {
   unset id
 }
 
-s_zathura_start() {
-  /usr/bin/zathura "$@" & >/dev/null 2>&1
-}
-
 # vim: ft=sh ts=2 et sw=2:
