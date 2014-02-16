@@ -12,10 +12,8 @@ s_find_wm() {
 }
 
 s_reg_winid() {
-  local pid=$1
-  local winid=$2
   local ppid=$(ps --ppid $1 -o pid=)
-  [[ -z $ppid ]] && ppid=$pid
+  [[ -z $ppid ]] && ppid=$1
   pid_winid[$ppid]="$2"
 }
 
@@ -23,16 +21,15 @@ if [[ -z $DISPLAY ]] ; then
   unset S_WM
 elif [[ -z $S_WM ]] ; then
   if [[ -d $S_CONFIG_FOLDER ]] ; then
-    s_wms="$(s_find_wm $S_CONFIG_FOLDER)"
+    s_wms="$(s_find_wm "$S_CONFIG_FOLDER")"
   fi
   if [[ -d $S_LIB_FOLDER ]] ; then
-    s_wms="$s_wms $(s_find_wm $S_LIB_FOLDER)"
+    s_wms="$s_wms $(s_find_wm "$S_LIB_FOLDER")"
   fi
   s_wms=$(echo "$s_wms" | sort -u | grep -v running.sh)
   for f in $s_wms ; do
     s_wm=$(basename -s .sh $f)
-    if [[ -n $(s_running_wm_$s_wm) ]] ; then
-      S_WM="$s_wm"
+    if [[ -n $(s_running_wm_$s_wm 2>/dev/null) ]] ; then
       break
     fi
   done
