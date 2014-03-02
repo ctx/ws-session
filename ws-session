@@ -30,6 +30,14 @@ Options:
         Restore a session to a previous state.
         You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
 
+Debug Options:
+  debug command
+        Executes the argument after sourcing everything.
+        WARNING: don't try $0 debug rm -rf *
+        EXAMPLE: $0 debug s_list_app_seltag
+  print variable variable
+        Prints the variables supplied.
+
 Please report bugs at http://github.com/ctx/ws-session/issues.
 HELPFILE
 }
@@ -111,8 +119,20 @@ case $1 in
   -h|help)
     help
     ;;
+  debug)
+    shift
+    s_source_lib wm data session allapp
+    $@
+    ;;
+  print)
+    shift
+    s_source_lib wm data session allapp
+    for v in $@ ; do 
+      eval echo \$$v
+    done
+    ;;
   *)
-    echo "Error: no such argument '$1'"
+    echo "Error: no such option '$1'"
     echo
     help
     ;;
