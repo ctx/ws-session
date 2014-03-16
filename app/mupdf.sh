@@ -1,9 +1,8 @@
 s_mupdf_hack() {
   local file="$(readlink -f "$@")"
-  local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
-  echo "$file" >> "$temp_dir/mupdf-tmp"
+  echo "$file" >> "$tmp_dir/mupdf-tmp"
   /usr/bin/mupdf "$@"
-  sed -i "\|${file}|d" "$temp_dir/mupdf-tmp"
+  sed -i "\|${file}|d" "$tmp_dir/mupdf-tmp"
 }
 
 # open mupdf from data folder, lockfiles and state should be stored in the temporary folder.
@@ -20,15 +19,14 @@ s_mupdf_open_session() {
 # arg2: winids of all mupdfs on current tag.
 s_mupdf_close_session() {
   # save the tmp file because it will get empty before the data gets saved
-  local temp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
   local winids="$1"
-  cp "$temp_dir"/mupdf{-tmp,}
+  cp "$tmp_dir"/mupdf{-tmp,}
 
   for id in $winids ;  do
     xdotool windowkill $id
   done
 
-  rm "$temp_dir/mupdf-tmp"
+  rm "$tmp_dir/mupdf-tmp"
 }
 
 # start exampleapp in a way that close_session can close/save it

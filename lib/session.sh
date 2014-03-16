@@ -9,7 +9,8 @@ s_closesession() {
     S_SEL_TAG="$@"
     s_new_tag "$@"
   fi
-  session="$S_SEL_TAG"
+  local session="$S_SEL_TAG"
+  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
 
   [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] && s_save_layout
 
@@ -21,7 +22,7 @@ s_closesession() {
   done
   unset app winids
 
-  echo -n > "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+  echo -n > "$tmp_dir/autostart"
   while read -r id app ; do
     if ! [[ "${S_BLACKLIST[@]}" =~ " $app " \
          || "${S_BLACKLIST[1]}" == "$app" \
@@ -30,14 +31,14 @@ s_closesession() {
       pid="$(xdotool getwindowpid $id)"
       cwd="$(readlink /proc/$pid/cwd)"
       exe="$(readlink /proc/$pid/exe)"
-      echo -e "$id\t$cwd\t$exe" >> "$S_TEMP_FOLDER/$S_SEL_TAG/autostart"
+      echo -e "$id\t$cwd\t$exe" >> "$tmp_dir/autostart"
     fi
     xdotool windowkill $id
   done < <(s_list_app_seltag)
   unset id pid app cwd exe
 
-  s_store_data $S_TEMP_FOLDER/$S_SEL_TAG $session
-  rm -rf "$S_TEMP_FOLDER/$S_SEL_TAG"
+  s_store_data "$tmp_dir" "$session"
+  rm -rf "$tmp_dir"
   s_closetag
 }
 

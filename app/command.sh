@@ -7,7 +7,7 @@ s_command_open_session() {
       d="$(echo "$l" | cut -f 2)"
       cmd="$(echo "$l" | cut -f 3)"
       if [[ -n $id ]] ; then
-        echo -e "$id\t$d\t$cmd" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
+        echo -e "$id\t$d\t$cmd" >> "$tmp_folder/command.tmp"
         $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
         pid="$!"
         s_reg_winid $pid $id
@@ -19,8 +19,8 @@ s_command_open_session() {
 
 s_command_close_session() {
   local commandids="$1"
-  local command_file="$S_TEMP_FOLDER/$S_SEL_TAG/command"
-  local tmp_command_file="$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
+  local command_file="$tmp_folder/command"
+  local tmp_command_file="$tmp_folder/command.tmp"
 
   echo -n > "$command_file"
   for id in $commandids ; do

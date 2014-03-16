@@ -22,13 +22,13 @@ s_urxvt_open_session() {
 # Store the cwd of all urxvt's on the current tag
 s_urxvt_close_session() {
   local urxvtids="$1"
-  local temp_urxvt_file="$S_TEMP_FOLDER/$S_SEL_TAG/urxvt"
+  local tmp_urxvt_file="$tmp_folder/urxvt"
 
   for urxvt in $urxvtids ; do
     local pid=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
     local zshpid=$(ps --ppid $pid | grep zsh | head -1 | awk '{print $1}' )
     local cwd=$(readlink /proc/$zshpid/cwd)
-    [[ $urxvt ]] && echo "$urxvt $cwd" >> "$temp_urxvt_file"
+    [[ $urxvt ]] && echo "$urxvt $cwd" >> "$tmp_urxvt_file"
     xdotool windowkill $urxvt
   done
   unset urxvt

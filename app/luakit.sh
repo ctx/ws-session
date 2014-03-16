@@ -4,7 +4,6 @@ XDGNEWARG="http://google.com"
 
 s_luakit_open_session() {
   local dir="$1"
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
   if [[ -d "$dir/$LUAKIT" ]] ; then
     if [[ ! -d "$tmp_dir/$LUAKIT" ]] ; then
       cp -r $dir/$LUAKIT $tmp_dir
@@ -20,7 +19,6 @@ s_luakit_open_session() {
 }
 
 s_luakit_close_session() {
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG/$LUAKIT"
   echo $1 > "$tmp_dir/windowid"
   s_focus_window $1
   xdotool type :wqall
