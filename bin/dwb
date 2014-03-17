@@ -5,7 +5,7 @@ source $S_LIB_FOLDER/lib/source.sh
 s_source_lib wm
 
 if [[ -n $S_WM ]] ; then 
-  s_source app/dwb-simple.sh
+  s_source app/dwb.sh
   s_dwb_start "$@"
   disown -a
 else
