@@ -4,8 +4,8 @@ s_vim_open_session() {
   local folder="$1/vim"
   if  [[ -d "$folder" ]] ;then
     s_restore_file viminfo vimwinids
-    local viminfo="$tmp_folder/viminfo"
-    local vimwinids="$tmp_folder/viminfo"
+    local viminfo="$tmp_dir/viminfo"
+    local vimwinids="$tmp_dir/vimwinids"
     while read -r f ; do
       id=$(grep -e "$(basename "$f")" "$vimwinids" | cut -f1 -d" ")
       if [[ -n $id ]] ; then
@@ -23,9 +23,9 @@ s_vim_open_session() {
 s_vim_close_session() {
   local vimservers=$(/usr/bin/vim --serverlist | grep -i "^$S_SEL_TAG-")
   local winids="$1"
-  local vimwinids="$tmp_folder/vimwinids"
+  local vimwinids="$tmp_dir/vimwinids"
 
-  if [[ -n $winids ]] && mkdir -p "$tmp_folder/vim" ; then
+  if [[ -n $winids ]] ; then
     echo -n "" > "$vimwinids"
     for id in $winids ; do
       echo -n "$id ">> "$vimwinids"
@@ -35,8 +35,9 @@ s_vim_close_session() {
     done
     unset id
 
+    mkdir -p "$tmp_dir/vim"
     for vimserver in $vimservers ; do
-      sessionfile="$tmp_folder/vim/$vimserver"
+      sessionfile="$tmp_dir/vim/$vimserver"
       /usr/bin/vim --remote-send \
         '<Esc>:wa<CR>:mks! '${sessionfile}'<CR>:qa<CR>' \
         --servername $vimserver
@@ -46,8 +47,7 @@ s_vim_close_session() {
 }
 
 s_vim_start() {
-  local viminfo="$tmp_folder/viminfo"
-  mkdir -p "$tmp_folder"
+  local viminfo="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
   if [[ -n $TERM ]] ; then
     winid=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
     xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $winid

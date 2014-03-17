@@ -16,7 +16,7 @@ s_zathura_open_session() {
 # $1: windowids of all running zathuras
 # create a file containing lines: 0xoldwinid /path/to some/file.pdf
 s_zathura_close_session() {
-  local file="$tmp_folder/zathura"
+  local file="$tmp_dir/zathura"
   local winids="$1"
   echo -n > "$file"
 
