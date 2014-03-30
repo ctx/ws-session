@@ -22,7 +22,7 @@ s_urxvt_open_session() {
 # Store the cwd of all urxvt's on the current tag
 s_urxvt_close_session() {
   local urxvtids="$1"
-  local tmp_urxvt_file="$tmp_folder/urxvt"
+  local tmp_urxvt_file="$tmp_dir/urxvt"
 
   for urxvt in $urxvtids ; do
     local pid=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
