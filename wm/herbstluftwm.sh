@@ -7,8 +7,9 @@ s_seltag_herbstluftwm() {
 
 s_list_app_seltag_herbstluftwm() {
   while read -r client ; do
-    class=$(xprop -id $client WM_CLASS | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//')
-    echo "$client $class"
+    echo  -n "$client "
+    xprop -id $client WM_CLASS \
+      | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
   done < <(herbstclient stack \
     | grep "Client 0x" \
     | sed 's/^.*Client //' \
@@ -24,7 +25,8 @@ s_list_open_tags_herbstluftwm() {
 }
 
 s_newtag_herbstluftwm() {
-  [[ -z "$(s_list_open_tags_herbstluftwm | grep -F "$@")" ]] && herbstclient add "$@"
+  [[ -z "$(s_list_open_tags_herbstluftwm | grep "^$@$")" ]] \
+    && herbstclient add "$@"
   herbstclient use "$@"
 }
 
