@@ -11,7 +11,7 @@ s_find_wm() {
   find "$1/wm" -type f \
                -not -name '.*' \
                -not -name 'is-wm-running.sh' \
-               -exec basename -s .sh {} \
+               -exec basename -s .sh {} \+ \
                2>/dev/null
 }
 
