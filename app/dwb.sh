@@ -1,6 +1,6 @@
 DWB=dwb
 dwbcmd='/usr/bin/dwb -n'
-dwbcmdreload="$dwbcmd -r default"
+dwbcmdreload="$dwbcmd -f -r default"
 
 # open a dwb session
 # $1: Data folder: where the last session was stored.
