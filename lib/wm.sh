@@ -8,7 +8,11 @@ s_stop_if_no_wm() {
 }
 
 s_find_wm() {
-  find "$1/wm" -type f -not -name '.*' 2>/dev/null
+  find "$1/wm" -type f \
+               -not -name '.*' \
+               -not -name 'is-wm-running.sh' \
+               -exec basename -s .sh {} \
+               2>/dev/null
 }
 
 s_reg_winid() {
@@ -24,11 +28,11 @@ elif [[ -z $S_WM ]] ; then
     s_wms="$(s_find_wm "$S_CONFIG_FOLDER")"
   fi
   if [[ -d $S_LIB_FOLDER ]] ; then
-    s_wms="$s_wms $(s_find_wm "$S_LIB_FOLDER")"
+    s_wms="$s_wms
+$(s_find_wm "$S_LIB_FOLDER")"
   fi
-  s_wms=$(echo "$s_wms" | sort -u | grep -v running.sh)
-  for f in $s_wms ; do
-    s_wm=$(basename -s .sh $f)
+  s_wms="$(sort -u <<< "$s_wms")"
+  for s_wm in $s_wms ; do
     if [[ -n $(s_running_wm_$s_wm 2>/dev/null) ]] ; then
       break
     fi
