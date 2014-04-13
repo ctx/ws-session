@@ -1,11 +1,7 @@
 ws-session
 ==========
-start and stop workspaces/tags/desktops
 
-About
-----------
-With ws-session you can have one session for every 'virtual desktop',
-'workspace' or 'tag'.
+ws-session treats every 'virtual desktop','workspace' or 'tag' as a session.
 
 You can start and stop sessions independent of each other.
 
@@ -16,35 +12,37 @@ else you can think of and write a wrapper.
 
 With herbstluftwm you can save and restore the layout of the workspace.
 
-For seamless integration in your windowmanager, you might want to:
-* Bind a key to 'ws-session menu' to create new workspaces.
-* Bind a key to 'ws-session close' to close a workspace.
-* Run 'ws-session all' before you reboot/poweroff.
-
-There is mostly no native support for such a thing:
-* The wrappers in the bin folder make it possible to save the state of the
-  applications.
+The applications do not support this out of the box:
+* The wrappers in the bin folder make it possible to save and restore the state
+  of the applications.
 * With the 'ws-cmd' wrapper you can start ncurses and other cli applications
   which should get restarted. No state is saved exept the cwd and cmdline.
 * Applications which are not on the blacklist just get restarted. No state is
-  saved exept the cwd and cmdline. 
+  saved exept the cwd and cmdline.
 
-Installation
-----------
-Get the code, export S_LIB_FOLDER=/path/to/code.
-Read, install and adjust ws-session.rc.
+
+
+#### Installation
+
+* Get the code, export S_LIB_FOLDER=/path/to/code.
+* Read, install and adjust ws-session.rc.
+* For seamless integration in to your windowmanager, you can:
+  * Bind a key to 'ws-session menu' to create new workspaces.
+  * Bind a key to 'ws-session close' to close a workspace.
+  * Run 'ws-session all' before you reboot/poweroff.
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
-Add a new application/window manager
-----------
+#### Add a new application/window manager
+* Create new files in app/ or wm/
+* test/debug them with the tests in test/
+
 https://github.com/ctx/ws-session/wiki/Extend-ws-session
 
-Author
-----------
+#### Copying
+License GPLv3:
+
+http://gnu.org/licenses/gpl.html
+
+#### Author
 2013-2014 Ciril Troxler
-
-Copying
-----------
-License GPLv3: http://gnu.org/licenses/gpl.html
-
