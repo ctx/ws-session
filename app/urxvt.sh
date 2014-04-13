@@ -9,7 +9,7 @@ s_urxvt_open_session() {
     while read -r id wd ;do
       if [[ -n $id ]] ; then
         /usr/bin/urxvt -cd "$wd" & >/dev/null 2>&1
-        pid="$!"
+        local pid="$!"
         s_reg_winid $pid $id
       fi
     done <"$file"
@@ -22,13 +22,12 @@ s_urxvt_open_session() {
 # Store the cwd of all urxvt's on the current tag
 s_urxvt_close_session() {
   local urxvtids="$1"
-  local tmp_urxvt_file="$tmp_dir/urxvt"
 
   for urxvt in $urxvtids ; do
     local pid=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
     local zshpid=$(ps --ppid $pid | grep zsh | head -1 | awk '{print $1}' )
     local cwd=$(readlink /proc/$zshpid/cwd)
-    [[ $urxvt ]] && echo "$urxvt $cwd" >> "$tmp_urxvt_file"
+    [[ $urxvt ]] && echo "$urxvt $cwd" >> "$tmp_dir/urxvt"
     xdotool windowkill $urxvt
   done
   unset urxvt
