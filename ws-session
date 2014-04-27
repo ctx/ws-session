@@ -98,13 +98,14 @@ case $1 in
     } & disown
     ;;
   -a|all)
-    S_ACTION='$2'
+    S_ACTION="$2"
     {
       s_source_lib wm stopwm data session allapp
       while read -r name ; do
         s_closesession "$name"
       done < <(s_list_open_tags)
-      case S_ACTION in
+      sleep 0.25
+      case $S_ACTION in
         poweroff)
           s_poweroff
           ;;
