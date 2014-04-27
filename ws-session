@@ -36,7 +36,9 @@ Debug Options:
         WARNING: don't try $0 debug rm -rf *
         EXAMPLE: $0 debug s_list_app_seltag
   print variable variable
-        Prints the variables supplied.
+        Prints the content of the variables supplied.
+        EXAMPLE: $0 print S_LIB_FOLDER S_SEL_TAG
+        
 
 Please report bugs at http://github.com/ctx/ws-session/issues.
 HELPFILE
@@ -128,8 +130,8 @@ case $1 in
     shift
     s_source_lib wm data session allapp
     for v in $@ ; do 
-      eval echo \$$v
-    done
+      eval echo "$v = \$$v"
+    done | column -t
     ;;
   *)
     echo "Error: no such option '$1'"
