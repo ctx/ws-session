@@ -21,7 +21,7 @@ The applications do not support this out of the box:
 * Applications which are not on the blacklist just get restarted. No state is
   saved exept the cwd and cmdline.
 
-
+https://github.com/ctx/ws-session/wiki/What-should-work
 
 #### Installation
 
@@ -41,9 +41,6 @@ https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 https://github.com/ctx/ws-session/wiki/Extend-ws-session
 
 #### Copying
-License GPLv3:
-
-http://gnu.org/licenses/gpl.html
-
-#### Author
+License GPLv3:<br />
+http://gnu.org/licenses/gpl.html<br />
 2013-2014 Ciril Troxler
