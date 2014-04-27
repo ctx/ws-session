@@ -1,5 +1,6 @@
 ws-session
 ==========
+A session manager for minimal window managers.
 
 ws-session treats every 'virtual desktop','workspace' or 'tag' as a session.
 
