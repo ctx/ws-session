@@ -8,8 +8,8 @@ You can start and stop sessions independent of each other.
 
 You can configure what should be part of your sessions: browser history/tabs,
 bash history, terminals with cwd, editors and open files, open pdfs, ncurses
-applications and commands like mutt, htop, ssh (tmux attach) and everything
-else you can think of and write a wrapper.
+applications like mutt, htop, ssh (tmux attach) and everything else you can
+think of and write a wrapper.
 
 With herbstluftwm you can save and restore the layout of the workspace.
 
