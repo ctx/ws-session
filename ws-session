@@ -11,8 +11,10 @@ Usage:
         Some options need a session name as argument.
 
 Options:
-  -a|all
+  -a|all [SYSTEM_ACTION]
         Close all sessions.
+        If set in the rc file you can poweroff or reboot when
+        all session are closed.
   -c|close
         Close active session.
   -h|help
@@ -96,17 +98,24 @@ case $1 in
     } & disown
     ;;
   -a|all)
+    S_ACTION='$2'
     {
       s_source_lib wm stopwm data session allapp
       while read -r name ; do
         s_closesession "$name"
       done < <(s_list_open_tags)
+      case S_ACTION in
+        poweroff)
+          s_poweroff
+          ;;
+        reboot)
+          s_reboot
+          ;;
+        *)
+          echo "Cannot '$2' no such action"
+          ;;
+      esac
     } & disown
-    pid=$!
-    while [[ -d /proc/$pid ]] ; do
-      sleep 1
-    done
-    unset pid
     ;;
   -r|restore)
     shift

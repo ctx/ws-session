@@ -39,3 +39,8 @@ S_APPLICATIONS=( "vim" "dwb" "luakit" "zathura" "$S_TERM" )
 
 # Completely ignore windows with these window classes:
 S_BLACKLIST=( "firefox" )
+
+### SYSTEM ACTION -------------
+s_poweroff() { systemctl poweroff; }
+s_reboot() { systemctl reboot; }
+
