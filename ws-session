@@ -26,7 +26,7 @@ Options:
         You have to set '\$S_MENU' in the rc file.
   -o|open sessionname
         Start the session with name sessionname.
-  -p|path:
+  -p|path
         Prints the temporary path for dotfiles etc.
   -r|restore sessionname
         Restore a session to a previous state.
@@ -140,8 +140,8 @@ case $1 in
     shift
     s_source_lib wm data session allapp
     for v in $@ ; do 
-      eval echo "$v = \$$v"
-    done | column -t
+      eval echo "$v \;= \${$v[@]}"
+    done | column -t -s";"
     ;;
   *)
     echo "Error: no such option '$1'"
