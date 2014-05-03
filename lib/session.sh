@@ -7,7 +7,7 @@ s_list_winids_app_seltag () {
 s_closesession() {
   if [[ -n $@ ]] ; then
     S_SEL_TAG="$@"
-    s_new_tag "$@"
+    s_newtag "$@"
   fi
   local session="$S_SEL_TAG"
   local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
