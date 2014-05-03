@@ -103,6 +103,9 @@ case $1 in
     if ! type s_system_hook_$S_ACTION 2>/dev/null \
          | grep -q 'is a function' ; then
       echo "Error: no such action '$S_ACTION', aborting."
+      echo -n "Known actions are: "
+      typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
+      echo
       exit 1
     fi
     {
