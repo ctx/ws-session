@@ -99,23 +99,20 @@ case $1 in
     ;;
   -a|all)
     S_ACTION="$2"
+    s_source_lib wm stopwm data session allapp
+    if ! type s_system_hook_$S_ACTION 2>/dev/null \
+         | grep -q 'is a function' ; then
+      echo "Error: no such action '$S_ACTION', aborting."
+      exit 1
+    fi
     {
-      s_source_lib wm stopwm data session allapp
       while read -r name ; do
         s_closesession "$name"
-      done < <(s_list_open_tags)
+      done < <(s_list_open_tags \
+                 | grep -v "$S_DEFAULT_TAG"
+                 echo "$S_DEFAULT_TAG")
       sleep 0.25
-      case $S_ACTION in
-        poweroff)
-          s_poweroff
-          ;;
-        reboot)
-          s_reboot
-          ;;
-        *)
-          echo "Cannot '$2' no such action"
-          ;;
-      esac
+      s_system_hook_$S_ACTION
     } & disown
     ;;
   -r|restore)

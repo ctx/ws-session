@@ -41,6 +41,13 @@ S_APPLICATIONS=( "vim" "dwb" "luakit" "zathura" "$S_TERM" )
 S_BLACKLIST=( "firefox" )
 
 ### SYSTEM ACTION -------------
-s_poweroff() { systemctl poweroff; }
-s_reboot() { systemctl reboot; }
+s_system_hook_poweroff() { systemctl poweroff; }
+s_system_hook_reboot() { systemctl reboot; }
+s_system_hook_quit() { quit_your_wm; }
+s_system_hook_play() {
+    # go to non session tag after closing all sessions
+    herbstclient add play_game
+    herbstclient use play_game
+    herbstclient merge_tag $S_DEFAULT_TAG
+}
 
