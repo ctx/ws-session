@@ -1,8 +1,7 @@
-# This is the example ws-session.rc.
-# Default values are commented out.
-# Copy it to $HOME/.ws-session.rc.
-# Or if you have set XDG_CONFIG_HOME as environment variable
-# you can copy it to $XDG_CONFIG_HOME/ws-session.
+# This is the example ws-session.rc, default values are commented out.
+# Copy it to $HOME/.ws-session.rc
+# If you have set XDG_CONFIG_HOME as environment variable
+# you can copy it to $XDG_CONFIG_HOME/ws-session/ws-session.rc
 
 ### FOLDERS --------------------
 #S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
@@ -18,12 +17,13 @@ S_DEFAULT_TAG="1"
 # Whitelist of your window manager(s)
 S_WM="bspwm i3 herbstluftwm"
 
-# Before we can apply the old layout we have to wait for the windows to open.
+# Before we can apply the old layout we have to wait x seconds for
+# the windows to open.
 #S_LOAD_LAYOUT_SLEEP="1"
 
 ### APPLICATIONS ---------------
 # Only 'dmenu -p' is tested but you could probably use any menu program.
-S_MENU='dmenu -i'
+S_MENU='dmenu'
 S_MENU_PROMPT_SWITCH="-p"
 
 S_TERM=urxvt
@@ -41,6 +41,9 @@ S_APPLICATIONS=( "vim" "dwb" "luakit" "zathura" "$S_TERM" )
 S_BLACKLIST=( "firefox" )
 
 ### SYSTEM ACTION -------------
+# The following functions can be called after closing all sessions:
+# You can write your own, especially quit and play are just examples.
+# example call: 'ws-session all play'
 s_system_hook_poweroff() { systemctl poweroff; }
 s_system_hook_reboot() { systemctl reboot; }
 s_system_hook_quit() { quit_your_wm; }

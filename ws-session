@@ -3,7 +3,12 @@
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
 source $S_LIB_FOLDER/lib/source.sh
 
+s_print_system_actions() {
+  typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
+}
+
 help() {
+  local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
 Usage: 
   ws-session option [sessionname]
@@ -11,10 +16,9 @@ Usage:
         Some options need a session name as argument.
 
 Options:
-  -a|all [SYSTEM_ACTION]
-        Close all sessions.
-        If set in the rc file you can poweroff or reboot when
-        all session are closed.
+  -a|all SYSTEM_ACTION
+        Close all sessions and then run a SYSTEM_ACTION.
+        SYSTEM_ACTIONS: $S_SA
   -c|close
         Close active session.
   -h|help
@@ -35,11 +39,11 @@ Options:
 Debug Options:
   debug command
         Executes the argument after sourcing everything.
-        WARNING: don't try $0 debug rm -rf *
-        EXAMPLE: $0 debug s_list_app_seltag
+        WARNING: don't try ws-session debug rm -rf *
+        EXAMPLE: ws-session debug s_list_app_seltag
   print variable variable
         Prints the content of the variables supplied.
-        EXAMPLE: $0 print S_LIB_FOLDER S_SEL_TAG
+        EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG
         
 
 Please report bugs at http://github.com/ctx/ws-session/issues.
@@ -103,9 +107,8 @@ case $1 in
     if ! type s_system_hook_$S_ACTION 2>/dev/null \
          | grep -q 'is a function' ; then
       echo "Error: no such action '$S_ACTION', aborting."
-      echo -n "Known actions are: "
-      typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
-      echo
+      echo "Known actions are: $(s_print_system_actions)."
+      echo "Change them in the rc file."
       exit 1
     fi
     {
