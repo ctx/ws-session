@@ -60,16 +60,14 @@ s_opensession() {
 
     cpwd="$(pwd)"
     while read -r l ; do
-      id="$(echo "$l" | cut -f 1)"
-      d="$(echo "$l" | cut -f 2)"
-      cmd="$(echo "$l" | cut -f 3)"
-      cd $d 
+      cd "$(cut -f 2 <<< "$l" )" 
+      cmd="$(cut -f 3 <<< "$l" )"
       $cmd & >/dev/null 2>&1
       pid="$!"
-      s_reg_winid $pid $id
+      s_reg_winid $pid "$(cut -f 1 <<< "$l" )"
     done < "$dir/autostart"
     cd "$cpwd"
-    unset l id pid d cmd cpwd
+    unset l pid cmd cpwd
 
     for app in ${S_APPLICATIONS[@]} ; do
       s_${app}_open_session "$dir"

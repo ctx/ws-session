@@ -3,9 +3,9 @@ s_command_open_session() {
   
   if [[ -f "$file" ]] ; then
     while read -r l ; do
-      id="$(echo "$l" | cut -f 1)"
-      d="$(echo "$l" | cut -f 2)"
-      cmd="$(echo "$l" | cut -f 3)"
+      id="$(cut -f 1 <<< "$l" )"
+      d="$(cut -f 2 <<< "$l" )"
+      cmd="$(cut -f 3 <<< "$l" )"
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$tmp_dir/command.tmp"
         $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
