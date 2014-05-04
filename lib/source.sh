@@ -6,13 +6,34 @@ S_NUMBER_OF_BACKUPS="5"
 S_LOAD_LAYOUT_SLEEP=1
 S_BLACKLIST=
 
+s_fatal() {
+  echo -e "FATAL: ${1}, aborting!"
+  if [[ $2 == "help" ]] ; then
+    s_help
+  elif [[ -n $2 ]] ; then
+    echo -e "Hint:  ${2}."
+  fi
+  exit 1
+}
+
+s_error() {
+  echo -e "ERROR: ${1}!"
+  if [[ $2 == "help" ]] ; then
+    s_help
+  elif [[ -n $2 ]] ; then
+    echo -e "Hint:  ${2}."
+  fi
+}
+
 if [[ -f $HOME/.ws-session.rc ]] ; then
   source "$HOME/.ws-session.rc"
 elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
   source "$HOME/.config/ws-session/ws-session.rc"
 else
-  echo Error session.rc not found!
-  echo install it to $HOME/.ws-session.rc or $XDG_COFIG_HOME/ws-session/ws-session.rc
+  s_error "session.rc not found" \
+    "install it to $HOME/.ws-session.rc
+       or $XDG_CONFIG_HOME/ws-session/ws-session.rc.
+       Continuing with default settings"
 fi
 
 s_source() {
@@ -21,7 +42,7 @@ s_source() {
   elif [[ -f "$S_LIB_FOLDER/$1" ]] ; then
     source "$S_LIB_FOLDER/$1"
   else
-    echo ERROR: $1 not found
+    s_fatal "'$1' not found" "Fix your installation"
   fi
 }
 

@@ -2,8 +2,7 @@ s_source wm/is-wm-running.sh
 
 s_stop_if_no_wm() {
   if [[ -z $S_WM ]] ; then
-    echo ERROR: no supported wm is running. stopping
-    exit 1
+    s_fatal "No supported wm is running"
   fi
 }
 
@@ -39,7 +38,7 @@ $(s_find_wm "$S_LIB_FOLDER")"
   done
 else
   for f in $S_WM ; do
-    if [[ -n "$(s_running_wm_$f)" ]] ; then
+    if [[ -n "$(s_running_wm_$f 2>/dev/null)" ]] ; then
       s_wm="$f"
       break
     fi
@@ -94,7 +93,8 @@ if [[ -n "$s_wm" ]] ; then
   fi
 
 else
-  echo "ERROR: you set \$S_WM to $S_WM and you dont run (one of) this wm"
+  s_fatal "You set \$S_WM to $S_WM and you dont run (one of) this wm" \
+    "Change or unset S_WM in your rc file or start a wm"
   unset S_WM
 fi
 

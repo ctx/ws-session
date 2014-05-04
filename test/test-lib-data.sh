@@ -7,6 +7,7 @@ source $S_LIB_FOLDER/ws-session.rc
 S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 S_DATA_FOLDER="$test_dir/session"
+mkdir -p "$S_DATA_FOLDER"
 source ./lib/data.sh
 
 # functions ====================================================================
@@ -41,7 +42,7 @@ echo -n "##   "
 
 # test 0 ----------------------------------------------------------------------
 # mkdir DATA_HOME
-s_install_data
+#s_install_data
 # update compare
 mkdir $test_dir/test0
 

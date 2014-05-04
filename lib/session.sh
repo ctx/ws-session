@@ -45,8 +45,7 @@ s_closesession() {
 s_opensession() {
   local name="$@"
   if [[ -z $name ]] ; then
-    echo error no session name
-    exit 1
+    s_fatal "No valid session name supplied"
   fi
   local dir="$S_DATA_FOLDER/$name-1"
   local tmp_dir="$S_TEMP_FOLDER/$name"
@@ -87,7 +86,7 @@ s_opensession() {
           [[ -f $tmp_dir/command.tmp ]] && \
             sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/command.tmp"
         else
-          echo Error: cannot find old winid: $pid $id $app
+          s_error "Cannot find old winid: $pid $id $app" 
         fi
       done < <(s_list_app_seltag)
       unset id app pid

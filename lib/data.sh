@@ -1,8 +1,9 @@
 restored=res # name of current after restore
 
-s_install_data() {
-  mkdir -p "$S_DATA_FOLDER"
-}
+if [[ ! -d "$S_DATA_FOLDER" ]] ; then 
+  s_fatal "Cannot find data folder: '$S_DATA_FOLDER'" \
+    "Create a folder and set S_DATA_FOLDER in your rc file"
+fi
 
 s_mv() {
   [[ -d "$1" ]] && mv "$1" "$2"

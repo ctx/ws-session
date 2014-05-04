@@ -1,13 +1,25 @@
 #!/bin/bash
 
-S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-source $S_LIB_FOLDER/lib/source.sh
-
-s_print_system_actions() {
-  typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
+s_fatal() {
+  echo -e "FATAL: ${1}, aborting!"
+  if [[ $2 == "help" ]] ; then
+    s_help
+  elif [[ -n $2 ]] ; then
+    echo -e "Hint:  ${2}."
+  fi
+  exit 1
 }
 
-help() {
+s_error() {
+  echo -e "ERROR: ${1}!"
+  if [[ $2 == "help" ]] ; then
+    s_help
+  elif [[ -n $2 ]] ; then
+    echo -e "Hint:  ${2}."
+  fi
+}
+
+s_help() {
   local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
 Usage: 
@@ -50,6 +62,13 @@ Please report bugs at http://github.com/ctx/ws-session/issues.
 HELPFILE
 }
 
+s_print_system_actions() {
+  typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
+}
+
+S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
+source $S_LIB_FOLDER/lib/source.sh
+
 case $1 in
   -l|list)
     s_source_lib data
@@ -60,7 +79,7 @@ case $1 in
     echo "$S_TEMP_FOLDER/$S_SEL_TAG"
     ;;
   -m|menu)
-    if [[ -n "$S_MENU" ]] ; then
+    if [[ -x "$(which ${S_MENU%% *} 2>/dev/null)" ]] ; then
       s_source_lib wm stopwm data
 
       s="$( (s_list_open_tags;s_list_sessions) \
@@ -75,10 +94,10 @@ case $1 in
           s_opensession "$s"
         } & disown
       else
-        echo Error: no session selected.
+        s_error "No session selected"
       fi
     else
-      echo Error: cannot show menu.
+      s_error "Cannot show menu: '$S_MENU'" "Set it in your rc file" 
     fi
     ;;
   -o|open)
@@ -106,10 +125,8 @@ case $1 in
     s_source_lib wm stopwm data session allapp
     if ! type s_system_hook_$S_ACTION 2>/dev/null \
          | grep -q 'is a function' ; then
-      echo "Error: no such action '$S_ACTION', aborting."
-      echo "Known actions are: $(s_print_system_actions)."
-      echo "Change them in the rc file."
-      exit 1
+      s_fatal "No such action '$S_ACTION'" \
+              "Known actions are: $(s_print_system_actions)\n       Change them in the rc file"
     fi
     {
       while read -r name ; do
@@ -128,11 +145,12 @@ case $1 in
     if [[ -n "$(s_list_sessions | grep -e "^$name$")" ]] ; then
       s_restore_data "$name"
     else
-      echo "Error: no session with name '$name'"
+      s_error "no session with name '$name'" \
+        "list your sessions with ws-session -l"
     fi
     ;;
   -h|help)
-    help
+    s_help
     ;;
   debug)
     shift
@@ -147,9 +165,7 @@ case $1 in
     done | column -t -s";"
     ;;
   *)
-    echo "Error: no such option '$1'"
-    echo
-    help
+    s_error "No such option '$1'" help
     ;;
 esac
 

@@ -42,7 +42,8 @@ s_command_start() {
     xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
     sed -i "\|${winid}|d" "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
   else
-    echo you cannot run terminal apps without a terminal
+    echo "You cannot run terminal apps without a terminal
+    If you see this you are probably on a tty.."
   fi
   unset winid
 }
