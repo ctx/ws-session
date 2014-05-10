@@ -1,7 +1,7 @@
 s_seltag_herbstluftwm() {
   herbstclient tag_status \
     | tr '\t' '\n' \
-    | grep -e "^#" \
+    | grep "^#" \
     | cut -c2-
 }
 
@@ -25,8 +25,9 @@ s_list_open_tags_herbstluftwm() {
 }
 
 s_newtag_herbstluftwm() {
-  [[ -z "$(s_list_open_tags_herbstluftwm | grep "^$@$")" ]] \
-    && herbstclient add "$@"
+  if ! grep -q -F "$@" < <(s_list_app_seltag_herbstluftwm) ; then 
+    herbstclient add "$@"
+  fi
   herbstclient use "$@"
 }
 

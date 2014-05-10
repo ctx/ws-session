@@ -3,7 +3,8 @@ s_seltag_bspwm() {
 }
 
 s_list_app_seltag_bspwm() {
-  bspc query -T -d "$S_SEL_TAG" | awk 'NR<=1 {next} /0x/{print $3" "$2}'
+  bspc query -T -d "$S_SEL_TAG" \
+    | awk 'NR<=1 {next} /0x/{print $3" "$2}'
 }
 
 s_list_open_tags_bspwm() {
@@ -11,7 +12,9 @@ s_list_open_tags_bspwm() {
 }
 
 s_newtag_bspwm() {
-  [[ -z $(bspc query -D | grep -F "$@") ]] && bspc monitor -a "$@"
+  if ! grep -q -F "$@" < <(bspc query -D) ; then 
+    bspc monitor -a "$@"
+  fi
   bspc desktop -f "$@"
 }
 
