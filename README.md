@@ -30,7 +30,8 @@ https://github.com/ctx/ws-session/wiki/What-should-work
 * For seamless integration in to your windowmanager, you can:
   * Bind a key to 'ws-session menu' to create new workspaces.
   * Bind a key to 'ws-session close' to close a workspace.
-  * Run 'ws-session all' before you reboot/poweroff.
+  * Configure reboot, poweroff, quit or other actions which you want to run 
+    after closing all sessions (eg. ws-session all poweroff).
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
