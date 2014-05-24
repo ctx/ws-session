@@ -22,7 +22,7 @@ s_dwb_close_session() {
   echo $1 > "$tmp_dir/$DWB/windowid"
   # XDG_CONFIG_HOME="$tmp_dir" /usr/bin/dwbremote -i $1 hook quit
   s_focus_window $1
-  xdotool key KP_Escape
+  xdotool key Escape
   xdotool type ZZ
 }
 
@@ -34,9 +34,14 @@ s_dwb_start() {
       -exec ln -s "{}" "$tmp_dir/$DWB/" \;
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
   else
-    winid="$(s_list_app_seltag | grep $DWB | cut -f1)"
+    winid="$(s_list_app_seltag | grep $DWB | cut -f1 -d " ")"
     if [[ -n $winid ]] ; then
-      s_dwb_focus "$winid" "$@"
+      #XDG_CONFIG_HOME="$tmp_dir" /usr/bin/dwbremote -i "$winid" "$@" & > /dev/null 2>&1
+      s_focus_window "$winid"
+      xdotool key Escape
+      xdotool key O
+      xdotool type "$@"
+      xdotool key KP_Enter
     else
       XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
     fi
