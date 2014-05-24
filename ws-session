@@ -1,24 +1,5 @@
 #!/bin/bash
 
-s_fatal() {
-  echo -e "FATAL: ${1}, aborting!"
-  if [[ $2 == "help" ]] ; then
-    s_help
-  elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}."
-  fi
-  exit 1
-}
-
-s_error() {
-  echo -e "ERROR: ${1}!"
-  if [[ $2 == "help" ]] ; then
-    s_help
-  elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}."
-  fi
-}
-
 s_help() {
   local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
