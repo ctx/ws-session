@@ -25,7 +25,7 @@ s_list_open_tags_herbstluftwm() {
 }
 
 s_newtag_herbstluftwm() {
-  if ! grep -q -F "$@" < <(s_list_app_seltag_herbstluftwm) ; then 
+  if ! grep -q -F "$@" < <(s_list_open_tags_herbstluftwm) ; then 
     herbstclient add "$@"
   fi
   herbstclient use "$@"
