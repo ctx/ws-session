@@ -28,6 +28,12 @@ S_SEL_TAG=testtag
 tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
 S_TERM=urxvt
 TERM=
+if [[ -z $app ]] ;then
+        echo -e "Usage:"
+        echo -e "$0 [app]"
+        echo -e "apps: $(ls $S_LIB_FOLDER/app | sed 's/\.sh//g' | tr '\n' ' ')"
+        exit 1
+fi
 source ./app/${app}.sh
 
 s_restore_file() {
@@ -49,7 +55,7 @@ s_reg_winid() {
 }
 
 select_window() {
-  xprop |awk '/window id/{print $NF}'
+  xprop WM_HINTS | awk '/window id/{print $NF}'
 }
 
 mkdir -p "$tmp_dir"
