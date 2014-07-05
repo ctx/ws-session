@@ -1,7 +1,9 @@
 ws-session
 ==========
+A session manager for virtual desktops.
 
-### About
+#### About
+
 ws-session creates for every 'virtual desktop', 'workspace' or 'tag' one session.
 
 You can start and stop sessions independent of each other.
