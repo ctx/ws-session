@@ -1,27 +1,19 @@
 s_seltag_herbstluftwm() {
   herbstclient tag_status \
     | tr '\t' '\n' \
-    | grep "^#" \
+    | grep '^#' \
     | cut -c2-
 }
 
 s_list_app_seltag_herbstluftwm() {
   while read -r client ; do
-    echo  -n "$client "
-    xprop -id $client WM_CLASS \
-      | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
-  done < <(herbstclient stack \
-    | grep "Client 0x" \
-    | sed 's/^.*Client //' \
-    | cut -f1 -d" " \
-    | sort -u)
+    echo -n "$client "
+    xprop -id $client WM_CLASS | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
+  done < <(herbstclient stack | awk '/Client 0x/{ print $5 }')
 }
 
 s_list_open_tags_herbstluftwm() {
-  herbstclient tag_status \
-    | tr '\t' '\n' \
-    | cut -c2- \
-    | grep -v "^$"
+  herbstclient attr tags.by-name. | awk '/^ /{ gsub(".$",""); print $1 }'
 }
 
 s_newtag_herbstluftwm() {
