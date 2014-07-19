@@ -43,7 +43,7 @@ HELPFILE
 }
 
 s_print_system_actions() {
-  typeset -F | grep s_system_hook_ | cut -f4 -d'_' | tr '\n' ' '
+  typeset -F | grep s_system_action_ | cut -f4 -d'_' | tr '\n' ' '
 }
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
@@ -115,7 +115,7 @@ case $1 in
                  | grep -v "$S_DEFAULT_TAG"
                  echo "$S_DEFAULT_TAG")
       sleep 0.25
-      s_system_hook_$S_ACTION
+      s_system_action_$S_ACTION
     } & disown
     ;;
   -r|restore)
