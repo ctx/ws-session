@@ -4,14 +4,13 @@ s_help() {
   local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
 Usage: 
-  ws-session option [sessionname]
+  ws-session [option]
         You can only use one option at a time.
-        Some options need a session name as argument.
 
 Options:
-  -a|all SYSTEM_ACTION
-        Close all sessions and then run a SYSTEM_ACTION.
-        SYSTEM_ACTIONS: $S_SA
+  -a|all <system_action>
+        Close all sessions and then run a system_action.
+        Available system_actions: $S_SA
   -c|close
         Close active session.
   -h|help
@@ -21,20 +20,20 @@ Options:
   -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
-  -o|open sessionname
+  -o|open <sessionname>
         Start the session with name sessionname.
   -p|path
         Prints the temporary path for dotfiles etc.
-  -r|restore sessionname
+  -r|restore <sessionname>
         Restore a session to a previous state.
         You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
 
 Debug Options:
-  debug command
+  debug <command>
         Executes the argument after sourcing everything.
         WARNING: don't try ws-session debug rm -rf *
         EXAMPLE: ws-session debug s_list_app_seltag
-  print variable variable
+  print <variable> <variable>
         Prints the content of the variables supplied.
         EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG
         
