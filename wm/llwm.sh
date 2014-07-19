@@ -1,9 +1,9 @@
 s_seltag_llwm() {
   cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
   dn=( $(xprop -root _NET_DESKTOP_NAMES \
-           | sed 's/^\"//;
+           | sed 's/^.*= //;
+                  s/^\"//;
                   s/\"$//;
-                  s/.*= //;
                   s/\", \"/\n/g') )
 
   echo ${dn[$cdid]} | sed 's/\\\"/\"/g'
@@ -24,7 +24,7 @@ s_list_open_tags_llwm() {
   xprop -root _NET_DESKTOP_NAMES \
            | sed 's/^.*) = //;
                   s/^\"//;
-                  s/\"$//;
+                  s/"$//;
                   s/\", \"/\n/g;
                   s/\\\"/\"/g'
 }

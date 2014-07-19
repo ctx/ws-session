@@ -26,6 +26,10 @@ s_running_wm_herbstluftwm() {
   s_running_wm_default herbstluftwm
 }
 
+s_running_wm_wingo() {
+  s_running_wm_default Wingo
+}
+
 s_running_wm_llwm() {
   s_running_wm_default llwm
 }
