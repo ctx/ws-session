@@ -103,7 +103,7 @@ case $1 in
   -a|all)
     S_ACTION="$2"
     s_source_lib wm stopwm data session allapp
-    if ! type s_system_hook_$S_ACTION 2>/dev/null \
+    if ! type s_system_action_$S_ACTION 2>/dev/null \
          | grep -q 'is a function' ; then
       s_fatal "No such action '$S_ACTION'" \
               "Known actions are: $(s_print_system_actions)\n       Change them in the rc file"

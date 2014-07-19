@@ -44,10 +44,10 @@ S_BLACKLIST=( "firefox" )
 # The following functions can be called after closing all sessions:
 # You can write your own, especially quit and play are just examples.
 # example call: 'ws-session all play'
-s_system_hook_poweroff() { systemctl poweroff; }
-s_system_hook_reboot() { systemctl reboot; }
-s_system_hook_quit() { quit_your_wm; }
-s_system_hook_play() {
+s_system_action_poweroff() { systemctl poweroff; }
+s_system_action_reboot() { systemctl reboot; }
+s_system_action_quit() { quit_your_wm; }
+s_system_action_play() {
     # go to non session tag after closing all sessions
     herbstclient add play_game
     herbstclient use play_game
