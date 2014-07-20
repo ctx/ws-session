@@ -24,7 +24,7 @@ s_closetag_i3() {
 }
   
 s_list_app_seltag_i3() {
-  winids="$(i3-msg -t get_tree \
+  local winids="$(i3-msg -t get_tree \
     | jshon -e nodes -a -e nodes \
     | grep -e window -e name \
     | grep -v window_rect \
@@ -45,10 +45,13 @@ s_list_app_seltag_i3() {
       | cut -d, -f 1 \
       | sed 's/\"//g'
   done
+  unset id winidhex
 }
 
 s_focus_window_i3() {
-  xdotool windowactivate --sync "$@"
+  local c="$@"
+  local winiddec="$(echo "ibase=16;${c##0x}"|bc)"
+  i3-msg "[id=\"$winiddec\"] focus" > /dev/null
 }
 
 # vim: ft=sh ts=2 et sw=2:
