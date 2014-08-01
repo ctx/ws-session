@@ -20,9 +20,7 @@ s_list_open_tags_wingo() {
 
 s_list_app_seltag_wingo() {
   for client in $(wingo-cmd 'GetClientList (GetWorkspace)') ; do
-    client="0x$(echo "ibase=10;obase=16;$client"|bc)"
-    echo -n "$client "
-    xprop -id $client WM_CLASS | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
+    s_print_id_class "0x$(echo "ibase=10;obase=16;$client"|bc)"
   done
   unset client
 }

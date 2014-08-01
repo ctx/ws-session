@@ -92,6 +92,12 @@ if [[ -n "$s_wm" ]] ; then
     }
   fi
 
+  s_print_id_class() {
+    echo -n "$1 "
+    xprop -id "$1" WM_CLASS \
+      | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
+  }
+
 else
   s_fatal "You set \$S_WM to $S_WM and you dont run (one of) this wm" \
     "Change or unset S_WM in your rc file or start a wm"

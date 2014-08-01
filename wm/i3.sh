@@ -13,10 +13,8 @@ s_newtag_i3() {
 
 s_list_open_tags_i3() {
   i3-msg -t get_workspaces \
-    | jshon \
-    | grep name \
-    | tr -d '\", ' \
-    | cut -d: -f2
+    | jshon -a -e name \
+    | sed 's/^"//;s/"$//'
 }
 
 s_closetag_i3() {
@@ -30,20 +28,14 @@ s_list_app_seltag_i3() {
     | grep -v window_rect \
     | tr -d "\n" \
     | sed 's/,    \"/,\n\"/g' \
-    | grep -A1 "\"name\": \"$(s_seltag_i3)\"" \
+    | grep -A1 "\"name\": \"$S_SEL_TAG\"" \
     | sed 's/\"window\"/\n/g;s/\"//g;s/\"name\"//g;s/: //g' \
     | tail -n+4 \
     | cut -d, -f1 \
     | grep -v null \
     | tr "\n" " ")"
   for id in $winids ; do
-    winidhex="0x$(echo "ibase=10;obase=16;$id"|bc)"
-    echo -n "$winidhex"
-    xprop -id "$winidhex" \
-      | grep WM_CLASS \
-      | cut -d= -f2 \
-      | cut -d, -f 1 \
-      | sed 's/\"//g'
+    s_print_id_class "0x$(echo "ibase=10;obase=16;$id"|bc)"
   done
   unset id winidhex
 }
