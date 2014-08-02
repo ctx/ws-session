@@ -33,18 +33,17 @@ s_command_close_session() {
 }
 
 s_command_start() {
-
-  if [[ -n $TERM ]] ; then
-    winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
-    echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
-    xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
-    "$@"
-    xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
-    sed -i "\|${winid}|d" "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
-  else
-    echo "You cannot run terminal apps without a terminal
-    If you see this you are probably on a tty.."
+  if ! which $1 >/dev/null 2>&1;then 
+    s_fatal "'$1' not found" \
+      "If '$1' is really a command you want to install it, or use absolute path"
   fi
+
+  winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
+  echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
+  xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
+  "$@"
+  xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
+  sed -i "\|${winid}|d" "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
   unset winid
 }
 

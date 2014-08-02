@@ -99,8 +99,13 @@ if [[ -n "$s_wm" ]] ; then
   }
 
 else
-  s_fatal "You set \$S_WM to $S_WM and you dont run (one of) this wm" \
-    "Change or unset S_WM in your rc file or start a wm"
+  if [[ $DISPLAY ]] ; then
+    s_fatal "You set \$S_WM to '$S_WM' and you dont run (one of) this wm" \
+      "Change or unset S_WM in your rc file"
+  else
+    s_fatal "You dont run a wm and \$DISPLAY is empty" \
+      "You cannot use ws-session on a tty"
+  fi
   unset S_WM
 fi
 
