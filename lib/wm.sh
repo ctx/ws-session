@@ -32,13 +32,13 @@ $(s_find_wm "$S_LIB_FOLDER")"
   fi
   s_wms="$(sort -u <<< "$s_wms")"
   for s_wm in $s_wms ; do
-    if [[ -n $(s_running_wm_$s_wm) ]] ; then
+    if [[ -n $(s_running_wm_$s_wm 2>/dev/null) ]] ; then
       break
     fi
   done
 else
   for f in $S_WM ; do
-    if [[ -n "$(s_running_wm_$f)" ]] ; then
+    if [[ -n "$(s_running_wm_$f 2>/dev/null)" ]] ; then
       s_wm="$f"
       break
     fi
@@ -100,10 +100,10 @@ if [[ -n "$s_wm" ]] ; then
 
 else
   if [[ $DISPLAY ]] ; then
-    s_fatal "You set \$S_WM to '$S_WM' and you dont run (one of) this wm" \
+    s_error "You set \$S_WM to '$S_WM' and you dont run (one of) this wm" \
       "Change or unset S_WM in your rc file"
   else
-    s_fatal "You dont run a wm and \$DISPLAY is empty" \
+    s_error "You dont run a wm and \$DISPLAY is empty" \
       "You cannot use ws-session on a tty"
   fi
   unset S_WM

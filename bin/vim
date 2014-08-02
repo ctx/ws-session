@@ -9,6 +9,7 @@ if [[ -n $S_WM ]] ; then
   s_vim_start "$@"
   disown -a
 else
+  echo 'ignore all errors and start vim on a terminal'
   /usr/bin/vim $@
 fi
 

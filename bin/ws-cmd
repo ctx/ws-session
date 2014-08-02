@@ -20,6 +20,11 @@ WSCMDHELP
 exit 0
 fi
 
+if ! which $1 >/dev/null 2>&1;then 
+  s_fatal "'$1' not found" \
+    "If '$1' is really a command you want to install it, or use absolute path"
+fi
+
 if [[ -n $S_WM ]] ; then
   s_source app/command.sh
   s_command_start "$@"

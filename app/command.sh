@@ -33,11 +33,6 @@ s_command_close_session() {
 }
 
 s_command_start() {
-  if ! which $1 >/dev/null 2>&1;then 
-    s_fatal "'$1' not found" \
-      "If '$1' is really a command you want to install it, or use absolute path"
-  fi
-
   winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
   echo -e "$winid\t$PWD\t$@" >> "$S_TEMP_FOLDER/$S_SEL_TAG/command.tmp"
   xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
