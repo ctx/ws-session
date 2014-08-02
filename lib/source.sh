@@ -7,21 +7,21 @@ S_LOAD_LAYOUT_SLEEP=1
 S_BLACKLIST=
 
 s_fatal() {
-  echo -e "FATAL: ${1}, aborting!"
+  echo -e "FATAL: ${1}, aborting!" >&2
   if [[ $2 == "help" ]] ; then
-    s_help
+    s_help >&2
   elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}."
+    echo -e "Hint:  ${2}." >&2
   fi
   exit 1
 }
 
 s_error() {
-  echo -e "ERROR: ${1}!"
+  echo -e "ERROR: ${1}!" >&2
   if [[ $2 == "help" ]] ; then
-    s_help
+    s_help >&2
   elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}."
+    echo -e "Hint:  ${2}." >&2
   fi
 }
 
