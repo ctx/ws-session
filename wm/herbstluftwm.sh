@@ -39,7 +39,7 @@ s_save_layout_herbstluftwm() {
 }
 
 s_reload_layout_herbstluftwm() {
-  herbstclient load "$(cat "$1")"
+  herbstclient load "$(< "$1")"
 }
 
 # vim: ft=sh ts=2 et sw=2:

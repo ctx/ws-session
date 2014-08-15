@@ -12,7 +12,7 @@ s_luakit_open_session() {
     XDG_DATA_HOME="$tmp_dir/$LUAKIT"
     $luakitcmd & >/dev/null 2>&1
     pid="$!"
-    s_reg_winid "$pid" "$(cat "$XDG_DATA_HOME/windowid")"
+    s_reg_winid "$pid" "$(< "$XDG_DATA_HOME/windowid")"
     XDG_DATA_HOME=$xdh
     unset xdh
   fi
