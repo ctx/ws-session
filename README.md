@@ -34,6 +34,8 @@ https://github.com/ctx/ws-session/wiki/What-should-work
   * Bind a key to 'ws-session close' to close a workspace.
   * Configure reboot, poweroff, quit or other actions which you want to run 
     after closing all sessions (eg. ws-session all poweroff).
+* You can also configure your shell to use dedicated histfiles and add some
+  aliases for cli applications.
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
@@ -46,4 +48,4 @@ https://github.com/ctx/ws-session/wiki/Extend-ws-session
 #### Copying
 License GPLv3:<br />
 http://gnu.org/licenses/gpl.html<br />
-2013-2014 Ciril Troxler
+2010-2014 Ciril Troxler
