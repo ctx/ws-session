@@ -1,6 +1,6 @@
 s_seltag_herbstluftwm() {
   herbstclient tag_status \
-    | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
+        | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
 }
 
 s_list_app_seltag_herbstluftwm() {
@@ -16,14 +16,16 @@ s_list_open_tags_herbstluftwm() {
 
 s_newtag_herbstluftwm() {
   if ! grep -q -F "$@" < <(s_list_open_tags_herbstluftwm) ; then 
-    herbstclient add "$@"
+    herbstclient chain , add "$@" , use "$@"
+  else
+    herbstclient use "$@"
   fi
-  herbstclient use "$@"
 }
 
 s_closetag_herbstluftwm() {
-  herbstclient use "$S_DEFAULT_TAG"
-  herbstclient merge_tag "$S_SEL_TAG" "$S_DEFAULT_TAG"
+  herbstclient chain , \
+    use "$S_DEFAULT_TAG" , \
+    merge_tag "$S_SEL_TAG" "$S_DEFAULT_TAG"
 }
 
 s_focus_window_herbstluftwm() {
