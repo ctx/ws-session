@@ -36,6 +36,7 @@ if [[ -z $app ]] ;then
 fi
 source ./app/${app}.sh
 
+# Mock functions
 s_restore_file() {
   for f in $@ ; do
     cp "$test_dir/old/$S_SEL_TAG/$f" "$tmp_dir"
@@ -56,6 +57,12 @@ s_reg_winid() {
 
 select_window() {
   xprop WM_HINTS | awk '/window id/{print $NF}'
+}
+
+s_focus_window() {
+  # No need to focus windows since xprop waits for a click.
+  # There is a test for this function in the wm test.
+  echo focus window >&2
 }
 
 mkdir -p "$tmp_dir"
