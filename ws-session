@@ -122,7 +122,7 @@ case $1 in
     shift
     name="$@"
     s_source_lib data
-    if [[ -n "$(s_list_sessions | grep -e "^$name$")" ]] ; then
+    if s_list_sessions | grep -q -e "^$name$" ; then
       s_restore_data "$name"
     else
       s_error "no session with name '$name'" \
