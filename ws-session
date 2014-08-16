@@ -65,11 +65,12 @@ case $1 in
 
       s="$( (s_list_open_tags;s_list_sessions) \
         | grep -v ^$ \
-        | sort \
-        | uniq -u \
+        | sort -u \
         | eval "$S_MENU $S_MENU_PROMPT_SWITCH 'start a session:'")"
 
-      if [[ -n $s ]] ; then
+      if s_list_open_tags | grep -q "$s" ; then
+        s_newtag "$s"
+      elif [[ -n $s ]] ; then
           s_source_lib session allapp
           s_opensession "$s" & disown
       else
