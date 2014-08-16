@@ -22,9 +22,12 @@ S_WM="bspwm i3 herbstluftwm"
 #S_LOAD_LAYOUT_SLEEP="1"
 
 ### APPLICATIONS ---------------
-# Only 'dmenu -p' is tested but you could probably use any menu program.
+# 'dmenu -p' is tested but you could probably use any menu program.
 S_MENU='dmenu'
-S_MENU_PROMPT_SWITCH="-p"
+S_MENU_PROMPT_SWITCH="-p "
+# zenity should also work
+#S_MENU="zenity --list --column=ALL --hide-header"
+#S_MENU_PROMPT_SWITCH="--title="
 
 S_TERM=urxvt
 # The next two variables are used in the file app/urxvt.sh only.

@@ -66,7 +66,7 @@ case $1 in
       s="$( (s_list_open_tags;s_list_sessions) \
         | grep -v ^$ \
         | sort -u \
-        | eval "$S_MENU $S_MENU_PROMPT_SWITCH 'start a session:'")"
+        | eval "${S_MENU} ${S_MENU_PROMPT_SWITCH}'start a session:'")"
 
       if s_list_open_tags | grep -q "$s" ; then
         s_newtag "$s"
