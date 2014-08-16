@@ -4,15 +4,16 @@ s_help() {
   local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
 Usage: 
-  ws-session [option]
+  ws-session <option>
         You can only use one option at a time.
 
 Options:
-  -a|all <system_action>
+  -a|all <$S_SA>
         Close all sessions and then run a system_action.
-        Available system_actions: $S_SA
-  -c|close
-        Close active session.
+        You can create new system_actions in your rc file.
+  -c|close [sessionname]
+        Close current session if no sessionname is supplied.
+        Or close the session named sessionname.
   -h|help
         Print this help.
   -l|list
@@ -29,11 +30,11 @@ Options:
         You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
 
 Debug Options:
-  debug <command>
+  debug <function>
         Executes the argument after sourcing everything.
         WARNING: don't try ws-session debug rm -rf *
         EXAMPLE: ws-session debug s_list_app_seltag
-  print <variable> <variable>
+  print <variable> [variable]
         Prints the content of the variables supplied.
         EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG
         
@@ -43,7 +44,7 @@ HELPFILE
 }
 
 s_print_system_actions() {
-  typeset -F | grep s_system_action_ | cut -f4 -d'_' | tr '\n' ' '
+  typeset -F | grep s_system_action_ | cut -f4 -d'_' | tr '\n' '|' | sed 's/|$//'
 }
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
@@ -69,12 +70,11 @@ case $1 in
         | eval "$S_MENU $S_MENU_PROMPT_SWITCH 'start a session:'")"
 
       if [[ -n $s ]] ; then
-        {
           s_source_lib session allapp
-          s_opensession "$s"
-        } & disown
+          s_opensession "$s" & disown
       else
-        s_error "No session selected"
+        s_error "No session selected" \
+          "You stopped the menu without choosing a session"
       fi
     else
       s_error "Cannot show menu: '$S_MENU'" "Set it in your rc file" 
@@ -90,15 +90,16 @@ case $1 in
     ;;
   -c|close)
     shift
-    {
-      # for now you can only close the current session
-      #name="$@"
-      #if grep -q "$name" <<< $(s_list_open_tags) ; then
-        s_source_lib wm stopwm data session allapp
-        #s_closesession "$name"
-        s_closesession
-      #fi
-    } & disown
+      name="$@"
+      s_source_lib wm stopwm
+      if s_list_open_tags | grep -q "$name" ; then
+        if [[ $@ ]] ; then S_DEFAULT_TAG=$(s_seltag) ; fi
+        s_source_lib data session allapp
+        s_closesession "$name" & disown -a
+      else
+        s_error "No open session named '$name'" \
+          "I can only close open sessions"
+      fi
     ;;
   -a|all)
     S_ACTION="$2"
@@ -106,7 +107,8 @@ case $1 in
     if ! type s_system_action_$S_ACTION 2>/dev/null \
          | grep -q 'is a function' ; then
       s_fatal "No such action '$S_ACTION'" \
-              "Known actions are: $(s_print_system_actions)\n       Change them in the rc file"
+        "Known actions are: $(s_print_system_actions)
+       Change them in the rc file"
     fi
     {
       while read -r name ; do
