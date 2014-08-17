@@ -15,7 +15,9 @@ s_closetag_wmii() {
 }
 
 s_list_app_seltag_wmii() {
-  wmiir cat /tag/sel/index | awk '!/^#/{split($5,a,";"); print $2" "a[1]}'
+  wmiir cat /tag/sel/index \
+    | awk '!/^#/{split($5,a,";"); print $2" "a[1]}' \
+    | sort -u
 }
 
 s_focus_window_wmii() {

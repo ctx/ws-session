@@ -14,7 +14,8 @@ s_newtag_i3() {
 s_list_open_tags_i3() {
   i3-msg -t get_workspaces \
     | jshon -a -e name \
-    | sed 's/^"//;s/"$//'
+    | sed 's/^"//;s/"$//' \
+    | sort -u
 }
 
 s_closetag_i3() {

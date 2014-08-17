@@ -17,7 +17,7 @@ s_list_app_seltag_llwm() {
     echo -n "${app##*:} "
     xprop -id ${app##*:} WM_CLASS \
       | cut -f2 -d'"'
-  done
+  done | sort -u
 }
 
 s_list_open_tags_llwm() {

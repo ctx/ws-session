@@ -4,7 +4,8 @@ s_seltag_bspwm() {
 
 s_list_app_seltag_bspwm() {
   bspc query -T -d "$S_SEL_TAG" \
-    | awk 'NR<=1 {next} /0x/{print $3" "$2}'
+    | awk 'NR<=1 {next} /0x/{print $3" "$2}' \
+    | sort -u
 }
 
 s_list_open_tags_bspwm() {

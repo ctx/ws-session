@@ -21,7 +21,7 @@ s_list_open_tags_wingo() {
 s_list_app_seltag_wingo() {
   for client in $(wingo-cmd 'GetClientList (GetWorkspace)') ; do
     s_print_id_class "0x$(echo "ibase=10;obase=16;$client"|bc)"
-  done
+  done | sort -u
   unset client
 }
 

@@ -1,12 +1,14 @@
 s_seltag_herbstluftwm() {
   herbstclient tag_status \
-        | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
+    | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
 }
 
 s_list_app_seltag_herbstluftwm() {
-  while read -r client ; do
+  herbstclient stack \
+    | awk '/Client 0x/{ print $5 }' \
+    | while read -r client ; do
     s_print_id_class $client
-  done < <(herbstclient stack | awk '/Client 0x/{ print $5 }')
+  done | sort -u
   unset client
 }
 

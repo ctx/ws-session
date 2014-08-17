@@ -1,6 +1,6 @@
 s_list_winids_app_seltag () {
-  s_list_app_seltag | \
-    awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " \
+  s_list_app_seltag \
+    | awk -v IGNORECASE=1 -v ap="$app" -v ORS=" " \
       'match ($0,ap) {print $1}'
 }
 
