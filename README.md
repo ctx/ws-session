@@ -29,6 +29,7 @@ https://github.com/ctx/ws-session/wiki/What-should-work
 
 * Get the code, export S_LIB_FOLDER=/path/to/code.
 * Read, install and adjust ws-session.rc.
+* Add the wrappers in the bin folder to your $PATH
 * For seamless integration in to your windowmanager, you can:
   * Bind a key to 'ws-session menu' to create new workspaces.
   * Bind a key to 'ws-session close' to close a workspace.
