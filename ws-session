@@ -117,7 +117,7 @@ case $1 in
       done < <(s_list_open_tags \
                  | grep -v "$S_DEFAULT_TAG"
                  echo "$S_DEFAULT_TAG")
-      sleep 0.25
+      sleep $S_RUN_ACTION_SLEEP
       s_system_action_$S_ACTION
     } & disown
     ;;

@@ -20,6 +20,8 @@ S_WM="bspwm i3 herbstluftwm"
 # Before we can apply the old layout we have to wait x seconds for
 # the windows to open.
 #S_LOAD_LAYOUT_SLEEP="1"
+# Before running system action we have to wait
+#S_RUN_ACTION_SLEEP="1"
 
 ### APPLICATIONS ---------------
 # 'dmenu -p' is tested but you could probably use any menu program.

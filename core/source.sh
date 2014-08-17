@@ -4,6 +4,7 @@ S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
 S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
 S_NUMBER_OF_BACKUPS="5"
 S_LOAD_LAYOUT_SLEEP=1
+S_RUN_ACTION_SLEEP=1
 S_BLACKLIST=
 
 s_fatal() {
