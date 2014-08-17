@@ -22,7 +22,7 @@ s_cleanup() {
 
 S_LIB_FOLDER="."
 source ./lib/source.sh
-S_DEFAULT_TAG=1
+S_DEFAULT_TAG=session
 source ./lib/wm.sh
 test_dir=/tmp/session-test
 S_TEMP_FOLDER=$test_dir/tmp
@@ -32,30 +32,30 @@ testnumber=0
 echo "#### Running wm tests: -------------"
 echo -n "##   "
 
-# test seltag ----------------------------------------------------------------------
+# test seltag ------------------------------------------------------------
 # lame, but ...
 tag="$(s_seltag)"
 s_assert_equals "$tag" "$S_DEFAULT_TAG"
 
-# test create tag ----------------------------------------------------------------------
+# test create tag --------------------------------------------------------
 # create and change to tag newtag 
 tag="tagname"
 s_newtag $tag
 s_assert_equals "$(s_seltag)" "$tag"
 
-# test close tag ---------------------------------------------------------------------
+# test close tag ---------------------------------------------------------
 # close newtag and go to tag 1 per default
 S_SEL_TAG=$(s_seltag)
 s_closetag
 s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG"
 
 
-# test newtag no name ---------------------------------------------------------------------
+# test newtag no name ----------------------------------------------------
 # try to change to tag "" should do nothing
 s_newtag
 s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG"
 
-# test tag name with special chars ---------------------------------------------------------------------
+# test tag name with special chars ---------------------------------------
 # the tag with name ~!@~`#$%^&*()_+="-0\][{}|;':,/.<>
 #crazyname='~!@~`#$%^&*()_+="-0][{}|;'\'':,/.<>'
 crazyname='~!@~`#$%-0:.'
@@ -68,7 +68,7 @@ if ! [[ -d $S_TEMP_FOLDER/$crazyname ]] ; then
 fi
 s_closetag
 
-# test focus window ---------------------------------------------------------------------
+# test focus window ------------------------------------------------------
 # focus every window on the default tag
 S_SEL_TAG=$(s_seltag)
 for app in $(s_list_app_seltag | cut -f1 -d" ") ; do
@@ -79,8 +79,8 @@ done
 echo
 echo "##   All tests passed!"
 
-# test list app seltag ---------------------------------------------------------------------
-# cannot compare 
+# test list app seltag ---------------------------------------------------
+# cannot compare with a function 
 echo
 echo
 echo Looks good but we have to compare the following output with the reality:
