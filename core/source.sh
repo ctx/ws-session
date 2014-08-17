@@ -58,7 +58,7 @@ s_source_lib() {
         done
         ;;
       *)
-        source "$S_LIB_FOLDER/lib/${a}.sh"
+        source "$S_LIB_FOLDER/core/${a}.sh"
     esac
   done
 }

@@ -48,7 +48,7 @@ s_print_system_actions() {
 }
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-source $S_LIB_FOLDER/lib/source.sh
+source $S_LIB_FOLDER/core/source.sh
 
 case $1 in
   -l|list)

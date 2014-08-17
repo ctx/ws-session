@@ -21,9 +21,9 @@ s_cleanup() {
 }
 
 S_LIB_FOLDER="."
-source ./lib/source.sh
+source ./core/source.sh
 S_DEFAULT_TAG=session
-source ./lib/wm.sh
+source ./core/wm.sh
 test_dir=/tmp/session-test
 S_TEMP_FOLDER=$test_dir/tmp
 

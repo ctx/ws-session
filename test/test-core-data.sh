@@ -8,7 +8,7 @@ S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 S_DATA_FOLDER="$test_dir/session"
 mkdir -p "$S_DATA_FOLDER"
-source ./lib/data.sh
+source ./core/data.sh
 
 # functions ==============================================================
 # remove test data

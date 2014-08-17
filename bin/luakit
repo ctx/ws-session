@@ -1,7 +1,7 @@
 #!/bin/bash
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-source $S_LIB_FOLDER/lib/source.sh
+source $S_LIB_FOLDER/core/source.sh
 s_source_lib wm
 
 if [[ -n $S_WM ]] ; then
