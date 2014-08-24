@@ -31,11 +31,13 @@ elif [[ -z $S_WM ]] ; then
 $(s_find_wm "$S_LIB_FOLDER")"
   fi
   s_wms="$(sort -u <<< "$s_wms")"
-  for s_wm in $s_wms ; do
-    if [[ -n $(s_running_wm_$s_wm 2>/dev/null) ]] ; then
+  for f in $s_wms ; do
+    if [[ -n $(s_running_wm_$f 2>/dev/null) ]] ; then
+      s_wm="$f"
       break
     fi
   done
+  unset f
 else
   for f in $S_WM ; do
     if [[ -n "$(s_running_wm_$f 2>/dev/null)" ]] ; then
@@ -43,6 +45,7 @@ else
       break
     fi
   done
+  unset f
 fi
 
 if [[ -n "$s_wm" ]] ; then
