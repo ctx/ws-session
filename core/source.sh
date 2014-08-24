@@ -28,12 +28,12 @@ s_error() {
 
 if [[ -f $HOME/.ws-session.rc ]] ; then
   source "$HOME/.ws-session.rc"
-elif [[ -f $HOME/.config/ws-session/ws-session.rc ]] ; then
-  source "$HOME/.config/ws-session/ws-session.rc"
+elif [[ -f $S_CONFIG_FOLDER/ws-session.rc ]] ; then
+  source "$S_CONFIG_FOLDER/ws-session.rc"
 else
   s_error "session.rc not found" \
-    "install it to $HOME/.ws-session.rc
-       or $XDG_CONFIG_HOME/ws-session/ws-session.rc.
+    "install it to '$HOME/.ws-session.rc'
+       or '$XDG_CONFIG_HOME/ws-session/ws-session.rc'.
        Continuing with default settings"
 fi
 
