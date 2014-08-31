@@ -1,12 +1,4 @@
-# set defaults
-S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
-S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
-S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
-S_NUMBER_OF_BACKUPS="5"
-S_LOAD_LAYOUT_SLEEP=1
-S_RUN_ACTION_SLEEP=1
-S_BLACKLIST=
-
+# at the very beginnig declare the errorhandling functions
 s_fatal() {
   echo -e "FATAL: ${1}, aborting!" >&2
   if [[ $2 == "help" ]] ; then
@@ -26,14 +18,33 @@ s_error() {
   fi
 }
 
+# set default settings
+if [[ -d "$XDG_DATA_HOME" ]] ; then
+  S_DATA_FOLDER="${S_DATA_FOLDER:-$XDG_DATA_HOME/ws-session}"
+else
+  S_DATA_FOLDER="${S_DATA_FOLDER:-$HOME/.ws-session/sessions}"
+fi
+if [[ -d "$XDG_CONFIG_HOME" ]] ; then
+  S_CONFIG_FOLDER="${S_CONFIG_FOLDER:-$XDG_CONFIG_HOME/ws-session}"
+else
+  S_CONFIG_FOLDER="${S_CONFIG_FOLDER:-$HOME/.ws-session}"
+fi
+S_TEMP_FOLDER="${S_TEMP_FOLDER:-/tmp/ws-session-$(whoami)}"
+
+S_NUMBER_OF_BACKUPS="5"
+S_LOAD_LAYOUT_SLEEP=1
+S_RUN_ACTION_SLEEP=1
+S_BLACKLIST=
+
+# load user settings
 if [[ -f $HOME/.ws-session.rc ]] ; then
   source "$HOME/.ws-session.rc"
 elif [[ -f $S_CONFIG_FOLDER/ws-session.rc ]] ; then
   source "$S_CONFIG_FOLDER/ws-session.rc"
 else
-  s_error "session.rc not found" \
+  s_error "ws-session.rc not found" \
     "install it to '$HOME/.ws-session.rc'
-       or '$XDG_CONFIG_HOME/ws-session/ws-session.rc'.
+       or '\$XDG_CONFIG_HOME/ws-session/ws-session.rc'.
        Continuing with default settings"
 fi
 

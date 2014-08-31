@@ -4,9 +4,13 @@
 # you can copy it to $XDG_CONFIG_HOME/ws-session/ws-session.rc
 
 ### FOLDERS --------------------
-#S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
 #S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
+# in case you use XDG
+#S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
 #S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+# in case you dont use XDG
+#S_DATA_FOLDER="$HOME/.ws-session/sessions"
+#S_CONFIG_FOLDER="$HOME/.ws-session"
 
 ### SETTINGS -------------------
 #S_NUMBER_OF_BACKUPS="5"
