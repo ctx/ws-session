@@ -8,18 +8,14 @@ s_luakit_open_session() {
     if [[ ! -d "$tmp_dir/$LUAKIT" ]] ; then
       cp -r $dir/$LUAKIT $tmp_dir
     fi
-    xdh="$XDG_DATA_HOME"
-    XDG_DATA_HOME="$tmp_dir/$LUAKIT"
-    $luakitcmd & >/dev/null 2>&1
+    XDG_DATA_HOME="$tmp_dir/$LUAKIT" $luakitcmd & >/dev/null 2>&1
     pid="$!"
-    s_reg_winid "$pid" "$(< "$XDG_DATA_HOME/windowid")"
-    XDG_DATA_HOME=$xdh
-    unset xdh
+    s_reg_winid "$pid" "$(< "$tmp_dir/$LUAKIT/windowid")"
   fi
 }
 
 s_luakit_close_session() {
-  echo $1 > "$tmp_dir/windowid"
+  echo $1 > "$tmp_dir/$LUAKIT/windowid"
   s_focus_window $1
   xdotool type :wqall
   xdotool key KP_Enter
@@ -31,11 +27,7 @@ s_luakit_new_instance() {
   local tmp_dir="$1"
   shift
   mkdir -p "$tmp_dir"
-  xdh="$XDG_DATA_HOME"
-  XDG_DATA_HOME="$tmp_dir/$LUAKIT"
-  $luakitcmd "$@" & >/dev/null 2>&1
-  XDG_DATA_HOME=$xdh
-  unset xdh
+  XDG_DATA_HOME="$tmp_dir" $luakitcmd "$@" & >/dev/null 2>&1
 }
 
 s_luakit_focus() {
@@ -56,7 +48,7 @@ s_luakit_start() {
   then
     s_luakit_new_instance "$dir" "$url"
   else
-    winid="$(s_list_app_seltag | grep $LUAKIT | cut -f1 -d" ")"
+    winid="$(s_list_app_seltag | awk "/$LUAKIT/{print $1}")"
     if [ -z "$winid" ] ; then
       s_luakit_new_instance "$dir" "$url"
     else
