@@ -2,10 +2,7 @@ s_command_open_session() {
   local file="$1/command"
   
   if [[ -f "$file" ]] ; then
-    while read -r l ; do
-      id="$(cut -f 1 <<< "$l" )"
-      d="$(cut -f 2 <<< "$l" )"
-      cmd="$(cut -f 3 <<< "$l" )"
+    while FS="\t" read -r id d cmd ; do
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$tmp_dir/command.tmp"
         $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
