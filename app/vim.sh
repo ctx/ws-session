@@ -7,7 +7,7 @@ s_vim_open_session() {
     local viminfo="$tmp_dir/viminfo"
     local vimwinids="$tmp_dir/vimwinids"
     while read -r f ; do
-      id=$(grep -e "$(basename "$f")" "$vimwinids" | cut -f1 -d" ")
+      id=$(awk "/$(basename "${f}")/{print \$1}" "$vimwinids")
       if [[ -n $id ]] ; then
         $S_TERM -name vim -e \
           /usr/bin/vim -i "$viminfo" --servername "$S_SEL_TAG-" -S "$f" \

@@ -21,7 +21,7 @@ s_command_close_session() {
 
   echo -n > "$command_file"
   for id in $commandids ; do
-    grep $id "$tmp_command_file" | tail -n1 >> "$command_file"
+    sed -n "/${id}/{p;q;}" "$tmp_command_file" >> "$command_file"
     xdotool windowkill $id
   done
   unset id

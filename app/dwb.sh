@@ -34,7 +34,7 @@ s_dwb_start() {
       -exec ln -s "{}" "$tmp_dir/$DWB/" \;
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
   else
-    winid="$(s_list_app_seltag | grep $DWB | cut -f1 -d " ")"
+    winid="$(s_list_app_seltag | awk "/$DWB/{print $1}")"
     if [[ -n $winid ]] ; then
       #XDG_CONFIG_HOME="$tmp_dir" /usr/bin/dwbremote -i "$winid" "$@" & > /dev/null 2>&1
       s_focus_window "$winid"

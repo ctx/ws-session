@@ -25,7 +25,7 @@ s_urxvt_close_session() {
 
   for urxvt in $urxvtids ; do
     local pid=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
-    local zshpid=$(ps --ppid $pid | grep zsh | head -1 | awk '{print $1}' )
+    local zshpid=$(ps --ppid $pid | awk '/zsh/{print $1;exit;}' )
     local cwd=$(readlink /proc/$zshpid/cwd)
     [[ $urxvt ]] && echo "$urxvt $cwd" >> "$tmp_dir/urxvt"
     xdotool windowkill $urxvt
