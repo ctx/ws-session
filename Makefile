@@ -14,6 +14,12 @@ test:
 	@bash test/test-core-wm.sh
 
 
+# target:  version    - Show version
+version:
+	@echo -n "version "
+	@git rev-list --count HEAD
+
+
 # target:  install    - Install
 install:
 	mkdir -p "$(DESTDIR)$(PREFIX)/lib/ws-session/"
@@ -25,4 +31,5 @@ install:
 	cp -pr bin "$(DESTDIR)/etc/xdg/ws-session/bin"
 	cp -p ws-session "$(DESTDIR)$(PREFIX)/bin/ws-session"
 	cp -p ws-session.rc "$(DESTDIR)/etc/xdg/ws-session/ws-session.rc"
+	sed -i "/VERSION/s/VERSION=/VERSION=\"$(shell make version)\"/" "$(DESTDIR)$(PREFIX)/bin/ws-session"
 

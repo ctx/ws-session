@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION=
+
 s_help() {
   local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
@@ -28,6 +30,8 @@ Options:
   -r|restore <sessionname>
         Restore a session to a previous state.
         You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
+  -v|version
+        Print version.
 
 Debug Options:
   debug <function>
@@ -51,6 +55,10 @@ S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
 source $S_LIB_FOLDER/core/source.sh
 
 case $1 in
+  -v|version)
+    echo This is ${0%% *} ${VERSION:-run from a git folder}.
+    echo Please report bugs at http://github.com/ctx/ws-session/issues.
+    ;;
   -l|list)
     s_source_lib data
     s_list_sessions
