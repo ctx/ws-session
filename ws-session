@@ -3,14 +3,13 @@
 VERSION=
 
 s_help() {
-  local S_SA="$(s_print_system_actions)"
 cat << HELPFILE
 Usage: 
   ws-session <option>
         You can only use one option at a time.
 
 Options:
-  -a|all <$S_SA>
+   -a|all <$(s_print_system_actions)>
         Close all sessions and then run a system_action.
         You can create new system_actions in your rc file.
   -c|close [sessionname]
@@ -45,10 +44,29 @@ Debug Options:
 
 Please report bugs at http://github.com/ctx/ws-session/issues.
 HELPFILE
+s_copyright
+}
+
+s_copyright() {
+cat << COPYRIGHT
+Copyright (C) 2014 Ciril Troxler.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ 
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+COPYRIGHT
 }
 
 s_print_system_actions() {
-  typeset -F | grep s_system_action_ | cut -f4 -d'_' | tr '\n' '|' | sed 's/|$//'
+  typeset -F \
+    | awk -F'_' '/s_system_action/{ 
+          if (c!=1) {
+            c=1;
+            printf ("%s",$4);
+          } else {
+            printf ("|%s",$4);
+          }
+        }'
 }
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
@@ -56,8 +74,13 @@ source $S_LIB_FOLDER/core/source.sh
 
 case $1 in
   -v|version)
-    echo This is ${0%% *} ${VERSION:-run from a git folder}.
-    echo Please report bugs at http://github.com/ctx/ws-session/issues.
+      echo -n "This is ${0##*/} "
+    if [[ -n "$VERSION" ]] ; then 
+      echo "${VERSION}."
+    else
+      echo "run from a git folder at commit $(git rev-list --count HEAD)."
+    fi
+    s_copyright
     ;;
   -l|list)
     s_source_lib data
