@@ -70,7 +70,7 @@ mkdir "$test_dir/old"
 type s_${app}_start
 
 if [[ -n "$(type s_${app}_start | grep "function")" ]] ; then
-  s_${app}_start $2
+  s_${app}_start $2 &
 else
   ${app} $2 &
 fi
