@@ -9,8 +9,7 @@ s_luakit_open_session() {
       cp -r $dir/$LUAKIT $tmp_dir
     fi
     XDG_DATA_HOME="$tmp_dir/$LUAKIT" $luakitcmd & >/dev/null 2>&1
-    pid="$!"
-    s_reg_winid "$pid" "$(< "$tmp_dir/$LUAKIT/windowid")"
+    s_reg_winid $! "$(< "$tmp_dir/$LUAKIT/windowid")"
   fi
 }
 

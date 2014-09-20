@@ -5,11 +5,10 @@ s_zathura_open_session() {
     while read -r id document ; do
       if [[ -n $id ]] ; then
         /usr/bin/zathura "$document" & >/dev/null 2>&1
-        pid="$!"
-        s_reg_winid $pid $id
+        s_reg_winid $! $id
       fi
     done <"$file"
-    unset pid id document
+    unset id document
   fi
 }
 

@@ -6,11 +6,10 @@ s_command_open_session() {
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$tmp_dir/command.tmp"
         $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
-        pid="$!"
-        s_reg_winid $pid $id
+        s_reg_winid $! $id
       fi
     done <"$file"
-    unset l id d cmd pid
+    unset l id d cmd
   fi
 }
 

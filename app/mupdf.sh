@@ -10,7 +10,7 @@ s_mupdf_hack() {
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
   while read -r file ; do
-    s_run_cmd_opensession "s_mupdf_hack ${file% *}" ${file#* }
+    s_mupdf_hack ${file} &
   done < <(grep -v "^$" "$1/mupdf")
 }
 
@@ -32,7 +32,7 @@ s_mupdf_close_session() {
 # start exampleapp in a way that close_session can close/save it
 s_mupdf_start() {
   if [[ $@ ]] ; then
-    s_run_cmd "s_mupdf_hack $@"
+    s_mupdf_hack $@
   else
     /usr/bin/mupdf
   fi

@@ -9,8 +9,7 @@ s_urxvt_open_session() {
     while read -r id wd ;do
       if [[ -n $id ]] ; then
         /usr/bin/urxvt -cd "$wd" & >/dev/null 2>&1
-        local pid="$!"
-        s_reg_winid $pid $id
+        s_reg_winid $! $id
       fi
     done <"$file"
     unset id wd

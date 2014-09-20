@@ -12,11 +12,10 @@ s_vim_open_session() {
         $S_TERM -name vim -e \
           /usr/bin/vim -i "$viminfo" --servername "$S_SEL_TAG-" -S "$f" \
           & > /dev/null 2>&1
-        pid="$!"
-        s_reg_winid $pid $id
+        s_reg_winid $! $id
       fi
     done< <(find "$folder" -type f)
-    unset pid id f
+    unset id f
   fi
 }
 

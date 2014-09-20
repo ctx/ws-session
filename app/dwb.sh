@@ -12,7 +12,6 @@ s_dwb_open_session() {
     fi
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload & >/dev/null 2>&1
     s_reg_winid $! "$(< "$tmp_dir/$DWB/windowid")"
-    unset pid
   fi
 }
 
