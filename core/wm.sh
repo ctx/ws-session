@@ -96,9 +96,9 @@ if [[ -n "$s_wm" ]] ; then
   fi
 
   s_print_id_class() {
-    echo -n "$1 "
-    xprop -id "$1" WM_CLASS \
-      | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//'
+    local class="$(xprop -id "$1" WM_CLASS 2>/dev/null \
+      | sed 's/^.* = \"//;s/\", \".*$//;s/\"$//')"
+    echo "${1:-unknown} ${class:-unknown}"
   }
 
 else
