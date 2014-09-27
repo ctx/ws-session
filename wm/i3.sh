@@ -36,14 +36,14 @@ s_list_app_seltag_i3() {
     | grep -v null \
     | tr "\n" " ")"
   for id in $winids ; do
-    s_print_id_class "0x$(echo "ibase=10;obase=16;$id"|bc)"
+    s_print_id_class "0x$(printf '%0x\n' $id)"
   done
   unset id winidhex
 }
 
 s_focus_window_i3() {
   local c="$@"
-  local winiddec="$(echo "ibase=16;${c##0x}"|bc)"
+  local winiddec="$(printf "%u\n" $@)"
   i3-msg "[id=\"$winiddec\"] focus" > /dev/null
 }
 
