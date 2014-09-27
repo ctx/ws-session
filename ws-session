@@ -9,7 +9,7 @@ Usage:
         You can only use one option at a time.
 
 Options:
-   -a|all <$(s_print_system_actions)>
+  -a|all <$(s_print_system_actions)>
         Close all sessions and then run a system_action.
         You can create new system_actions in your rc file.
   -c|close [sessionname]
