@@ -6,9 +6,10 @@ s_seltag_herbstluftwm() {
 s_list_app_seltag_herbstluftwm() {
   herbstclient stack \
     | awk '/Client 0x/{ print $5 }' \
+    | sort -u \
     | while read -r client ; do
     s_print_id_class $client
-  done | sort -u
+  done
   unset client
 }
 
