@@ -9,6 +9,8 @@ s_dwb_open_session() {
   if [[ -d "$1/$DWB" ]] ; then
     if ! [[  -d "$tmp_dir/$DWB" ]] ; then
       cp -RP "$1/$DWB" "$tmp_dir"
+      find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \
+        -exec ln -sf "{}" "$tmp_dir/$DWB/" \;
     fi
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload & >/dev/null 2>&1
     s_reg_winid $! "$(< "$tmp_dir/$DWB/windowid")"
@@ -30,7 +32,7 @@ s_dwb_start() {
   if ! [[ -d $tmp_dir/$DWB ]] ; then
     mkdir "$tmp_dir/$DWB"
     find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \
-      -exec ln -s "{}" "$tmp_dir/$DWB/" \;
+      -exec ln -sf "{}" "$tmp_dir/$DWB/" \;
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
   else
     winid="$(s_list_app_seltag | awk "/$DWB/{print $1}")"

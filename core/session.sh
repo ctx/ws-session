@@ -58,7 +58,7 @@ s_opensession() {
   if [[ -d "$dir" ]] ; then
 
     for file in ${S_LN_FILES[@]} ; do
-      ln -s "$file" "$tmp_dir"
+      ln -sf "$file" "$tmp_dir"
     done
     unset file
 
