@@ -22,10 +22,10 @@ s_cleanup() {
 
 S_LIB_FOLDER="."
 source ./core/source.sh
-S_DEFAULT_TAG=session
 source ./core/wm.sh
 test_dir=/tmp/session-test
 S_TEMP_FOLDER=$test_dir/tmp
+S_DEFAULT_TAG=${TEST_TAG:-1}
 
 testnumber=0
 
