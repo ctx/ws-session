@@ -8,7 +8,7 @@ dwbcmdreload="$dwbcmd -f -r default"
 s_dwb_open_session() {
   if [[ -d "$1/$DWB" ]] ; then
     if ! [[  -d "$tmp_dir/$DWB" ]] ; then
-      cp -R "$1/$DWB" "$tmp_dir"
+      cp -RP "$1/$DWB" "$tmp_dir"
     fi
     XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload & >/dev/null 2>&1
     s_reg_winid $! "$(< "$tmp_dir/$DWB/windowid")"
