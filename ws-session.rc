@@ -27,6 +27,9 @@ S_WM="bspwm i3 herbstluftwm"
 # Before running system action we have to wait
 #S_RUN_ACTION_SLEEP="1"
 
+# Link those files/directories to the tempfolder
+S_LN_FILES=( "$XDG_CONFIG_HOME/gtk-3.0" )
+
 ### APPLICATIONS ---------------
 # 'dmenu -p' is tested but you could probably use any menu program.
 S_MENU='dmenu'

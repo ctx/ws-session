@@ -57,6 +57,11 @@ s_opensession() {
 
   if [[ -d "$dir" ]] ; then
 
+    for file in ${S_LN_FILES[@]} ; do
+      ln -s "$file" "$tmp_dir"
+    done
+    unset file
+
     cpwd="$(pwd)"
     while FS="\t" read -r winid d cmd ; do
       cd "$d"
@@ -71,7 +76,6 @@ s_opensession() {
       s_${app}_open_session "$dir"
     done
     unset app
-
 
     if [[ $S_WM_SUPPORTS_LAYOUT_SAVING == "1" && -f $dir/${S_WM}.layout ]] ; then
 
