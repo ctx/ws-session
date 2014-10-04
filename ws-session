@@ -114,9 +114,14 @@ case $1 in
     ;;
   -o|open)
     shift
+    name="$@"
+    s_source_lib wm stopwm
+    if s_list_open_tags | grep -q "$name" && [[ -n $name ]] ; then
+      s_fatal "This session is allready open" \
+        "You cannot open a session twice"
+    fi
     {
-      name="$@"
-      s_source_lib wm stopwm data session allapp
+      s_source_lib data session allapp
       s_opensession "$name"
     } & disown
     ;;

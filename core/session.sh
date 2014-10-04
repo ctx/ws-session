@@ -45,7 +45,8 @@ s_closesession() {
 s_opensession() {
   local name="$@"
   if [[ -z $name ]] ; then
-    s_fatal "No valid session name supplied"
+    s_fatal "No valid session name supplied" \
+      "I need to know which session you want to open"
   fi
   local dir="$S_DATA_FOLDER/$name-1"
   local tmp_dir="$S_TEMP_FOLDER/$name"
