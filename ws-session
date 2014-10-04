@@ -22,8 +22,9 @@ Options:
   -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
-  -o|open <sessionname>
+  -o|open [-f] <sessionname>
         Start the session with name sessionname.
+        Use -f to ignore allready open sessions (emty tags).
   -p|path
         Prints the temporary path for dotfiles etc.
   -r|restore <sessionname>
@@ -114,11 +115,17 @@ case $1 in
     ;;
   -o|open)
     shift
-    name="$@"
-    s_source_lib wm stopwm
-    if s_list_open_tags | grep -q "$name" && [[ -n $name ]] ; then
-      s_fatal "This session is allready open" \
-        "You cannot open a session twice"
+    if [[ $1 != "-f" ]] ; then
+      name="$@"
+      s_source_lib wm stopwm
+      if s_list_open_tags | grep -q "$name" && [[ -n $name ]] ; then
+        s_fatal "This session is allready open" \
+          "You cannot open a session twice"
+      fi
+    else
+      shift
+      name="$@"
+      s_source_lib wm stopwm
     fi
     {
       s_source_lib data session allapp
