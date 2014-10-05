@@ -75,7 +75,7 @@ source $S_LIB_FOLDER/core/source.sh
 
 case $1 in
   -v|version)
-      echo -n "This is ${0##*/} "
+      echo -n "${0##*/}, version "
     if [[ -n "$VERSION" ]] ; then 
       echo "${VERSION}."
     else
