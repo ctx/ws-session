@@ -14,7 +14,7 @@ Options:
         You can create new system_actions in your rc file.
   -c|close [sessionname]
         Close current session if no sessionname is supplied.
-        Or close the session named sessionname.
+        Or close the session named 'sessionname'.
   -h|help
         Print this help.
   -l|list
@@ -24,7 +24,7 @@ Options:
         You have to set '\$S_MENU' in the rc file.
   -o|open [-f] <sessionname>
         Start the session with name sessionname.
-        Use -f to ignore allready open sessions (emty tags).
+        Use -f to open sessions on an already open (empty) tag.
   -p|path
         Prints the temporary path for dotfiles etc.
   -r|restore <sessionname>
@@ -115,19 +115,17 @@ case $1 in
     ;;
   -o|open)
     shift
+    s_source_lib wm stopwm
     if [[ $1 != "-f" ]] ; then
-      name="$@"
-      s_source_lib wm stopwm
       if s_list_open_tags | grep -q "$name" && [[ -n $name ]] ; then
-        s_fatal "This session is allready open" \
+        s_fatal "This session is already open" \
           "You cannot open a session twice"
       fi
     else
       shift
-      name="$@"
-      s_source_lib wm stopwm
     fi
     {
+      name="$@"
       s_source_lib data session allapp
       s_opensession "$name"
     } & disown
@@ -146,22 +144,22 @@ case $1 in
       fi
     ;;
   -a|all)
-    S_ACTION="$2"
+    action="$2"
     s_source_lib wm stopwm data session allapp
-    if ! type s_system_action_$S_ACTION 2>/dev/null \
+    if ! type s_system_action_$action 2>/dev/null \
          | grep -q 'is a function' ; then
-      s_fatal "No such action '$S_ACTION'" \
+      s_fatal "No such action '$action'" \
         "Known actions are: $(s_print_system_actions)
        Change them in the rc file"
     fi
     {
-      while read -r name ; do
+      s_list_open_tags \
+        | sed -e "/$S_DEFAULT_TAG/d" -e "\$a$S_DEFAULT_TAG" \
+        | while read -r name ; do
         s_closesession "$name"
-      done < <(s_list_open_tags \
-                 | grep -v "$S_DEFAULT_TAG"
-                 echo "$S_DEFAULT_TAG")
+      done
       sleep $S_RUN_ACTION_SLEEP
-      s_system_action_$S_ACTION
+      s_system_action_$action
     } & disown
     ;;
   -r|restore)
