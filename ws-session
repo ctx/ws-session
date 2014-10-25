@@ -95,16 +95,16 @@ case $1 in
     if [[ -x "$(which ${S_MENU%% *} 2>/dev/null)" ]] ; then
       s_source_lib wm stopwm data
 
-      s="$( (s_list_open_tags;s_list_sessions) \
+      name="$( (s_list_open_tags;s_list_sessions) \
         | grep -v ^$ \
         | sort -u \
         | eval "${S_MENU} ${S_MENU_PROMPT_SWITCH}'start a session:'")"
 
-      if s_list_open_tags | grep -q "$s" ; then
-        s_newtag "$s"
-      elif [[ -n $s ]] ; then
+      if s_list_open_tags | grep -q -x -e "$name" ; then
+        s_newtag "$name"
+      elif [[ -n $name ]] ; then
           s_source_lib session allapp
-          s_opensession "$s" & disown
+          s_opensession "$name" & disown
       else
         s_error "No session selected" \
           "You stopped the menu without choosing a session"
@@ -117,7 +117,7 @@ case $1 in
     shift
     s_source_lib wm stopwm
     if [[ $1 != "-f" ]] ; then
-      if s_list_open_tags | grep -q "$name" && [[ -n $name ]] ; then
+      if s_list_open_tags | grep -q -x -e "$name" && [[ -n $name ]] ; then
         s_fatal "This session is already open" \
           "You cannot open a session twice"
       fi
@@ -134,7 +134,7 @@ case $1 in
     shift
       name="$@"
       s_source_lib wm stopwm
-      if s_list_open_tags | grep -q "$name" ; then
+      if s_list_open_tags | grep -q -x -e "$name" ; then
         if [[ $@ ]] ; then S_DEFAULT_TAG=$(s_seltag) ; fi
         s_source_lib data session allapp
         s_closesession "$name" & disown -a
@@ -166,7 +166,7 @@ case $1 in
     shift
     name="$@"
     s_source_lib data
-    if s_list_sessions | grep -q -e "^$name$" ; then
+    if s_list_sessions | grep -q -x -e "$name" ; then
       s_restore_data "$name"
     else
       s_error "no session with name '$name'" \

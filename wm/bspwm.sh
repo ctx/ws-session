@@ -13,7 +13,7 @@ s_list_open_tags_bspwm() {
 }
 
 s_newtag_bspwm() {
-  if ! bscp query -D | grep -q -F "$@" ; then 
+  if ! bscp query -D | grep -q -F -e "$@" ; then 
     bspc monitor -a "$@"
   fi
   bspc desktop -f "$@"
@@ -35,7 +35,7 @@ s_save_layout_bspwm() {
 }
 
 s_reload_layout_bspwm() {
-  nexttag="$(bspc query -D | grep "^$S_SEL_TAG$" -A1 | tail -1)"
+  nexttag="$(bspc query -D | grep -A1 -x -e "$S_SEL_TAG" | tail -1)"
   nexttag="${nexttag:- xxxxxxx}"
   oifs="$IFS"
   IFS=''

@@ -29,7 +29,7 @@ s_list_app_seltag_i3() {
     | grep -v window_rect \
     | tr -d "\n" \
     | sed 's/,    \"/,\n\"/g' \
-    | grep -A1 "\"name\": \"$S_SEL_TAG\"" \
+    | grep -A1 -e "\"name\": \"$S_SEL_TAG\"" \
     | sed 's/\"window\"/\n/g;s/\"//g;s/\"name\"//g;s/: //g' \
     | tail -n+4 \
     | cut -d, -f1 \

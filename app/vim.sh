@@ -20,7 +20,7 @@ s_vim_open_session() {
 }
 
 s_vim_close_session() {
-  local vimservers=$(/usr/bin/vim --serverlist | grep -i "^$S_SEL_TAG-")
+  local vimservers=$(/usr/bin/vim --serverlist | grep -i -e "^$S_SEL_TAG-")
   local winids="$1"
   local vimwinids="$tmp_dir/vimwinids"
 
