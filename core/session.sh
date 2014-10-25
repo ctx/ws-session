@@ -23,7 +23,7 @@ s_closesession() {
   unset app winids
 
   echo -n > "$tmp_dir/autostart"
-  while read -r id app ; do
+  s_list_app_seltag | while read -r id app ; do
     if ! [[ "${S_BLACKLIST[@]}" =~ " $app " \
          || "${S_BLACKLIST[1]}" == "$app" \
          || "${S_BLACKLIST[${#S_BLACKLIST[@]}]}" == "$app" \
@@ -34,7 +34,7 @@ s_closesession() {
       echo -e "$id\t$cwd\t$exe" >> "$tmp_dir/autostart"
     fi
     xdotool windowkill $id
-  done < <(s_list_app_seltag)
+  done
   unset id pid app cwd exe
 
   s_store_data "$tmp_dir" "$session"
@@ -83,7 +83,7 @@ s_opensession() {
       sleep $S_LOAD_LAYOUT_SLEEP
 
       s_restore_file ${S_WM}.layout
-      while read -r id app ; do
+      s_list_app_seltag | while read -r id app ; do
         pid="$(xdotool getwindowpid $id)"
         if [[ -n ${pid_winid[$pid]} ]] ; then
           sed -i "s/${pid_winid[$pid]}/${id}/" "$tmp_dir/${S_WM}.layout"
@@ -92,7 +92,7 @@ s_opensession() {
         else
           s_error "Cannot find old winid: $pid $id $app" 
         fi
-      done < <(s_list_app_seltag)
+      done
       unset id app pid
       s_reload_layout
     fi

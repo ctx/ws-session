@@ -3,7 +3,7 @@ s_seltag_wingo() {
 }
 
 s_newtag_wingo() {
-  if ! grep -q -F "$@" < <(s_list_open_tags_wingo) ; then
+  if ! s_list_open_tags_wingo | grep -q -F "$@" ; then
     wingo-cmd "AddWorkspace \"$@\"" > /dev/null
   fi
   wingo-cmd "Workspace \"$@\"" > /dev/null

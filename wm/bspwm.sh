@@ -13,7 +13,7 @@ s_list_open_tags_bspwm() {
 }
 
 s_newtag_bspwm() {
-  if ! grep -q -F "$@" < <(bspc query -D) ; then 
+  if ! bscp query -D | grep -q -F "$@" ; then 
     bspc monitor -a "$@"
   fi
   bspc desktop -f "$@"

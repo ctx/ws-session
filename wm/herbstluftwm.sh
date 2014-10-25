@@ -18,7 +18,7 @@ s_list_open_tags_herbstluftwm() {
 }
 
 s_newtag_herbstluftwm() {
-  if ! grep -q -F "$@" < <(s_list_open_tags_herbstluftwm) ; then 
+  if ! s_list_open_tags_herbstluftwm | grep -q -F "$@" ; then 
     herbstclient chain , add "$@" , use "$@"
   else
     herbstclient use "$@"

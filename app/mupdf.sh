@@ -9,9 +9,9 @@ s_mupdf_hack() {
 # arg1: Data folder: where the last session was stored.
 # arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
-  while read -r file ; do
+  grep -v "^$" "$1/mupdf" | while read -r file ; do
     s_mupdf_hack ${file} &
-  done < <(grep -v "^$" "$1/mupdf")
+  done
 }
 
 # close mupdf, save state to temporary folder

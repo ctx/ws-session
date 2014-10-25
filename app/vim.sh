@@ -6,7 +6,7 @@ s_vim_open_session() {
     s_restore_file viminfo vimwinids
     local viminfo="$tmp_dir/viminfo"
     local vimwinids="$tmp_dir/vimwinids"
-    while read -r f ; do
+    find "$folder" -type f | while read -r f ; do
       id=$(awk "/$(basename "${f}")/{print \$1}" "$vimwinids")
       if [[ -n $id ]] ; then
         $S_TERM -name vim -e \
@@ -14,7 +14,7 @@ s_vim_open_session() {
           & > /dev/null 2>&1
         s_reg_winid $! $id
       fi
-    done< <(find "$folder" -type f)
+    done
     unset id f
   fi
 }
