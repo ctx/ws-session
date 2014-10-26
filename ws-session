@@ -117,31 +117,36 @@ case $1 in
     shift
     s_source_lib wm stopwm
     if [[ $1 != "-f" ]] ; then
+      name="$@"
       if s_list_open_tags | grep -q -x -e "$name" && [[ -n $name ]] ; then
         s_fatal "This session is already open" \
           "You cannot open a session twice"
       fi
     else
       shift
+      name="$@"
     fi
     {
-      name="$@"
       s_source_lib data session allapp
       s_opensession "$name"
     } & disown
     ;;
   -c|close)
     shift
-      name="$@"
-      s_source_lib wm stopwm
-      if s_list_open_tags | grep -q -x -e "$name" ; then
-        if [[ $@ ]] ; then S_DEFAULT_TAG=$(s_seltag) ; fi
-        s_source_lib data session allapp
-        s_closesession "$name" & disown -a
-      else
-        s_error "No open session named '$name'" \
-          "I can only close open sessions"
-      fi
+    name="$@"
+    s_source_lib wm stopwm
+    if [[ -n $name && $name != $S_SEL_TAG ]] ; then
+      S_DEFAULT_TAG=$(s_seltag)
+    else
+      name="$(s_seltag)"
+    fi
+    if s_list_open_tags | grep -q -x -e "$name" ; then
+      s_source_lib data session allapp
+      s_closesession "$name" & disown -a
+    else
+      s_error "No open session named '$name'" \
+        "I can only close open sessions"
+    fi
     ;;
   -a|all)
     action="$2"
