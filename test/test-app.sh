@@ -58,7 +58,7 @@ s_reg_winid() {
 }
 
 select_window() {
-  xprop WM_HINTS | awk '/window id/{print $NF}'
+  xwininfo -children | awk '/Window id/{print $4}'
 }
 
 s_focus_window() {
