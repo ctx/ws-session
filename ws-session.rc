@@ -19,7 +19,7 @@
 S_DEFAULT_TAG="1"
 
 # Whitelist of your window manager(s)
-S_WM="bspwm i3 herbstluftwm"
+S_WM="bspwm i3 herbstluftwm wingo"
 
 # Before we can apply the old layout we have to wait x seconds for
 # the windows to open.
@@ -31,7 +31,8 @@ S_WM="bspwm i3 herbstluftwm"
 S_LN_FILES=( "$XDG_CONFIG_HOME/gtk-3.0" )
 
 ### APPLICATIONS ---------------
-# 'dmenu -p' is tested but you could probably use any menu program.
+# Menu
+# 'dmenu -p ' is tested but you could probably use any menu program.
 S_MENU='dmenu'
 S_MENU_PROMPT_SWITCH="-p "
 # zenity should also work
@@ -43,14 +44,14 @@ S_TERM=urxvt
 # An array of files that are restored for the Shell
 S_SHELL_FILES=( "history" "zdirs" )
 
+# Completely ignore windows with these window classes:
+S_BLACKLIST=( "firefox" )
+
 ### OPEN/CLOSE SESSION ---------
 # The following applications have a wrapper.
 # Put your terminal at the end so that terminal applications
 # don't get terminatet before we had the cance to save them.
 S_APPLICATIONS=( "command" "vim" "dwb" "luakit" "zathura" "$S_TERM" )
-
-# Completely ignore windows with these window classes:
-S_BLACKLIST=( "firefox" )
 
 ### SYSTEM ACTION -------------
 # The following functions can be called after closing all sessions:

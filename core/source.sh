@@ -1,4 +1,4 @@
-# at the very beginnig declare the errorhandling functions
+# at the very beginnig declare the error handling functions
 s_fatal() {
   echo -e "FATAL: ${1}, aborting!" >&2
   if [[ $2 == "help" ]] ; then
@@ -48,6 +48,7 @@ else
        Continuing with default settings"
 fi
 
+# declare functions to source core and app files
 s_source() {
   if [[ -f "$S_CONFIG_FOLDER/$1" ]] ; then
     source "$S_CONFIG_FOLDER/$1"
@@ -62,7 +63,7 @@ s_source_lib() {
   for a in $@ ; do
     case $a in
       stopwm)
-        s_stop_if_no_wm
+        [[ -z $S_WM ]] && s_fatal "No supported wm is running"
         ;;
       allapp)
         for app in ${S_APPLICATIONS[@]} ; do

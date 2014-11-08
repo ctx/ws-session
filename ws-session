@@ -136,9 +136,9 @@ case $1 in
     name="$@"
     s_source_lib wm stopwm
     if [[ -n $name && $name != $S_SEL_TAG ]] ; then
-      S_DEFAULT_TAG=$(s_seltag)
+      S_DEFAULT_TAG="$S_SEL_TAG"
     else
-      name="$(s_seltag)"
+      name="$S_SEL_TAG"
     fi
     if s_list_open_tags | grep -q -x -e "$name" ; then
       s_source_lib data session allapp

@@ -1,11 +1,5 @@
 s_source wm/is-wm-running.sh
 
-s_stop_if_no_wm() {
-  if [[ -z $S_WM ]] ; then
-    s_fatal "No supported wm is running"
-  fi
-}
-
 s_find_wm() {
   find "$1/wm" -type f \
                -not -name '.*' \
@@ -14,12 +8,7 @@ s_find_wm() {
                2>/dev/null
 }
 
-s_reg_winid() {
-  local ppid=$(ps --ppid $1 -o pid=)
-  [[ -z $ppid ]] && ppid=$1
-  pid_winid[$ppid]="$2"
-}
-
+# find a running wm
 if [[ -z $DISPLAY ]] ; then 
   unset S_WM
 elif [[ -z $S_WM ]] ; then
@@ -48,16 +37,13 @@ else
   unset f
 fi
 
+# declare wm functions if a supported wm is running
 if [[ -n "$s_wm" ]] ; then
   S_WM="$s_wm"
 
   s_source wm/${S_WM}.sh
 
   S_SEL_TAG="$(s_seltag_$S_WM)"
-
-  s_seltag() {
-    s_seltag_$S_WM
-  }
 
   s_newtag() {
     [[ -n $@ ]] && s_newtag_$S_WM "$@"

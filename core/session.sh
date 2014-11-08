@@ -4,6 +4,19 @@ s_list_winids_app_seltag () {
       'match ($0,ap) {print $1}'
 }
 
+s_restore_file() {
+  local f
+  for f in $@ ; do
+    cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
+  done
+}
+
+s_reg_winid() {
+  local ppid=$(ps --ppid $1 -o pid=)
+  [[ -z $ppid ]] && ppid=$1
+  pid_winid[$ppid]="$2"
+}
+
 s_closesession() {
   if [[ -n $@ ]] ; then
     S_SEL_TAG="$@"
@@ -63,15 +76,15 @@ s_opensession() {
     done
     unset file
 
-    cpwd="$(pwd)"
+    pushd .
     while FS="\t" read -r winid d cmd ; do
       cd "$d"
       $cmd & >/dev/null 2>&1
       pid="$!"
       s_reg_winid $pid $winid
     done < "$dir/autostart"
-    cd "$cpwd"
-    unset winid d cmd pid cpwd
+    popd
+    unset winid d cmd pid
 
     for app in ${S_APPLICATIONS[@]} ; do
       s_${app}_open_session "$dir"
@@ -99,14 +112,6 @@ s_opensession() {
 
   fi
   unset pid_winid
-  disown -a
-}
-
-s_restore_file() {
-  for f in $@ ; do
-    cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
-  done
-  unset f
 }
 
 # vim: ft=sh ts=2 et sw=2:
