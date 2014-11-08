@@ -38,10 +38,10 @@ S_MENU_PROMPT_SWITCH="-p "
 #S_MENU="zenity --list --column=ALL --hide-header"
 #S_MENU_PROMPT_SWITCH="--title="
 
+# Terminal and Shell
 S_TERM=urxvt
-# The next two variables are used in the file app/urxvt.sh only.
-S_SHELL_HISTORY=history
-S_SHELL_DIRS=zdirs
+# An array of files that are restored for the Shell
+S_SHELL_FILES=( "history" "zdirs" )
 
 ### OPEN/CLOSE SESSION ---------
 # The following applications have a wrapper.

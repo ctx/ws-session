@@ -12,19 +12,21 @@ s_assert_equals() {
 }
 
 s_cleanup() {
-  echo -n "##   cleanup"
+  echo "##   cleanup"
+
+  xdotool windowkill $(select_window)
   rm -rf "$test_dir"
 
-  ! [[ -d $test_dir ]] && \
-    echo " .. done."
+  ! [[ -d $test_dir ]] && echo "##   done."
   echo "##----------------------------------"
 }
 
 app=$1
 S_LIB_FOLDER="."
-test_dir=/tmp/session-test
+test_dir="/tmp/session-test"
 S_TEMP_FOLDER="$test_dir"
 S_SEL_TAG=testtag
+S_SHELL_FILES=( zsh_history )
 tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
 S_TERM=urxvt
 TERM=
@@ -38,10 +40,10 @@ source ./app/${app}.sh
 
 # Mock functions
 s_restore_file() {
+  local f
   for f in $@ ; do
     cp "$test_dir/old/$S_SEL_TAG/$f" "$tmp_dir"
   done
-  unset f
 }
 
 s_list_app_seltag() {
@@ -67,30 +69,32 @@ s_focus_window() {
 
 mkdir -p "$tmp_dir"
 mkdir "$test_dir/old"
-type s_${app}_start
 
-if [[ -n "$(type s_${app}_start | grep "function")" ]] ; then
+if type s_${app}_start 2>/dev/null | grep -q function ; then
   s_${app}_start $2 &
 else
+  PATH="$PWD/${0%/*}/mock:$PATH"
   ${app} $2 &
 fi
 started=yes
 s_${app}_close_session $(select_window)
 unset started
+echo "## started $app on $S_SEL_TAG"
 tree /tmp/session-test
 
 sleep 2
+echo "## close session"
 mv "$tmp_dir" "$test_dir/old/" 
-mkdir "$tmp_dir"
 tree /tmp/session-test
 
+echo "## open session"
+mkdir "$tmp_dir"
 s_${app}_open_session "$test_dir/old/$S_SEL_TAG"
 started=yes
 
 tree /tmp/session-test
 
 testnumber=0
-xdotool windowkill $(select_window)
 
 s_cleanup
 

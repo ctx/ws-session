@@ -3,7 +3,7 @@
 # Load the cwd's from the file arg1/urxvt
 s_urxvt_open_session() {
   local file="$1/urxvt"
-  s_restore_file $S_SHELL_HISTORY $S_SHELL_DIRS
+  s_restore_file ${S_SHELL_FILES[@]}
 
   if [[ -f "$file" ]] ; then
     while read -r id wd ;do
@@ -21,15 +21,19 @@ s_urxvt_open_session() {
 # Store the cwd of all urxvt's on the current tag
 s_urxvt_close_session() {
   local urxvtids="$1"
+  local urxvt
 
   for urxvt in $urxvtids ; do
-    local pid=$(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3 )
-    local zshpid=$(ps --ppid $pid | awk '/zsh/{print $1;exit;}' )
-    local cwd=$(readlink /proc/$zshpid/cwd)
-    [[ $urxvt ]] && echo "$urxvt $cwd" >> "$tmp_dir/urxvt"
-    xdotool windowkill $urxvt
+    if [[ -n $urxvt ]] ; then
+      echo -n "$urxvt "
+      readlink /proc/$(ps --ppid \
+        $(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3) \
+        | awk '/zsh/{print $1;exit;}')/cwd
+      s_focus_window $urxvt
+      xdotool type "exit" 1>&2
+      xdotool key KP_Enter 1>&2
+    fi >> "$tmp_dir/urxvt"
   done
-  unset urxvt
 }
 
 # vim: ft=sh ts=2 et sw=2:
