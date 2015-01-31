@@ -23,6 +23,8 @@ s_urxvt_close_session() {
   local urxvtids="$1"
   local urxvt
 
+  echo -n > "$tmp_dir/urxvt"
+
   for urxvt in $urxvtids ; do
     if [[ -n $urxvt ]] ; then
       echo -n "$urxvt "
