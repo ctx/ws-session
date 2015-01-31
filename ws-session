@@ -158,9 +158,9 @@ case $1 in
        Change them in the rc file"
     fi
     {
-      s_list_open_tags \
-        | sed -e "/$S_DEFAULT_TAG/d" -e "\$a$S_DEFAULT_TAG" \
-        | while read -r name ; do
+      ( s_list_open_tags | sed -e "/$S_DEFAULT_TAG/d"
+        echo $S_DEFAULT_TAG
+      ) | while read -r name ; do
         s_closesession "$name"
       done
       sleep $S_RUN_ACTION_SLEEP
