@@ -76,14 +76,14 @@ s_opensession() {
     done
     unset file
 
-    pushd .
+    pushd . > /dev/null
     while FS="\t" read -r winid d cmd ; do
       cd "$d"
       $cmd & >/dev/null 2>&1
       pid="$!"
       s_reg_winid $pid $winid
     done < "$dir/autostart"
-    popd
+    popd > /dev/null
     unset winid d cmd pid
 
     for app in ${S_APPLICATIONS[@]} ; do
