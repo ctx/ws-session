@@ -1,4 +1,4 @@
-.PHONY: test depts
+.PHONY: test deps
 
 VERSION:=$(shell git rev-list --count HEAD) (git)
 LIBDIR:=$(DESTDIR)$(PREFIX)/lib/ws-session
@@ -13,7 +13,7 @@ help :
 	@egrep "^# target:" [Mm]akefile | cut -d":" -f2
 	
 
-# target:  test       - Run the core tests (data,wm (just the running one)) 
+# target:  test       - Run the (automatic) core tests (data,wm) 
 test:
 	@bash test/test-core-data.sh
 	@bash test/test-core-wm.sh
@@ -23,14 +23,14 @@ test:
 version:
 	@echo $(VERSION)
 
-# target:  depts      - Check for missing dependencies
-depts: 
+# target:  deps       - Check for missing dependencies
+deps:
 	@which wmctrl
 	@which xprop
 	@which xdotool
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
-install: depts
+install: deps
 	install -d $(LIBDIR)/core $(LIBDIR)/app $(LIBDIR)/wm $(BINDIR) $(ETCDIR)/bin
 	install -m755 ws-session $(BINDIR)/
 	install -m644 ws-session.rc $(ETCDIR)/
