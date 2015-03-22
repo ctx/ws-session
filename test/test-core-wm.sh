@@ -20,6 +20,10 @@ s_cleanup() {
   echo "##----------------------------------"
 }
 
+s_seltag() {
+  s_seltag_$S_WM
+}
+
 S_LIB_FOLDER="."
 source ./core/source.sh
 source ./core/wm.sh
