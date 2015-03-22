@@ -1,0 +1,38 @@
+#compdef ws-session
+
+_ws-session() {
+  local curcontex="$curcontext" state_descr line
+
+  _arguments \
+    '-a[close all sessions and run a system action]:systemactions:->systemactions::' \
+    '-c[close a session]:open sessions:->opensessions::' \
+    '-h[help]::' \
+    '-l[list all sessions]::' \
+    '-m[open a session from a menu]::' \
+    '-o[open a session]:sessions:->sessionname::' \
+    '-p[print session path]::' \
+    '-r[restore a session]:sessionname:->sessionname::' \
+    '-v[print version]::'
+
+  case $state in
+    sessionname)
+      local -a session_name
+      session_name=( $(ws-session -l) )
+      _describe 'saved sessions' session_name
+      ;;
+    opensessions)
+      local -a open_sessions
+      open_sessions=( $(ws-session debug s_list_open_tags) )
+      _describe 'open sessions' open_sessions
+      ;;
+    systemactions)
+      local -a system_action
+      system_action=( $(ws-session debug s_print_system_actions | sed 's,|, ,g') )
+      _describe 'system actions' system_action
+      ;;
+  esac
+}
+
+_ws-session "$@"
+
+# vim: ft=sh ts=2 et sw=2
