@@ -24,11 +24,16 @@ test:
 version:
 	@echo $(VERSION)
 
+
 # target:  deps       - Check for missing dependencies
+.ONESHELL:
 deps:
-	@which wmctrl
-	@which xprop
-	@which xdotool
+	@r=0
+	for p in wmctrl xprop xdotool ; do
+	  if ! which $$p >/dev/null; then r=1; echo $$p not found; fi
+	done
+	test $$r -eq 1 && echo "You need to install all dependencies to use ws-session.\n"
+	exit $$r
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
 install: deps
