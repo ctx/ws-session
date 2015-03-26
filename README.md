@@ -28,6 +28,7 @@ https://github.com/ctx/ws-session/wiki/What-should-work
 #### Installation
 
 * Get the code, export S_LIB_FOLDER=/path/to/code.
+* Create a folder for your saved sessions e.g. $HOME/.local/ws-session
 * Read, install and adjust ws-session.rc.
 * Add the wrappers in the bin folder to your $PATH
 * For seamless integration in to your windowmanager, you can:
