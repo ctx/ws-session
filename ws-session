@@ -194,7 +194,7 @@ case $1 in
     done | column -t -s";"
     ;;
   *)
-    s_error "No such option '$1'" help
+    s_error "No option provided, ws-session needs one to operate" "Use -h to show all options"
     ;;
 esac
 
