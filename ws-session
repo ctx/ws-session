@@ -5,40 +5,44 @@ VERSION=
 s_help() {
 cat << HELPFILE
 Usage: 
-  ws-session <option>
-        You can only use one option at a time.
+  ws-session option
+        You must use one option at a time.
 
 Options:
-  -a|all <$(s_print_system_actions)>
-        Close all sessions and then run a system_action.
+  -a|all system_action
+        Close all sessions and then run a 'system_action'.
         You can create new system_actions in your rc file.
+        Available system_actions: $(s_print_system_actions).
   -c|close [sessionname]
         Close current session if no sessionname is supplied.
         Or close the session named 'sessionname'.
   -h|help
-        Print this help.
+        Print the help.
   -l|list
         List all saved sessions in '\$S_DATA_FOLDER'.
   -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
-  -o|open [-f] <sessionname>
-        Start the session with name sessionname.
-        Use -f to open sessions on an already open (empty) tag.
+  -o|open [-f] sessionname
+        Start the session with name 'sessionname'.
+        Use -f to open sessions on an already open (empty) tag
+        with the same name.
   -p|path
-        Prints the temporary path for dotfiles etc.
-  -r|restore <sessionname>
-        Restore a session to a previous state.
-        You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
+        Prints the temporary path of the current session. Can
+        be used for dotfiles etc.
+  -r|restore sessionname
+        Restore the session named 'sessionname' to a previous
+        state. You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
   -v|version
         Print version.
 
 Debug Options:
-  debug <function>
-        Executes the argument after sourcing everything.
+  debug functionname
+        Executes the function named 'functionname' after
+        sourcing everything.
         WARNING: don't try ws-session debug rm -rf *
         EXAMPLE: ws-session debug s_list_app_seltag
-  print <variable> [variable]
+  print variable [variable]
         Prints the content of the variables supplied.
         EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG
         
@@ -65,7 +69,7 @@ s_print_system_actions() {
             c=1;
             printf ("%s",$4);
           } else {
-            printf ("|%s",$4);
+            printf (", %s",$4);
           }
         }'
 }
