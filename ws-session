@@ -54,7 +54,7 @@ s_copyright
 
 s_copyright() {
 cat << COPYRIGHT
-Copyright (C) 2014 Ciril Troxler.
+Copyright (C) 2010-2015 Ciril Troxler.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
  
 This is free software; you are free to change and redistribute it.

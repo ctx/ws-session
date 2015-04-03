@@ -50,4 +50,4 @@ https://github.com/ctx/ws-session/wiki/Extend-ws-session
 #### Copying
 License GPLv3:<br />
 http://gnu.org/licenses/gpl.html<br />
-2010-2014 Ciril Troxler
+2010-2015 Ciril Troxler
