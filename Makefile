@@ -1,4 +1,4 @@
-.PHONY: test deps
+.PHONY: test deps version
 
 VERSION:=$(shell git rev-list --count HEAD) (git)
 LIBDIR:=$(DESTDIR)$(PREFIX)/lib/ws-session
@@ -22,7 +22,7 @@ test:
 
 # target:  version    - Show version
 version:
-	@echo $(VERSION)
+	@echo "$(VERSION)"
 
 
 # target:  deps       - Check for missing dependencies
