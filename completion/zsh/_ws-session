@@ -27,7 +27,7 @@ _ws-session() {
       ;;
     systemactions)
       local -a system_action
-      system_action=( $(ws-session debug s_print_system_actions | sed 's,|, ,g') )
+      system_action=( $(ws-session debug s_print_system_actions | tr -d ',') )
       _describe 'system actions' system_action
       ;;
   esac
