@@ -77,13 +77,13 @@ source $S_LIB_FOLDER/core/source.sh
 
 case $1 in
   -v|version)
-      echo -n "${0##*/}, version "
+      echo -n "${0##*/}, "
     if [[ -n "$VERSION" ]] ; then 
-      echo "${VERSION}."
+      echo "version ${VERSION}."
     else
       echo "run from a git folder at commit $(git rev-list --count HEAD)."
-      echo
     fi
+    echo
     s_copyright
     ;;
   -l|list)
