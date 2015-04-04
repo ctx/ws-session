@@ -4,7 +4,7 @@ s_fatal() {
   if [[ $2 == "help" ]] ; then
     s_help >&2
   elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}." >&2
+    echo -e "       ${2}." >&2
   fi
   exit 1
 }
@@ -14,7 +14,7 @@ s_error() {
   if [[ $2 == "help" ]] ; then
     s_help >&2
   elif [[ -n $2 ]] ; then
-    echo -e "Hint:  ${2}." >&2
+    echo -e "       ${2}." >&2
   fi
 }
 
