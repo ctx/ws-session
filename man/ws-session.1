@@ -1,0 +1,91 @@
+.TH WS_SESSION 1 "March 29, 2015" "ws-session 1.0"
+.OS Linux
+.SH NAME
+ws-session \- a session manager for virtual desktops
+.SH SYNOPSIS
+.B ws-session
+option
+.SH DESCRIPTION
+.B ws-session
+creates one session for every 'virtual desktop', 'workspace' or 'tag'.
+
+You can start and stop sessions independent of each other.
+
+You can configure what should be part of your sessions: browser history/tabs, bash history, terminals with cwd, editors and open files, open pdfs, ncurses applications like mutt, htop, ssh (tmux attach) and everything else you can think of and write a wrapper.
+
+You must use one option at a time:
+.SS OPTIONS
+.TP
+.B \-a|all\ system_action
+Close all sessions and then run a system_action.
+You can create new system_actions in your rc file.
+.TP
+.B \-c|close\ [sessionname]
+Close current session if no session name is supplied.
+Or close the session named 'sessionname'.
+.TP
+.B \-h|help
+Print the help.
+.TP
+.B \-l|list
+List all saved sessions in '$S_DATA_FOLDER'.
+.TP
+.B \-m|menu
+Start a session from a menu.
+You have to set '$S_MENU' in the rc file.
+.TP
+.B \-o|open\ [-f]\ sessionname
+Start the session with name 'sessionname'.
+Use
+.B -f
+to open a session on an already open (empty) tag with the same name.
+.TP
+.B \-p|path
+Prints the temporary path of the current session. Can be used for dotfiles etc.
+.TP
+.B \-r|restore\ sessionname
+Restore the session named 'sessionname' session to a previous state.
+You can do it up to '$S_NUMBER_OF_BACKUPS' times.
+.TP
+.B \-v|version
+Print version
+.SS DEBUG OPTIONS
+.TP
+.B debug\ functionname
+Executes the function named 'functionname' or any command, after sourcing everything.
+.nf
+WARNING: don't try ws-session debug rm -rf *
+EXAMPLE: ws-session debug s_list_app_seltag
+.fi
+.TP
+.B print\ variable\ [variable]
+Prints the content of the variables supplied.
+.nf
+EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG
+.fi
+.SH FILES
+.TP
+.B /etc/xdg/ws-session/ws-session.rc
+The default configuration file, all possible configuration items are described in this file.
+Copy it to $HOME/.ws-session.rc or $XDG_CONFIG_HOME/ws-session/ws-session.rc.
+.TP
+.B /etc/xdg/ws-session/bin/*
+Here are the default application wrappers, copy or link them to your path.
+.TP
+.B /usr/lib/ws-session/app
+Here are the application functions located, you can create the folder $S_CONFIG_FOLDER/app.
+There you can put your own versions of your application functions.
+.TP
+.B /usr/lib/ws-session/wm
+Here are the windowmanager functions located, you can create the folder $S_CONFIG_FOLDER/wm.
+There you can put your own versions of your windowmanager functions.
+.SH SEE ALSO
+ws-session(7)
+.SH BUGS
+Please report bugs at http://github.com/ctx/ws-session/issues.
+.SH AUTHOR
+Ciril Troxler (ctroxler@gmail.com)
+.SH COPYRIGHT
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+ 
+This is free software; you are free to change and redistribute it.
