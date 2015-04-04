@@ -41,8 +41,8 @@ deps:
 # target:  doc        - compress man pages
 doc:
 	mkdir -p $(TMPDIR)
-	tar -czf $(TMPDIR)/ws-session.1.gz man/ws-session.1
-	tar -czf $(TMPDIR)/ws-session.7.gz man/ws-session.7
+	gzip -c man/ws-session.1 > $(TMPDIR)/ws-session.1.gz
+	gzip -c man/ws-session.7 > $(TMPDIR)/ws-session.7.gz
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
 install: deps doc
