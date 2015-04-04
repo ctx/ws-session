@@ -95,7 +95,7 @@ case $1 in
     echo "$S_TEMP_FOLDER/$S_SEL_TAG"
     ;;
   -m|menu)
-    if [[ -x "$(which ${S_MENU%% *} 2>/dev/null)" ]] ; then
+    if which ${S_MENU%% *} >/dev/null 2>&1 ; then
       s_source_lib wm stopwm data
 
       name="$( (s_list_open_tags;s_list_sessions) \
@@ -113,7 +113,7 @@ case $1 in
           "You stopped the menu without choosing a session"
       fi
     else
-      s_error "Cannot show menu: '$S_MENU'" "Set it in your rc file" 
+      s_error "Cannot find menu: '$S_MENU'" "Set it in your rc file" 
     fi
     ;;
   -o|open)
