@@ -1,4 +1,4 @@
-.TH WS-SESSION 1 "April 12, 2015" "ws-session 1.0"
+.TH WS-SESSION 1 "March 29, 2015" "ws-session 1.0"
 .OS Linux
 .SH NAME
 ws-session \- a session manager for virtual desktops
@@ -141,11 +141,10 @@ there you can put your own versions of your windowmanager functions.
 .I ws-session(7)
 .SH BUGS
 Please report bugs at 
-.IR <http://github.com/ctx/ws-session/issues> .
+.IR <http://github.com/ctx/ws-session/issues> \.
 .SH AUTHOR
 Ciril Troxler (ctroxler@gmail.com)
 .SH COPYRIGHT
-License GPLv3+: GNU GPL version 3 or later 
-.IR <http://gnu.org/licenses/gpl.html>
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
  
 This is free software; you are free to change and redistribute it.

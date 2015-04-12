@@ -1,14 +1,16 @@
-.TH WS_SESSION 7 "March 29, 2015" "ws-session 1.0"
+.TH WS-SESSION 7 "March 29, 2015" "ws-session 1.0"
 .OS Linux
 .SH NAME
-ws-session \- a session manager for virtual desktops
+ws-session \- add your applications and window manager of choice.
 .SH DESCRIPTION
 The idea behind
 .B ws-session
 is that you should be able to write your own wrappers for your favourite
 applications or the wm you use. If there exists a file in
-$S_CONFIG_FOLDER/{app,wm} it will be sourced instead of a file with the same
-name in $S_LIB_FOLDER/{app,wm}.
+.I $S_CONFIG_FOLDER/{app,wm}
+it will be sourced instead of a file with the same
+name in
+.IR $S_LIB_FOLDER/{app,wm} .
 
 This manual page describes how to write your own application or window manager 
 support.
@@ -20,7 +22,7 @@ settings which are loaded from the rc file. You can use/access those from
 whithin all files/functions you want to write.
 
 You can print the value of a variable with 
-.IR ws-session\ print\ S_VARIABLE_NAME
+.B ws-session print S_VARIABLE_NAME
 .TP
 .B S_WM
 This is a list of your preferred window manager(s). Can be one or more and it
@@ -35,33 +37,43 @@ Must be set in the rc file.
 .TP
 .B S_LIB_FOLDER
 Points to the folder with all the code in it. Defaults to but
-/usr/lib/ws-session. You can export this variable to your env to use a
+.IR /usr/lib/ws-session .
+You can export this variable to your env to use a
 different install directiory.
 
 Leave it out or set this like your other environement variables. You can just
 export it for testing purposes.
 .TP
 .B S_CONFIG_FOLDER
-Defaults to $XDG_CONFIG_HOME/ws-session, but if you name your rc file
-$HOME/.ws-session.rc you can set this to wathever you like
+Defaults to 
+.IR $XDG_CONFIG_HOME/ws-session ,
+but if you name your rc file
+.I $HOME/.ws-session.rc
+you can set this to wathever you like
 
 Can be set in the rc file.
 .TP
 .B S_DATA_FOLDER
-Per default points to $XDG_DATA_HOME/ws-session. Here is all the data from
+Per default points to
+.IR $XDG_DATA_HOME/ws-session .
+Here is all the data from
 saved sessions.
 
 Can be set in the rc file.
 .TP
 .B S_TEMP_FOLDER
 In this directory all the runtime data is stored. When you load a session the
-data gets copied from S_DATA_FOLDER/sessionname-1 to S_TEMP_FOLDER/sessionname
-and vice versa Default: /tmp/ws-session-$(whoami).
+data gets copied from
+.IR S_DATA_FOLDER/sessionname-1 \ to \ S_TEMP_FOLDER/sessionname
+and vice versa Default:
+.IR /tmp/ws-session-$(whoami) .
 
 Can be set in the rc file.
 .TP
 .B S_NUMBER_OF_BACKUPS
-How many backups of a session should get stored in S_DATA_FOLDER. Default 5.
+How many backups of a session should get stored in
+.IR S_DATA_FOLDER .
+Default 5.
 
 Can be set in the rc file.
 .TP
@@ -76,15 +88,22 @@ Contains the active workspace.
 Do not set this variable in the rc file, it gets set automatically.
 .TP
 .B S_MENU
-Points to your favorite menu e.g. dmenu -nf #333 but can also be another menu
-application.
+Points to your favorite menu e.g. 
+.I dmenu -nf #333
+but can also be another menu application like 
+.IR zenity .
 
 Can be set in the rc file.
 .TP
 .B S_WM_SUPPORTS_LAYOUT_SAVING
-1 if the wm is able to save and load a layout and 0 otherwise.
+.I 1
+if the wm is able to save and load a layout and
+.I 0
+otherwise.
 
-Do not set this variable in the rc file, it gets set it in the wm/* files.
+Do not set this variable in the rc file, you have to set it in the 
+.I wm/*
+files, if you create a new one.
 .TP
 .B S_LOAD_LAYOUT_SLEEP
 After running all applications one has to wait until all the windows are
@@ -102,25 +121,34 @@ It depends on your hardware. Can be set in the rc file.
 .B S_SHELL_FILES
 An array of file names for your shell. It could be the history and other shell
 files (eg dirstack) without the dot. This array is used in the functions of
-app/urxvt.sh there might be a app/xterm.sh where this array could be used too.
+.I app/urxvt.sh
+there might be a 
+.I app/xterm.sh
+where this array could be used too.
 
 Can be set in the rc file.
 
 .SH WINDOW MANAGER
 To use the wm tests: You can use the command 
-.IR TEST_TAG=session\ test/test-core-wm.sh
+.B TEST_TAG=session\ test/test-core-wm.sh
 if you are developping on a tag named session. It defaults to a tag named 1.
 
-Copy wm/is-wm-running.sh to your $S_CONFIG_FOLDER/wm folder and add a test for
-your wm. The function should echo something if it's running and nothing if not.
+Copy 
+.I wm/is-wm-running.sh
+to your
+.I $S_CONFIG_FOLDER/wm
+folder and add a test for your wm. The function should echo something if it's
+running and nothing if not.
 
-Create a new file $S_CONFIG_FOLDER/wm/examplewm.sh, see the template below.
+Create a new file
+.IR $S_CONFIG_FOLDER/wm/examplewm.sh ,
+see the template below.
 
 Run the wm tests until they dont throw wrong output and no tag with name
 tagname exists afterwards.
 
 You can run one function with 
-.IR ws-session\ debug\ s_function_name\ argument
+.B ws-session\ debug\ s_function_name\ argument
 
 .SS examplewm.sh
 .nf
@@ -171,17 +199,22 @@ s_reload_layout_examplewm() {
 Create a new file bin/exampleapp to run the wrapper. Take an existing one as
 example, they are mostly similar.
 
-Create a new file app/exampleapp.sh, see the template below.
+Create a new file
+.IR app/exampleapp.sh ,
+see the template below.
 
 Run
-.IR test/test-app.sh\ exampleapp.
+.B test/test-app.sh\ exampleapp.
 The application gets started and you can 'do' something e.g. open a website.
 Then you select the window with the mouse and the exampleapp will be stopped
 and started again. It works, when the things you 'did' will get reloaded. Kill
 the window with another mouse click.
 
-Sometimes bin/exampleapp and s_exampleapp_start are not needed but exampleapp
-needs a setting in its config files, eg. urxvt.
+Sometimes 
+.I bin/exampleapp
+and
+.I s_exampleapp_start
+are not needed but exampleapp needs a setting in its config files, eg. urxvt.
 .SS examplewm.sh
 .nf
 # open exampleapp from data folder, lockfiles and state should 
@@ -216,10 +249,12 @@ s_exampleapp_start() {
 .SH SEE ALSO
 ws-session(1)
 .SH BUGS
-Please report bugs at http://github.com/ctx/ws-session/issues.
+Please report bugs at 
+.IR <http://github.com/ctx/ws-session/issues> .
 .SH AUTHOR
 Ciril Troxler (ctroxler@gmail.com)
 .SH COPYRIGHT
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+License GPLv3+: GNU GPL version 3 or later 
+.I <http://gnu.org/licenses/gpl.html>
  
 This is free software; you are free to change and redistribute it.
