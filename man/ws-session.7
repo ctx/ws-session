@@ -17,9 +17,9 @@ support.
 
 .SH GLOBAL VARIABLES
 You must not change the value of a global variable in any of the app, wm or bin
-files. They are getting set in the core/ and the test/ files or they are user
-settings which are loaded from the rc file. You can use/access those from
-whithin all files/functions you want to write.
+files (with one exception). They are getting set in the core/ and the test/
+files or they are user settings which are loaded from the rc file. You can
+use/access those from whithin all files/functions you want to write.
 
 You can print the value of a variable with 
 .B ws-session print S_VARIABLE_NAME
@@ -247,7 +247,7 @@ s_exampleapp_start() {
 .if
 
 .SH SEE ALSO
-ws-session(1)
+.I ws-session(1)
 .SH BUGS
 Please report bugs at 
 .IR <http://github.com/ctx/ws-session/issues> .
