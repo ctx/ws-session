@@ -4,22 +4,15 @@
 ws-session - a session manager for virtual desktops
 .SH SYNOPSIS
 .B ws-session
-.RB [\| \-a|all
-.IR system_action \|]
+.RB [\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-v\| ]
 .br
 .B ws-session
-.RB [\| \-c|close \|]
-.RB [\| \-o|open 
-.RB [\| \-f \|]\|]
-.RB [\| \-r|restore \|]
+.RB [\| \-c \||\| \-o \ [ \-f \|]| \-r ]
 .IR sessionname
 .br
 .B ws-session
-.RB [\| \-h|help \|]
-.RB [\| \-l|list \|]
-.RB [\| \-m|menu \|]
-.RB [\| \-p|path \|]
-.RB [\| \-v|version \|]
+.RB \| \-a
+.IR system_action \|
 
 .SH DESCRIPTION
 .B ws-session
@@ -39,38 +32,37 @@ think of and write a wrapper.
 You must use one option at a time:
 .SS OPTIONS
 .TP
-.BI \-a|all \ system_action
+\fB\-a\fP, \fBall \fIsystem_action
 .br
 Close all sessions and then run a 
-.I system_action
-.
+.IR system_action .
 You can create new 
 .I system_actions
 in your rc file.
 .TP
-.BI \-c|close \ [sessionname]
+\fB\-c\fP, \fBclose\fP [\fIsessionname\fP]
 .br
 Close current session if no session name is supplied.
 Or close the session named 
 .IR sessionname \.
 .TP
-.BI \-h|help
+\fB\-h\fP, \fBhelp
 .br
 Print the help.
 .TP
-.BI \-l|list
+\fB\-l\fP, \fBlist
 .br
 List all saved sessions in 
 .IR $S_DATA_FOLDER \.
 .TP
-.BI \-m|menu
+\fB\-m\fP, \fBmenu
 .br
 Start a session from a menu.
 You have to set 
 .I $S_MENU
 in the rc file.
 .TP
-.BI \-o|open\ [-f] \ sessionname
+\fB\-o\fP, \fBopen\fP [\fB-f\fP] \fIsessionname
 .br
 Start the session with name 
 .IR sessionname \.
@@ -79,20 +71,20 @@ Use
 .B -f
 to open a session on an already open tag with the same name.
 .TP
-.BI \-p|path
+\fB\-p\fP, \fBpath
 .br
 Prints the temporary path of the current session. Can be used for dotfiles etc.
 .TP
-.BI \-r|restore \ sessionname
+\fB\-r\fP, \fBrestore \fIsessionname
 .br
 Restore the session named 
 .I sessionname
-session to a previous state.
+to a previous state.
 You can do it up to 
 .I $S_NUMBER_OF_BACKUPS
 times.
 .TP
-.B \-v|version
+\fB\-v\fP, \fBversion
 Print version
 .SS DEBUG OPTIONS
 .TP
@@ -109,7 +101,7 @@ EXAMPLE:
 .B ws-session debug s_list_app_seltag
 .br
 .TP
-.BI print \ (variable)
+\fBprint\fP [\fIvariable\fP]
 Prints the content of the variables supplied.
 .br
 EXAMPLE:
