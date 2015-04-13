@@ -59,7 +59,7 @@ s_delete_all_backups() {
 }
 
 s_list_sessions() {
-  find "$S_DATA_FOLDER" -maxdepth 1 -type d -exec basename {} \; \
+  find "$S_DATA_FOLDER" -maxdepth 1 -mindepth 1 -type d -exec basename {} \; \
     | sed 's/-[0-9]$//' \
     | sort -u
 }
