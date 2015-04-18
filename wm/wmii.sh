@@ -7,7 +7,7 @@ s_newtag_wmii() {
 }
 
 s_list_open_tags_wmii() {
-  wmiir ls /tag | sed ',/$,,'
+  wmiir ls /tag | sed 's,/$,,'
 }
 
 s_closetag_wmii() {
