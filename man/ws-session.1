@@ -4,7 +4,7 @@
 ws-session - a session manager for virtual desktops
 .SH SYNOPSIS
 .B ws-session
-.RB [\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-v\| ]
+.RB [\| \-a \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-v\| ]
 .br
 .B ws-session
 .RB [\| \-c \||\| \-o \ [ \-f \|]| \-r ]
@@ -31,17 +31,23 @@ think of and write a wrapper.
 You must use one option at a time:
 .SS OPTIONS
 .TP
-\fB\-a\fP, \fBall \fIsystem-action
+\fB\-a\fP, \fBall \fP[\fIsystem-action\fP]
 .br
 Close all sessions and then run a 
 .IR system-action .
+.br
 You can create new 
 .I system-actions
 in your rc file.
+.br
+List all
+.I system-actions
+if you don't specify one.
 .TP
 \fB\-c\fP, \fBclose\fP [\fIsession-name\fP]
 .br
 Close current session if no session name is supplied.
+.br
 Or close the session named 
 .IR session-name \.
 .TP

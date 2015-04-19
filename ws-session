@@ -4,7 +4,7 @@ VERSION=
 
 s_help() {
 echo "Synopsis:
-  ws-session [-h|-l|-m|-p|-v]
+  ws-session [-a|-h|-l|-m|-p|-v]
   ws-session [-c|-o [-f]|-r] session-name
   ws-session -a system-action
 
@@ -15,6 +15,7 @@ Options:
         Close all sessions and then run a 'system-action'.
         You can create new system-actions in your rc file.
         Available system-actions: $(s_print_system_actions).
+        List all system-actions if you don't specify one.
   -c|close [session-name]
         Close current session if no session-name is supplied.
         Or close the session named 'session-name'.
@@ -150,6 +151,11 @@ case $1 in
     fi
     ;;
   -a|all)
+    if  [[ -z $2 ]] ; then
+      s_print_system_actions
+      echo
+      exit 0
+    fi
     action="$2"
     s_source_lib wm stopwm data session allapp
     if ! type s_system_action_$action 2>/dev/null \
