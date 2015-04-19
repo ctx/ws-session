@@ -12,7 +12,7 @@ s_dwb_open_session() {
       find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \
         -exec ln -sf "{}" "$tmp_dir/$DWB/" \;
     fi
-    XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload & >/dev/null 2>&1
+    XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload >/dev/null 2>&1 &
     s_reg_winid $! "$(< "$tmp_dir/$DWB/windowid")"
   fi
 }

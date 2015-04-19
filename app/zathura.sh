@@ -4,7 +4,7 @@ s_zathura_open_session() {
   if [[ -f $file ]] ;then 
     while read -r id document ; do
       if [[ -n $id ]] ; then
-        /usr/bin/zathura "$document" & >/dev/null 2>&1
+        /usr/bin/zathura "$document" >/dev/null 2>&1 &
         s_reg_winid $! $id
       fi
     done <"$file"

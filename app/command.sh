@@ -5,7 +5,7 @@ s_command_open_session() {
     while FS="\t" read -r id d cmd ; do
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$tmp_dir/command.tmp"
-        $S_TERM -name command -cd "$d" -e "$cmd" & >/dev/null 2>&1
+        $S_TERM -name command -cd "$d" -e "$cmd" >/dev/null 2>&1 &
         s_reg_winid $! $id
       fi
     done <"$file"
