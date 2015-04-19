@@ -24,8 +24,8 @@ s_cleanup() {
 app=$1
 S_LIB_FOLDER="."
 test_dir="/tmp/session-test"
-S_TEMP_FOLDER="$test_dir"
-S_SEL_TAG=testtag
+export S_TEMP_FOLDER="$test_dir"
+export S_SEL_TAG=testtag
 S_SHELL_FILES=( zsh_history )
 tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
 S_TERM=urxvt

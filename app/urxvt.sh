@@ -32,8 +32,7 @@ s_urxvt_close_session() {
         $(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3) \
         | awk '/zsh/{print $1;exit;}')/cwd
       s_focus_window $urxvt
-      xdotool type "exit" 1>&2
-      xdotool key KP_Enter 1>&2
+      xdotool key ctrl+d 1>&2
     fi >> "$tmp_dir/urxvt"
   done
 }
