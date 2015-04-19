@@ -8,12 +8,11 @@ ws-session - a session manager for virtual desktops
 .br
 .B ws-session
 .RB [\| \-c \||\| \-o \ [ \-f \|]| \-r ]
-.IR sessionname
+.IR session-name
 .br
 .B ws-session
 .RB \| \-a
-.IR system_action \|
-
+.IR system-action \|
 .SH DESCRIPTION
 .B ws-session
 creates one session for every 
@@ -32,19 +31,19 @@ think of and write a wrapper.
 You must use one option at a time:
 .SS OPTIONS
 .TP
-\fB\-a\fP, \fBall \fIsystem_action
+\fB\-a\fP, \fBall \fIsystem-action
 .br
 Close all sessions and then run a 
-.IR system_action .
+.IR system-action .
 You can create new 
-.I system_actions
+.I system-actions
 in your rc file.
 .TP
-\fB\-c\fP, \fBclose\fP [\fIsessionname\fP]
+\fB\-c\fP, \fBclose\fP [\fIsession-name\fP]
 .br
 Close current session if no session name is supplied.
 Or close the session named 
-.IR sessionname \.
+.IR session-name \.
 .TP
 \fB\-h\fP, \fBhelp
 .br
@@ -62,10 +61,10 @@ You have to set
 .I $S_MENU
 in the rc file.
 .TP
-\fB\-o\fP, \fBopen\fP [\fB-f\fP] \fIsessionname
+\fB\-o\fP, \fBopen\fP [\fB-f\fP] \fIsession-name
 .br
 Start the session with name 
-.IR sessionname \.
+.IR session-name \.
 .br
 Use
 .B -f
@@ -73,12 +72,12 @@ to open a session on an already open tag with the same name.
 .TP
 \fB\-p\fP, \fBpath
 .br
-Prints the temporary path of the current session. Can be used for dotfiles etc.
+Print temporary path of the current session.
 .TP
-\fB\-r\fP, \fBrestore \fIsessionname
+\fB\-r\fP, \fBrestore \fIsession-name
 .br
 Restore the session named 
-.I sessionname
+.I session-name
 to a previous state.
 You can do it up to 
 .I $S_NUMBER_OF_BACKUPS
@@ -88,9 +87,9 @@ times.
 Print version
 .SS DEBUG OPTIONS
 .TP
-.BI debug \ functionname
-Executes the function named 
-.I functionname
+.BI debug \ function
+Executes the specified
+.I function
 or any command, after sourcing
 everything.
 .br
@@ -99,9 +98,8 @@ WARNING: don't try
 .br
 EXAMPLE:
 .B ws-session debug s_list_app_seltag
-.br
 .TP
-\fBprint\fP [\fIvariable\fP]
+\fBprint \fP[\fIvariable \fP...]
 Prints the content of the variables supplied.
 .br
 EXAMPLE:
@@ -126,9 +124,9 @@ Here are the application functions located. You can create the folder
 there you can put your own versions of your application functions.
 .TP
 .B /usr/lib/ws-session/wm
-Here are the windowmanager functions located. You can create the folder
+Here are the window manager functions located. You can create the folder
 .IR $S_CONFIG_FOLDER/wm ,
-there you can put your own versions of your windowmanager functions.
+there you can put your own versions of your window manager functions.
 .SH SEE ALSO
 .I ws-session(7)
 .SH BUGS
