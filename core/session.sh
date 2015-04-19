@@ -36,13 +36,11 @@ s_closesession() {
   unset app winids
 
   echo -n > "$tmp_dir/autostart"
+  ignore=( ${S_BLACKLIST[@]} ${S_APPLICATIONS[@]} )
   s_list_app_seltag | while read -r id app ; do
-    if ! [[ "${S_BLACKLIST[@]}" =~ " $app " \
-         || "${S_BLACKLIST[1]}" == "$app" \
-         || "${S_BLACKLIST[${#S_BLACKLIST[@]}]}" == "$app" \
-         || "${S_APPLICATIONS[@]}" =~ " $app " \
-         || "${S_APPLICATIONS[1]}" == "$app" \
-         || "${S_APPLICATIONS[${#S_APPLICATIONS[@]}]}" == "$app" \
+    if ! [[ "${ignore[@]}" =~ " $app " \
+         || "${ignore[1]}" == "$app" \
+         || "${ignore[${#ignore[@]}]}" == "$app" \
          ]] ; then 
       pid="$(xdotool getwindowpid $id)"
       cwd="$(readlink /proc/$pid/cwd)"
@@ -51,7 +49,7 @@ s_closesession() {
     fi
     xdotool windowkill $id
   done
-  unset id pid app cwd exe
+  unset id pid app cwd exe ignore
 
   s_store_data "$tmp_dir" "$session"
   rm -rf "$tmp_dir"
