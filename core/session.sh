@@ -40,6 +40,9 @@ s_closesession() {
     if ! [[ "${S_BLACKLIST[@]}" =~ " $app " \
          || "${S_BLACKLIST[1]}" == "$app" \
          || "${S_BLACKLIST[${#S_BLACKLIST[@]}]}" == "$app" \
+         || "${S_APPLICATIONS[@]}" =~ " $app " \
+         || "${S_APPLICATIONS[1]}" == "$app" \
+         || "${S_APPLICATIONS[${#S_APPLICATIONS[@]}]}" == "$app" \
          ]] ; then 
       pid="$(xdotool getwindowpid $id)"
       cwd="$(readlink /proc/$pid/cwd)"
