@@ -21,7 +21,7 @@ s_list_app_seltag_wmii() {
 }
 
 s_focus_window_wmii() {
-  xdotool windowactivate --sync "$@"
+  wmiir xwrite /tag/sel/ctl select client "$@"
 }
 
 # vim: ft=sh ts=2 et sw=2:
