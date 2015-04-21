@@ -72,7 +72,15 @@ s_print_system_actions() {
 }
 
 S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-source $S_LIB_FOLDER/core/source.sh
+if [[ -f $S_LIB_FOLDER/core/source.sh ]] ; then
+  source $S_LIB_FOLDER/core/source.sh
+else
+  echo "FATAL: cannot find core/source.sh, aborting!"
+  echo "       Install core files to /usr/lib/ws-session"
+  echo "       or export S_LIB_FOLDER,"
+  echo "       or temporary use: S_LIB_FOLDER=. ws-session"
+  exit 1
+fi
 
 case $1 in
   -v|version)
