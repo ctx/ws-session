@@ -37,26 +37,18 @@ S_RUN_ACTION_SLEEP=1
 S_BLACKLIST=
 
 # load user settings
-if [[ -f $HOME/.ws-session.rc ]] ; then
-  source "$HOME/.ws-session.rc"
-elif [[ -f $S_CONFIG_FOLDER/ws-session.rc ]] ; then
-  source "$S_CONFIG_FOLDER/ws-session.rc"
-else
-  s_error "ws-session.rc not found" \
+source "$HOME/.ws-session.rc" 2>/dev/null \
+  || source "$S_CONFIG_FOLDER/ws-session.rc" 2>/dev/null \
+  || s_error "ws-session.rc not found" \
     "install it to '$HOME/.ws-session.rc'
        or '\$XDG_CONFIG_HOME/ws-session/ws-session.rc'.
        Continuing with default settings"
-fi
 
 # declare functions to source core and app files
 s_source() {
-  if [[ -f "$S_CONFIG_FOLDER/$1" ]] ; then
-    source "$S_CONFIG_FOLDER/$1"
-  elif [[ -f "$S_LIB_FOLDER/$1" ]] ; then
-    source "$S_LIB_FOLDER/$1"
-  else
-    s_fatal "'$1' not found" "Fix your installation"
-  fi
+  source "$S_CONFIG_FOLDER/$1" 2>/dev/null \
+    || source "$S_LIB_FOLDER/$1" 2>/dev/null \
+    || s_fatal "'$1' not found" "Fix your installation"
 }
 
 s_source_lib() {
@@ -71,7 +63,9 @@ s_source_lib() {
         done
         ;;
       *)
-        source "$S_LIB_FOLDER/core/${a}.sh"
+        source "$S_LIB_FOLDER/core/${a}.sh" \
+          || s_fatal "no such file $S_LIB_FOLDER/core/${a}.sh" \
+                     "something is wrong with your installation"
     esac
   done
 }
