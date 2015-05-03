@@ -1,10 +1,6 @@
-# didn't get that json or jshon thing
 s_seltag_i3() {
   i3-msg -t get_workspaces \
-    | jshon \
-    | grep -B1 "visible\": true" \
-    | head -1 \
-    | sed 's/  \"name\": \"\(.*\)\",/\1/'
+    | jq -c '.[] | select(.focused) | .name' --raw-output
 }
 
 s_newtag_i3() {
@@ -13,9 +9,7 @@ s_newtag_i3() {
 
 s_list_open_tags_i3() {
   i3-msg -t get_workspaces \
-    | jshon -a -e name \
-    | sed 's/^"//;s/"$//' \
-    | sort -u
+    | jq -c '.[] | .name' --raw-output
 }
 
 s_closetag_i3() {
@@ -23,22 +17,13 @@ s_closetag_i3() {
 }
   
 s_list_app_seltag_i3() {
-  local winids="$(i3-msg -t get_tree \
-    | jshon -e nodes -a -e nodes \
-    | grep -e window -e name \
-    | grep -v window_rect \
-    | tr -d "\n" \
-    | sed 's/,    \"/,\n\"/g' \
-    | grep -A1 -e "\"name\": \"$S_SEL_TAG\"" \
-    | sed 's/\"window\"/\n/g;s/\"//g;s/\"name\"//g;s/: //g' \
-    | tail -n+4 \
-    | cut -d, -f1 \
-    | grep -v null \
-    | tr "\n" " ")"
-  for id in $winids ; do
+  local id
+  i3-msg -t get_tree \
+    | jq --raw-output \
+      ".nodes[].nodes[].nodes[]|select(contains({name:\"$S_SEL_TAG\"})).nodes[].nodes[].window" \
+    | while read id ; do
     s_print_id_class "0x$(printf '%0x\n' $id)"
   done
-  unset id winidhex
 }
 
 s_focus_window_i3() {
