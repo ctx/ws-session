@@ -8,8 +8,6 @@ echo "Synopsis:
   ws-session [-c|-o [-f]|-r] session-name
   ws-session -a system-action
 
-  You must use one option at a time.
-
 Options:
   -a|all system-action
         Close all sessions and then run a 'system-action'.
@@ -71,13 +69,27 @@ s_print_system_actions() {
         }'
 }
 
-S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-if ! source $S_LIB_FOLDER/core/source.sh 2>/dev/null; then
-  echo "FATAL: cannot find core/source.sh, aborting!"
-  echo "       Install core files to /usr/lib/ws-session"
-  echo "       or export S_LIB_FOLDER,"
-  echo "       or temporary use: S_LIB_FOLDER=. ws-session"
-  exit 1
+if [[ $S_DEBUG || $1 == "debug" ]] ; then
+  exec 3>&2
+  exec 4>&2
+  echo debug >&3
+else
+  exec 3>/dev/null
+  exec 4>&2
+fi
+
+S_LIB_FOLDER="${S_LIB_FOLDER:-/usr/lib/ws-session}"
+if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then
+  if ! source "$S_LIB_FOLDER/core/source.sh" 2>&3 >&4 ; then
+    echo "FATAL: syntax error in source.sh, shame on me!" >&2
+    exit 127
+  fi
+else
+  echo "FATAL: cannot find $S_LIB_FOLDER/core/source.sh, aborting!
+        Install core files to /usr/lib/ws-session
+        or export S_LIB_FOLDER,
+        or temporary use: S_LIB_FOLDER=$(pwd) ws-session" >&2
+  exit 127
 fi
 
 case $1 in
@@ -100,7 +112,7 @@ case $1 in
     echo "$S_TEMP_FOLDER/$S_SEL_TAG/"
     ;;
   -m|menu)
-    if which ${S_MENU%% *} >/dev/null 2>&1 ; then
+    if which ${S_MENU%% *} >&3 2>&3; then
       s_source_lib wm stopwm data
 
       name="$( (s_list_open_tags;s_list_sessions) \
@@ -208,12 +220,11 @@ case $1 in
     ;;
   *)
     if [[ -z $1 ]] ; then
-      s_error "No option provided, ws-session needs one to operate" \
-        "Use -h to show all options"
+      s_error "Nothing to do" help
     else
-      s_error "No such option: '$1'" \
-        "Use -h to show all options"
+      s_error "No such option: '$1'" help
     fi
+    exit 127
     ;;
 esac
 
