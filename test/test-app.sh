@@ -23,6 +23,7 @@ s_cleanup() {
 
 app=$1
 S_LIB_FOLDER="."
+S_DEBUG=1
 test_dir="/tmp/session-test"
 export S_TEMP_FOLDER="$test_dir"
 export S_SEL_TAG=testtag

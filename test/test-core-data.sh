@@ -3,7 +3,8 @@
 # setup ==================================================================
 # override some settings
 S_LIB_FOLDER="."
-source $S_LIB_FOLDER/ws-session.rc
+S_DEBUG=1
+source $S_LIB_FOLDER/config/ws-session.rc
 S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
 S_DATA_FOLDER="$test_dir/session"

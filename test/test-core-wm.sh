@@ -24,12 +24,16 @@ s_seltag() {
   s_seltag_$S_WM
 }
 
+exec 3>&1
+exec 4>&1
 S_LIB_FOLDER="."
 source ./core/source.sh
 source ./core/wm.sh
 test_dir=/tmp/session-test
+S_DEBUG=1
 S_TEMP_FOLDER=$test_dir/tmp
 S_DEFAULT_TAG=${TEST_TAG:-1}
+echo "use 'TEST_TAG=yourfocusedtag test/test-core-wm.sh' if you are not on tag 1"
 
 testnumber=0
 
