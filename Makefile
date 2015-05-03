@@ -39,11 +39,10 @@ deps:
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
 install: deps
-	install -d $(LIBDIR)/core $(LIBDIR)/app $(LIBDIR)/wm $(BINDIR) $(ETCDIR)/bin $(ZSHDIR) $(MAN1DIR) $(MAN7DIR)
-	install -m755 ws-session $(BINDIR)/
-	install -m644 ws-session.rc $(ETCDIR)/
+	install -d $(LIBDIR)/core $(LIBDIR)/app $(LIBDIR)/wm $(BINDIR) $(ETCDIR) $(ZSHDIR) $(MAN1DIR) $(MAN7DIR)
+	install -m755 bin/* $(BINDIR)
+	install -m644 conf/* $(ETCDIR)/
 	install -m644 app/* $(LIBDIR)/app
-	install -m755 bin/* $(ETCDIR)/bin
 	install -m644 core/* $(LIBDIR)/core
 	install -m644 wm/* $(LIBDIR)/wm
 	install -m644 completion/zsh/_ws-session $(ZSHDIR)/
