@@ -33,9 +33,10 @@ TERM=
 if [[ -z $app ]] ;then
         echo -e "Usage:"
         echo -e "$0 [app]"
-        echo -e "apps: $(ls $S_LIB_FOLDER/app | sed 's/\.sh//g' | tr '\n' ' ')"
+        echo -e "apps: $(ls $S_LIB_FOLDER/app | sed '/command/d;s/\.sh//g' | tr '\n' ' ')"
         exit 1
 fi
+
 source ./app/${app}.sh
 
 # Mock functions
