@@ -2,16 +2,18 @@
 s_fatal() {
   echo -e "FATAL: ${1}, aborting!" >&2
   if [[ $2 == "help" ]] ; then
+    echo >&2
     s_help >&2
   elif [[ -n $2 ]] ; then
     echo -e "       ${2}." >&2
   fi
-  exit 1
+  exit 127
 }
 
 s_error() {
   echo -e "ERROR: ${1}!" >&2
   if [[ $2 == "help" ]] ; then
+    echo >&2
     s_help >&2
   elif [[ -n $2 ]] ; then
     echo -e "       ${2}." >&2
@@ -37,18 +39,30 @@ S_RUN_ACTION_SLEEP=1
 S_BLACKLIST=
 
 # load user settings
-source "$HOME/.ws-session.rc" 2>/dev/null \
-  || source "$S_CONFIG_FOLDER/ws-session.rc" 2>/dev/null \
-  || s_error "ws-session.rc not found" \
+if [[ -f "$HOME/.ws-session.rc" ]] ; then
+  source "$HOME/.ws-session.rc" >&3 2>&3 \
+    || s_fatal "syntax error in .ws-session.rc, use bash syntax"
+elif [[ -f "$S_CONFIG_FOLDER/ws-session.rc" ]] ; then
+  source "$S_CONFIG_FOLDER/ws-session.rc" >&3 2>&3 \
+    || s_fatal "syntax error in .ws-session.rc, use bash syntax"
+else
+  s_error "ws-session.rc not found" \
     "install it to '$HOME/.ws-session.rc'
        or '\$XDG_CONFIG_HOME/ws-session/ws-session.rc'.
        Continuing with default settings"
+fi
 
 # declare functions to source core and app files
 s_source() {
-  source "$S_CONFIG_FOLDER/$1" 2>/dev/null \
-    || source "$S_LIB_FOLDER/$1" 2>/dev/null \
-    || s_fatal "'$1' not found" "Fix your installation"
+  if [[ -f "$S_CONFIG_FOLDER/$1" ]] ; then
+    source "$S_CONFIG_FOLDER/$1" >&3 2>&3 \
+      || s_fatal "syntax error in $S_CONFIG_FOLDER/$1, fix it"
+  elif [[ -f "$S_LIB_FOLDER/$1" ]] ; then
+    source "$S_LIB_FOLDER/$1" >&3 2>&3 \
+      || s_fatal "syntax error in $S_LIB_FOLDER/$1, shame on me"
+  else
+    s_fatal "'$1' not found" "Fix your installation"
+  fi
 }
 
 s_source_lib() {
@@ -63,9 +77,13 @@ s_source_lib() {
         done
         ;;
       *)
-        source "$S_LIB_FOLDER/core/${a}.sh" \
-          || s_fatal "no such file $S_LIB_FOLDER/core/${a}.sh" \
-                     "something is wrong with your installation"
+        if [[ -f "$S_LIB_FOLDER/core/${a}.sh" ]] ; then
+          source "$S_LIB_FOLDER/core/${a}.sh" >&3 2>&3 \
+            || s_fatal "syntax error in $S_LIB_FOLDER/core/${a}.sh, shame on me"
+        else
+          s_fatal "no such file $S_LIB_FOLDER/core/${a}.sh" \
+            "something is wrong with your installation"
+        fi
     esac
   done
 }
