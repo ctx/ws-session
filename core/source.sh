@@ -6,6 +6,7 @@ s_fatal() {
     s_help >&2
   elif [[ -n $2 ]] ; then
     echo -e "       ${2}." >&2
+  else
   fi
   exit 127
 }
@@ -59,7 +60,8 @@ s_source() {
       || s_fatal "syntax error in $S_CONFIG_FOLDER/$1, fix it"
   elif [[ -f "$S_LIB_FOLDER/$1" ]] ; then
     source "$S_LIB_FOLDER/$1" >&3 2>&3 \
-      || s_fatal "syntax error in $S_LIB_FOLDER/$1, shame on me"
+      || s_fatal "syntax error in $S_LIB_FOLDER/$1, please report at
+    <http://github.com/ctx/ws-session/issues>"
   else
     s_fatal "'$1' not found" "Fix your installation"
   fi
@@ -79,7 +81,8 @@ s_source_lib() {
       *)
         if [[ -f "$S_LIB_FOLDER/core/${a}.sh" ]] ; then
           source "$S_LIB_FOLDER/core/${a}.sh" >&3 2>&3 \
-            || s_fatal "syntax error in $S_LIB_FOLDER/core/${a}.sh, shame on me"
+            || s_fatal "syntax error in $S_LIB_FOLDER/core/${a}.sh, please report at
+    <http://github.com/ctx/ws-session/issues>"
         else
           s_fatal "no such file $S_LIB_FOLDER/core/${a}.sh" \
             "something is wrong with your installation"

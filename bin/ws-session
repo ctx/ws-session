@@ -83,7 +83,8 @@ fi
 S_LIB_FOLDER="${S_LIB_FOLDER:-/usr/lib/ws-session}"
 if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then
   if ! source "$S_LIB_FOLDER/core/source.sh" 2>&3 >&4 ; then
-    echo "FATAL: syntax error in source.sh, shame on me!" >&2
+    echo "FATAL: syntax error in source.sh, please report at
+    <http://github.com/ctx/ws-session/issues>" >&2
     exit 127
   fi
 else
