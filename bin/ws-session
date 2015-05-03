@@ -4,7 +4,7 @@ VERSION=
 
 s_help() {
 echo "Synopsis:
-  ws-session [-a|-h|-l|-m|-p|-v]
+  ws-session [-a|-h|-l|-m|-p|-s|-v]
   ws-session [-c|-o [-f]|-r] session-name
   ws-session -a system-action
 
@@ -33,6 +33,8 @@ Options:
   -r|restore session-name
         Restore the session named 'session-name' to a previous
         state. You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
+  -s|started
+        List running sessions.
   -v|version
         Print version.
 
@@ -202,6 +204,10 @@ case $1 in
       s_error "no session with name '$name'" \
         "list your sessions with ws-session -l"
     fi
+    ;;
+  -s|started)
+    s_source_lib wm stopwm
+    s_list_open_tags
     ;;
   -h|help)
     s_help

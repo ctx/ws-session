@@ -4,7 +4,7 @@
 ws-session - a session manager for virtual desktops
 .SH SYNOPSIS
 .B ws-session
-.RB [\| \-a \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-v\| ]
+.RB [\| \-a \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-s \||\| \-v\| ]
 .br
 .B ws-session
 .RB [\| \-c \||\| \-o \ [ \-f \|]| \-r ]
@@ -85,12 +85,17 @@ Print temporary path of the current session.
 Restore the session named 
 .I session-name
 to a previous state.
+.br
 You can do it up to 
 .I $S_NUMBER_OF_BACKUPS
 times.
 .TP
+\fB\-s\fP, \fBstarted
+.br
+List running sessions.
+.TP
 \fB\-v\fP, \fBversion
-Print version
+Print version.
 .SS DEBUG OPTIONS
 .TP
 .BI debug \ function
@@ -141,7 +146,9 @@ Please report bugs at
 .SH AUTHOR
 Ciril Troxler (ctroxler@gmail.com)
 .SH COPYRIGHT
+Copyright © 2010 - 2015 Ciril Troxler.
+
 License GPLv3+: GNU GPL version 3 or later 
-.IR <http://gnu.org/licenses/gpl.html>
+.IR <http://gnu.org/licenses/gpl.html> .
  
 This is free software; you are free to change and redistribute it.

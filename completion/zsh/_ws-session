@@ -22,12 +22,12 @@ _ws-session() {
       ;;
     opensessions)
       local -a open_sessions
-      open_sessions=( $(ws-session debug s_list_open_tags) )
+      open_sessions=( $(ws-session started | tr '\n' ' ') )
       _describe 'open sessions' open_sessions
       ;;
     systemactions)
       local -a system_action
-      system_action=( $(ws-session -a | tr -d ',') )
+      system_action=( $(ws-session all | tr -d ',') )
       _describe 'system actions' system_action
       ;;
   esac
