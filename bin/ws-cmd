@@ -1,31 +1,44 @@
 #!/bin/bash
 
-S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-if ! source $S_LIB_FOLDER/core/source.sh 2>/dev/null; then
-  echo "FATAL: cannot find core/source.sh, aborting!"
-  echo "       Install core files to /usr/lib/ws-cmd"
-  echo "       or export S_LIB_FOLDER,"
-  echo "       or temporary use: S_LIB_FOLDER=. ws-cmd"
-  exit 1
-fi
-
-s_source_lib wm
-
 if [[ -z "$@" ]] ; then
-cat << WSCMDHELP
-Usage:
-  ws-cmd terminal command "with quoted argument"
-  Be shure that you cannot lose your work when the termial window gets termiated.
+echo "Usage:
+  ws-cmd terminal command \"with quoted argument\"
 
-Example:
+Be shure that you cannot lose your work when the termial window gets termiated.
+
+Examples:
   ws-cmd htop
   ws-cmd mutt
   ws-cmd man archlinux
   ws-cmd ncmpcpp -h 10.0.0.5
-  ws-cmd ssh -l user 10.0.0.5 "tmux attach"
-WSCMDHELP
+  ws-cmd ssh -l user 10.0.0.5 \"tmux attach\""
 exit 0
 fi
+
+if [[ $S_DEBUG ]] ; then
+  exec 3>&2
+  exec 4>&2
+  echo debug >&3
+else
+  exec 3>/dev/null
+  exec 4>&2
+fi
+
+S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
+
+if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then 
+  if ! source "$S_LIB_FOLDER/core/source.sh" ; then
+    echo "FATAL: syntax error in source.sh" \
+      "use ws-session debug to find errors!" >&2
+    exit 127
+  fi
+else 
+  $@
+  exit 0 
+fi
+
+s_source_lib wm
+
 
 if ! which $1 >/dev/null 2>&1;then 
   s_fatal "'$1' not found" \
