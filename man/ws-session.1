@@ -126,8 +126,11 @@ Copy it to
 or
 .IR $XDG_CONFIG_HOME/ws-session/ws-session.rc \.
 .TP
-.B /etc/xdg/ws-session/bin/*
-Here are the default application wrappers, copy or link them to your path.
+.B /usr/bin/ws-app
+This ist the application wrapper for all your session aware applications,
+create a link for each of them in your path, e.g:
+.br
+.B ln -s /usr/bin/ws-app $HOME/.config/ws-session/bin/vim
 .TP
 .B /usr/lib/ws-session/app
 Here are the application functions located. You can create the folder 

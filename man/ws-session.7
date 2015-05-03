@@ -129,16 +129,14 @@ where this array could be used too.
 Can be set in the rc file.
 
 .SH WINDOW MANAGER
-To use the wm tests: You can use the command 
-.B TEST_TAG=session\ test/test-core-wm.sh
-if you are developping on a tag named session. It defaults to a tag named 1.
 
 Copy 
 .I wm/is-wm-running.sh
 to your
 .I $S_CONFIG_FOLDER/wm
-folder and add a test for your wm. The function should echo something if it's
-running and nothing if not.
+folder and add a test for your wm. The function should echo something if your
+wm is running and nothing if not. For wms which support wmctrl use the function
+s_running_wm_default.
 
 Create a new file
 .IR $S_CONFIG_FOLDER/wm/examplewm.sh ,
@@ -146,9 +144,13 @@ see the template below.
 
 Run the wm tests until they dont throw wrong output and no tag with name
 tagname exists afterwards.
+You can use the command 
+.B TEST_TAG=session\ test/test-core-wm.sh
+if you are developping on a tag named session. It defaults to a tag named 1.
 
 You can run one function with 
 .B ws-session\ debug\ s_function_name\ argument
+.
 
 .SS examplewm.sh
 .nf
