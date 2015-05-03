@@ -3,7 +3,7 @@ ws-session
 A session manager for virtual desktops written in bash.
 
 >> There where some changes in the last commits, you have to recreate all symlinks
-in your bin folder. <<
+in your bin folder.
 
 #### About
 
@@ -19,12 +19,12 @@ think of and write a wrapper.
 With herbstluftwm you can save and restore the layout of the workspace.
 
 The applications do not support this out of the box:
-* The wrappers in the bin folder make it possible to save and restore the state
-  of the applications.
+* The 'ws-app' wrapper in the bin folder makes it possible to save and restore
+  the state of applications.
 * With the 'ws-cmd' wrapper you can start ncurses and other cli applications
-  which should get restarted. No state is saved exept the cwd and cmdline.
-* Applications which are not on the blacklist just get restarted. No state is
-  saved exept the cwd and cmdline.
+  which will get restarted. No state is saved exept the cwd and cmdline.
+* Other Applications which are not on the blacklist just get restarted. No state
+  is saved exept the cwd and cmdline.
 
 Look at the app and wm folders to see what is already supported or look here:
 https://github.com/ctx/ws-session/wiki/What-should-work
@@ -42,7 +42,7 @@ https://github.com/ctx/ws-session/wiki/Extend-ws-session
 
 #### Installation
 
-##### Arch Linux
+##### Archlinux
 There is the aur package ws-session-git
 ##### Other
 * Get the code and export S_LIB_FOLDER=/path/to/code in your
