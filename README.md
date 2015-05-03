@@ -1,6 +1,9 @@
 ws-session
 ==========
-A session manager for virtual desktops.
+A session manager for virtual desktops written in bash.
+
+>> There where some changes in the last commits, you have to recreate all symlinks
+in your bin folder. <<
 
 #### About
 
@@ -23,14 +26,33 @@ The applications do not support this out of the box:
 * Applications which are not on the blacklist just get restarted. No state is
   saved exept the cwd and cmdline.
 
+Look at the app and wm folders to see what is already supported or look here:
 https://github.com/ctx/ws-session/wiki/What-should-work
+
+Use man 7 ws-session to learn how to write new app or wm files or look here:
+https://github.com/ctx/ws-session/wiki/Extend-ws-session
+
+
+#### Dependencies
+* xprop
+* xdotool (for many apps)
+* wmctrl (for most wms)
+* bash (and coreutils, awk, sed, ps, find, etc.)
+* some of the supported programs
 
 #### Installation
 
-* Get the code, export S_LIB_FOLDER=/path/to/code.
+##### Arch Linux
+There is the aur package ws-session-git
+##### Other
+* Get the code and export S_LIB_FOLDER=/path/to/code in your
+  xinitrc or autostart.
+
+#### Configuration
 * Create a folder for your saved sessions e.g. $HOME/.local/ws-session
 * Read, install and adjust ws-session.rc.
-* Add the wrappers in the bin folder to your $PATH
+* Create symliks for all the apps you want to use: Link ws-app to your $PATH
+  e.g: ln -s /usr/bin/ws-app $HOME/bin/vim
 * For seamless integration in to your windowmanager, you can:
   * Bind a key to 'ws-session menu' to create new workspaces.
   * Bind a key to 'ws-session close' to close a workspace.
@@ -41,11 +63,6 @@ https://github.com/ctx/ws-session/wiki/What-should-work
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
-#### Add a new application/window manager
-* Create new files in app/ or wm/
-* test/debug them with the tests in test/
-
-https://github.com/ctx/ws-session/wiki/Extend-ws-session
 
 #### Copying
 License GPLv3:<br />
