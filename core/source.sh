@@ -6,7 +6,6 @@ s_fatal() {
     s_help >&2
   elif [[ -n $2 ]] ; then
     echo -e "       ${2}." >&2
-  else
   fi
   exit 127
 }
