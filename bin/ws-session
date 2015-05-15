@@ -90,8 +90,8 @@ if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then
 else
   echo "FATAL: cannot find $S_LIB_FOLDER/core/source.sh, aborting!
         Install core files to /usr/lib/ws-session
-        or export S_LIB_FOLDER,
-        or temporary use: S_LIB_FOLDER=$(pwd) ws-session" >&2
+        or export S_LIB_FOLDER, or in the folder with the code use:
+        S_LIB_FOLDER=\$(pwd) bin/ws-session" >&2
   exit 127
 fi
 
