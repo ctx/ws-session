@@ -3,8 +3,8 @@ dwbcmd='/usr/bin/dwb -n'
 dwbcmdreload="$dwbcmd -f -r default"
 
 # open a dwb session
-# $1: Data folder: where the last session was stored.
-# Copy the dwb data folder arg1/dwb to tmp_dir
+# $1: Data directory: where the last session was stored.
+# Copy the dwb data directory arg1/dwb to tmp_dir
 s_dwb_open_session() {
   if [[ -d "$1/$DWB" ]] ; then
     if ! [[  -d "$tmp_dir/$DWB" ]] ; then
@@ -28,7 +28,6 @@ s_dwb_close_session() {
 }
 
 s_dwb_start() {
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG" 
   if ! [[ -d $tmp_dir/$DWB ]] ; then
     mkdir "$tmp_dir/$DWB"
     find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \

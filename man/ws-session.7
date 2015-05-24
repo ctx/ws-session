@@ -1,4 +1,4 @@
-.TH WS-SESSION 7 "April 12, 2015" "ws-session 1.0"
+.TH WS-SESSION 7 "April 12, 2015" "ws-session VERSION"
 .OS Linux
 .SH NAME
 ws-session - add your applications and window manager of choice
@@ -7,10 +7,10 @@ The idea behind
 .B ws-session
 is that you should be able to write your own wrappers for your favourite
 applications or the wm you use. If there exists a file in
-.I $S_CONFIG_FOLDER/{app,wm}
+.I $S_CONFIG_HOME/{app,wm}
 it will be sourced instead of a file with the same
 name in
-.IR $S_LIB_FOLDER/{app,wm} .
+.IR $S_LIB_HOME/{app,wm} .
 
 This manual page describes how to write your own application or window manager 
 support.
@@ -35,8 +35,8 @@ Array with the applications you want open and close with this script.
 
 Must be set in the rc file.
 .TP
-.B S_LIB_FOLDER
-Points to the folder with all the code in it. Defaults to but
+.B S_LIB_HOME
+Points to the directory with all the code in it. Defaults to but
 .IR /usr/lib/ws-session .
 You can export this variable to your env to use a
 different install directiory.
@@ -44,7 +44,7 @@ different install directiory.
 Leave it out or set this like your other environement variables. You can just
 export it for testing purposes.
 .TP
-.B S_CONFIG_FOLDER
+.B S_CONFIG_HOME
 Defaults to 
 .IR $XDG_CONFIG_HOME/ws-session ,
 but if you name your rc file
@@ -53,7 +53,7 @@ you can set this to wathever you like
 
 Can be set in the rc file.
 .TP
-.B S_DATA_FOLDER
+.B S_DATA_HOME
 Per default points to
 .IR $XDG_DATA_HOME/ws-session .
 Here is all the data from
@@ -61,10 +61,10 @@ saved sessions.
 
 Can be set in the rc file.
 .TP
-.B S_TEMP_FOLDER
+.B S_TMP_DIR
 In this directory all the runtime data is stored. When you load a session the
 data gets copied from
-.IR S_DATA_FOLDER/sessionname-1 \ to \ S_TEMP_FOLDER/sessionname
+.IR S_DATA_HOME/sessionname-1 \ to \ S_TMP_DIR/sessionname
 and vice versa Default:
 .IR /tmp/ws-session-$(whoami) .
 
@@ -72,7 +72,7 @@ Can be set in the rc file.
 .TP
 .B S_NUMBER_OF_BACKUPS
 How many backups of a session should get stored in
-.IR S_DATA_FOLDER .
+.IR S_DATA_HOME .
 Default 5.
 
 Can be set in the rc file.
@@ -133,13 +133,13 @@ Can be set in the rc file.
 Copy 
 .I wm/is-wm-running.sh
 to your
-.I $S_CONFIG_FOLDER/wm
-folder and add a test for your wm. The function should echo something if your
+.I $S_CONFIG_HOME/wm
+directory and add a test for your wm. The function should echo something if your
 wm is running and nothing if not. For wms which support wmctrl use the function
 s_running_wm_default.
 
 Create a new file
-.IR $S_CONFIG_FOLDER/wm/examplewm.sh ,
+.IR $S_CONFIG_HOME/wm/examplewm.sh ,
 see the template below.
 
 Run the wm tests until they dont throw wrong output and no tag with name
@@ -217,23 +217,24 @@ Sometimes
 and
 .I s_exampleapp_start
 are not needed but exampleapp needs a setting in its config files, eg. urxvt.
-.SS examplewm.sh
+.SS exampleapp.sh
 .nf
-# open exampleapp from data folder, lockfiles and state should 
-# be stored in the temporary folder.
-# $1:       Data folder: where the last session was stored.
-# $tmp_dir: Temp folder: where the new session is.
+# open exampleapp from data directory, lockfiles and state should
+# be stored in the temporary directory.
+# $1:       Data directory: where the last session was stored.
+# $tmp_dir: Temp directory: where the new session is.
 s_exampleapp_open_session() {
   # restore some files (this is just an example).
   cp "$1/exampleapp.winid" "$tmp_dir"
   # you have to start the application.
   command with -arguments & >/dev/null 2>&1
   pid="$!"
-  # you want to save the old windowid and the pid to be able to restore the layout.
+  # you want to save the old windowid and the pid
+  # to be able to restore the layout.
   s_reg_winid "$pid" "$(< $tmp_dir/exampleapp.winid)"
 }
 
-# close exampleapp, save state to temporary folder
+# close exampleapp, save state to temporary directory
 # $1:       winids of all exampleapps on current tag.
 # $tmp_dir: save things here 
 s_exampleapp_close_session() {
@@ -243,7 +244,7 @@ s_exampleapp_close_session() {
 }
 
 # start exampleapp in a way that close_session can close/save it
-# use $S_TEMP_FOLDER/$S_SEL_TAG not $tmp_dir
+# $tmp_dir: put state here
 s_exampleapp_start() {
 }
 .if

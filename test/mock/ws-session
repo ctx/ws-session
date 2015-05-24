@@ -1,1 +1,1 @@
-echo $S_TEMP_FOLDER/$S_SEL_TAG/
+echo $S_TMP_DIR/$S_SEL_TAG/

@@ -1,4 +1,4 @@
-# $1: folder with data from the last session
+# $1: directory with data from the last session
 s_zathura_open_session() {
   local file="$1/zathura"
   if [[ -f $file ]] ;then 

@@ -26,12 +26,12 @@ s_seltag() {
 
 exec 3>&1
 exec 4>&1
-S_LIB_FOLDER="."
+S_LIB_HOME="."
 source ./core/source.sh
 source ./core/wm.sh
 test_dir=/tmp/session-test
 S_DEBUG=1
-S_TEMP_FOLDER=$test_dir/tmp
+S_TMP_DIR=$test_dir/tmp
 S_DEFAULT_TAG=${TEST_TAG:-1}
 echo "use 'TEST_TAG=yourfocusedtag test/test-core-wm.sh' if you are not on tag 1"
 
@@ -65,14 +65,14 @@ s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG"
 
 # test tag name with special chars ---------------------------------------
 # the tag with name ~!@~`#$%^&*()_+="-0\][{}|;':,/.<>
-#crazyname='~!@~`#$%^&*()_+="-0][{}|;'\'':,/.<>'
-crazyname='~!@~`#$%-0:.'
+crazyname='~!@~`#$%^&*()_+="-0][{}|;'\'':,/.<>'
+#crazyname='~!@~`#$%-0:.'
 s_newtag "$crazyname"
 S_SEL_TAG=$(s_seltag)
 s_assert_equals "$S_SEL_TAG" "$crazyname"
 mkdir -p "$test_dir/tmp/$crazyname"
-if ! [[ -d $S_TEMP_FOLDER/$crazyname ]] ; then 
-  ls -l "$S_TEMP_FOLDER"
+if ! [[ -d $S_TMP_DIR/$crazyname ]] ; then
+  ls -l "$S_TMP_DIR"
 fi
 s_closetag
 
@@ -102,9 +102,9 @@ echo This should be a list of your open tags line by line:
 s_list_open_tags
 echo
 echo test the layout: run the function and cat the file
-mkdir -p "$S_TEMP_FOLDER/$S_SEL_TAG"
-s_save_layout "$S_TEMP_FOLDER/$S_SEL_TAG"
-cat "$S_TEMP_FOLDER/$S_SEL_TAG"/*.layout
+mkdir -p "$S_TMP_DIR/$S_SEL_TAG"
+s_save_layout "$S_TMP_DIR/$S_SEL_TAG"
+cat "$S_TMP_DIR/$S_SEL_TAG"/*.layout
 echo
 
 s_cleanup

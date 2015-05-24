@@ -2,13 +2,13 @@
 
 # setup ==================================================================
 # override some settings
-S_LIB_FOLDER="."
+S_LIB_HOME="."
 S_DEBUG=1
-source $S_LIB_FOLDER/conf/ws-session.rc
+source $S_LIB_HOME/conf/ws-session.rc
 S_NUMBER_OF_BACKUPS=3
 test_dir="/tmp/session-test"
-S_DATA_FOLDER="$test_dir/session"
-mkdir -p "$S_DATA_FOLDER"
+S_DATA_HOME="$test_dir/session"
+mkdir -p "$S_DATA_HOME"
 source ./core/data.sh
 
 # functions ==============================================================
@@ -22,8 +22,8 @@ s_cleanup() {
   echo "##----------------------------------"
 }
 
-# in this tests we compare the folder $test_dir/$dir (sample) with the
-# folder $test_dir/session (test data).
+# in this tests we compare the directory $test_dir/$dir (sample) with the
+# directory $test_dir/session (test data).
 s_assert_data_dir() {
   local dir="$1"
   err="$(diff -qr $test_dir/{$dir,session} 2>&1)"

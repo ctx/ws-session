@@ -45,7 +45,7 @@ https://github.com/ctx/ws-session/wiki/Extend-ws-session
 ##### Archlinux
 There is the aur package ws-session-git
 ##### Other
-* Get the code and export S_LIB_FOLDER=/path/to/code in your
+* Get the code and export S_LIB_HOME=/path/to/code in your
   xinitrc or autostart.
 
 #### Configuration

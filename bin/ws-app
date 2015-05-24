@@ -19,9 +19,9 @@ else
   exec 4>&2
 fi
 
-S_LIB_FOLDER=${S_LIB_FOLDER:-/usr/lib/ws-session}
-if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then 
-  if ! source "$S_LIB_FOLDER/core/source.sh" ; then
+S_LIB_HOME=${S_LIB_HOME:-/usr/lib/ws-session}
+if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
+  if ! source "$S_LIB_HOME/core/source.sh" ; then
     echo "FATAL: syntax error in source.sh" \
       "use ws-session debug to find errors!" >&2
     exit 127
@@ -30,6 +30,7 @@ if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then
 
   if [[ -n $S_WM ]] ; then
     s_source app/${cmd}.sh
+    tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
     s_${cmd}_start "$@"
     disown -a
     exit 0

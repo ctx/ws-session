@@ -49,3 +49,5 @@ install: deps
 	install -m644 man/ws-session.1 $(MAN1DIR)/
 	install -m644 man/ws-session.7 $(MAN7DIR)/
 	@sed -i "/VERSION/s/VERSION=/VERSION=\"$(VERSION)\"/" "$(BINDIR)/ws-session"
+	@sed -i "/VERSION/s/VERSION/$(VERSION)/" "$(MAN1DIR)/ws-session.1"
+	@sed -i "/VERSION/s/VERSION/$(VERSION)/" "$(MAN7DIR)/ws-session.7"

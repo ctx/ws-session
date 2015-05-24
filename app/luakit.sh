@@ -42,7 +42,7 @@ s_luakit_start() {
   if [ -n "$1" ] ; then
     local url="$1"
   fi
-  local dir="$S_TEMP_FOLDER/$S_SEL_TAG/$LUAKIT"
+  local dir="$tmp_dir/$LUAKIT"
   if ! [ -d "$dir" ]
   then
     s_luakit_new_instance "$dir" "$url"

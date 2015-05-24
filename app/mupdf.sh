@@ -5,9 +5,9 @@ s_mupdf_hack() {
   sed -i "\|${file}|d" "$tmp_dir/mupdf-tmp"
 }
 
-# open mupdf from data folder, lockfiles and state should be stored in the temporary folder.
-# arg1: Data folder: where the last session was stored.
-# arg2: Temporary folder: this folder will be stored by s_mupdf_close_session
+# open mupdf from data directory, lockfiles and state should be stored in the temporary directory.
+# arg1: Data directory: where the last session was stored.
+# arg2: Temporary directory: this directory will be stored by s_mupdf_close_session
 s_mupdf_open_session() {
   local file
   grep -v "^$" "$1/mupdf" | while read -r file ; do
@@ -15,8 +15,8 @@ s_mupdf_open_session() {
   done
 }
 
-# close mupdf, save state to temporary folder
-# arg1: Temporary folder: this folder will be stored in the end.
+# close mupdf, save state to temporary directory
+# arg1: Temporary directory: this directory will be stored in the end.
 # arg2: winids of all mupdfs on current tag.
 s_mupdf_close_session() {
   # save the tmp file because it will get empty before the data gets saved

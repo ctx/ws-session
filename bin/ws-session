@@ -20,7 +20,7 @@ Options:
   -h|help
         Print the help.
   -l|list
-        List all saved sessions in '\$S_DATA_FOLDER'.
+        List all saved sessions in '\$S_DATA_HOME'.
   -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
@@ -46,7 +46,7 @@ Debug Options:
         EXAMPLE: ws-session debug s_list_app_seltag
   print [variable ...]
         Prints the content of the variables supplied.
-        EXAMPLE: ws-session print S_LIB_FOLDER S_SEL_TAG"
+        EXAMPLE: ws-session print S_LIB_HOME S_SEL_TAG"
 }
 
 s_copyright() {
@@ -80,18 +80,18 @@ else
   exec 4>&2
 fi
 
-S_LIB_FOLDER="${S_LIB_FOLDER:-/usr/lib/ws-session}"
-if [[ -f "$S_LIB_FOLDER/core/source.sh" ]] ; then
-  if ! source "$S_LIB_FOLDER/core/source.sh" 2>&3 >&4 ; then
+S_LIB_HOME="${S_LIB_HOME:-/usr/lib/ws-session}"
+if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
+  if ! source "$S_LIB_HOME/core/source.sh" 2>&3 >&4 ; then
     echo "FATAL: syntax error in source.sh, please report at
     <http://github.com/ctx/ws-session/issues>" >&2
     exit 127
   fi
 else
-  echo "FATAL: cannot find $S_LIB_FOLDER/core/source.sh, aborting!
+  echo "FATAL: cannot find $S_LIB_HOME/core/source.sh, aborting!
         Install core files to /usr/lib/ws-session
-        or export S_LIB_FOLDER, or in the folder with the code use:
-        S_LIB_FOLDER=\$(pwd) bin/ws-session" >&2
+        or export S_LIB_HOME, or in the directory with the code use:
+        S_LIB_HOME=\$(pwd) bin/ws-session" >&2
   exit 127
 fi
 
@@ -101,7 +101,7 @@ case $1 in
     if [[ -n "$VERSION" ]] ; then 
       echo "version ${VERSION}."
     else
-      echo "run from a git folder at commit $(git rev-list --count HEAD)."
+      echo "run from git repository at commit $(git rev-list --count HEAD)."
     fi
     echo
     s_copyright
@@ -112,7 +112,7 @@ case $1 in
     ;;
   -p|path)
     s_source_lib wm stopwm
-    echo "$S_TEMP_FOLDER/$S_SEL_TAG/"
+    echo "$S_TMP_DIR/$S_SEL_TAG/"
     ;;
   -m|menu)
     if which ${S_MENU%% *} >&3 2>&3; then

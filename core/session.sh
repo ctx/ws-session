@@ -7,7 +7,7 @@ s_list_winids_app_seltag () {
 s_restore_file() {
   local f
   for f in $@ ; do
-    cp "$S_DATA_FOLDER/$S_SEL_TAG-1/$f" "$S_TEMP_FOLDER/$S_SEL_TAG/$f" 2>/dev/null
+    cp "$S_DATA_HOME/$S_SEL_TAG-1/$f" "$S_TMP_DIR/$S_SEL_TAG/$f" 2>/dev/null
   done
 }
 
@@ -23,7 +23,7 @@ s_closesession() {
     s_newtag "$@"
   fi
   local session="$S_SEL_TAG"
-  local tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
+  local tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
 
   [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] && s_save_layout
 
@@ -62,8 +62,8 @@ s_opensession() {
     s_fatal "No valid session name supplied" \
       "I need to know which session you want to open"
   fi
-  local dir="$S_DATA_FOLDER/$name-1"
-  local tmp_dir="$S_TEMP_FOLDER/$name"
+  local dir="$S_DATA_HOME/$name-1"
+  local tmp_dir="$S_TMP_DIR/$name"
   declare -a pid_winid
 
   s_newtag "$name"

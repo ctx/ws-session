@@ -22,19 +22,19 @@ s_cleanup() {
 }
 
 app=$1
-S_LIB_FOLDER="."
+S_LIB_HOME="."
 S_DEBUG=1
 test_dir="/tmp/session-test"
-export S_TEMP_FOLDER="$test_dir"
+export S_TMP_DIR="$test_dir"
 export S_SEL_TAG=testtag
 S_SHELL_FILES=( zsh_history )
-tmp_dir="$S_TEMP_FOLDER/$S_SEL_TAG"
+tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
 S_TERM=urxvt
 TERM=
 if [[ -z $app ]] ;then
         echo -e "Usage:"
         echo -e "$0 [app]"
-        echo -e "apps: $(ls $S_LIB_FOLDER/app | sed '/command/d;s/\.sh//g' | tr '\n' ' ')"
+        echo -e "apps: $(ls $S_LIB_HOME/app | sed '/command/d;s/\.sh//g' | tr '\n' ' ')"
         exit 1
 fi
 

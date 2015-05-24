@@ -1,5 +1,5 @@
 # open urxvt
-# arg1: Data folder: where the last session was stored.
+# arg1: Data directory: where the last session was stored.
 # Load the cwd's from the file arg1/urxvt
 s_urxvt_open_session() {
   local file="$1/urxvt"

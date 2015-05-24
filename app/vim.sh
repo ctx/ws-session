@@ -1,12 +1,12 @@
 # Start a vim server for every started vim.
 
 s_vim_open_session() {
-  local folder="$1/vim"
-  if  [[ -d "$folder" ]] ;then
+  local directory="$1/vim"
+  if  [[ -d "$directory" ]] ;then
     s_restore_file viminfo vimwinids
     local viminfo="$tmp_dir/viminfo"
     local vimwinids="$tmp_dir/vimwinids"
-    find "$folder" -type f | while read -r f ; do
+    find "$directory" -type f | while read -r f ; do
       id=$(awk "/$(basename "${f}")/{print \$1}" "$vimwinids")
       if [[ -n $id ]] ; then
         $S_TERM -name vim -e \
@@ -46,7 +46,7 @@ s_vim_close_session() {
 }
 
 s_vim_start() {
-  local viminfo="$S_TEMP_FOLDER/$S_SEL_TAG/viminfo"
+  local viminfo="$tmp_dir/viminfo"
   if [[ -n $TERM ]] ; then
     winid=$(xprop -root _NET_ACTIVE_WINDOW |awk '{print $NF}')
     xprop -f WM_CLASS 8s -set WM_CLASS "vim" -id $winid

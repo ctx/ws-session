@@ -3,14 +3,14 @@
 # If you have set XDG_CONFIG_HOME as environment variable
 # you can copy it to $XDG_CONFIG_HOME/ws-session/ws-session.rc
 
-### FOLDERS --------------------
-#S_TEMP_FOLDER="/tmp/ws-session-$(whoami)"
+### DIRECTORIES ----------------
+#S_TMP_DIR="/tmp/ws-session-$(whoami)"
 # in case you use XDG
-#S_DATA_FOLDER="$XDG_DATA_HOME/ws-session"
-#S_CONFIG_FOLDER="$XDG_CONFIG_HOME/ws-session"
+#S_DATA_HOME="$XDG_DATA_HOME/ws-session"
+#S_CONFIG_HOME="$XDG_CONFIG_HOME/ws-session"
 # in case you dont use XDG
-#S_DATA_FOLDER="$HOME/.ws-session/sessions"
-#S_CONFIG_FOLDER="$HOME/.ws-session"
+#S_DATA_HOME="$HOME/.ws-session/sessions"
+#S_CONFIG_HOME="$HOME/.ws-session"
 
 ### SETTINGS -------------------
 #S_NUMBER_OF_BACKUPS="5"
@@ -27,7 +27,7 @@ S_WM="bspwm i3 herbstluftwm wingo"
 # Before running system action we have to wait
 #S_RUN_ACTION_SLEEP="1"
 
-# Link those files/directories to the tempfolder
+# Link those files/directories to S_TMP_DIR
 S_LN_FILES=( "$XDG_CONFIG_HOME/gtk-3.0" )
 
 ### APPLICATIONS ---------------

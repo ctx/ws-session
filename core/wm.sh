@@ -12,12 +12,12 @@ s_find_wm() {
 if [[ -z $DISPLAY ]] ; then 
   unset S_WM
 elif [[ -z $S_WM ]] ; then
-  if [[ -d $S_CONFIG_FOLDER ]] ; then
-    s_wms="$(s_find_wm "$S_CONFIG_FOLDER")"
+  if [[ -d $S_CONFIG_HOME ]] ; then
+    s_wms="$(s_find_wm "$S_CONFIG_HOME")"
   fi
-  if [[ -d $S_LIB_FOLDER ]] ; then
+  if [[ -d $S_LIB_HOME ]] ; then
     s_wms="$s_wms
-$(s_find_wm "$S_LIB_FOLDER")"
+$(s_find_wm "$S_LIB_HOME")"
   fi
   s_wms="$(sort -u <<< "$s_wms")"
   for f in $s_wms ; do
@@ -67,11 +67,11 @@ if [[ -n "$s_wm" ]] ; then
 
   if [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] ; then
     s_save_layout() {
-      s_save_layout_$S_WM  > "$S_TEMP_FOLDER/$S_SEL_TAG/$S_WM.layout"
+      s_save_layout_$S_WM  > "$S_TMP_DIR/$S_SEL_TAG/$S_WM.layout"
     }
 
     s_reload_layout() {
-      local file="$S_TEMP_FOLDER/$S_SEL_TAG/${S_WM}.layout"
+      local file="$S_TMP_DIR/$S_SEL_TAG/${S_WM}.layout"
       [[ -f $file ]] && s_reload_layout_$S_WM "$file"
     }
   else
