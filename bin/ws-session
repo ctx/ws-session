@@ -29,12 +29,13 @@ Options:
         Use -f to open sessions on an already open (empty) tag
         with the same name.
   -p|path
-        Print temporary path of the current session.
+        Print the path to the temporary directory of the
+        current session.
   -r|restore session-name
         Restore the session named 'session-name' to a previous
         state. You can do it up to '\$S_NUMBER_OF_BACKUPS' times.
   -s|started
-        List running sessions.
+        List all currently running sessions.
   -v|version
         Print version.
 
