@@ -2,8 +2,9 @@ ws-session
 ==========
 A session manager for virtual desktops written in bash.
 
->> There where some changes in the last commits, you have to recreate all symlinks
-in your bin folder.
+>> There where some changes in the last commits,
+* you have to recreate all symlinks in your bin folder.
+* you have to update your config 
 
 #### About
 
