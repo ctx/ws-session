@@ -1,4 +1,4 @@
-.TH WS-SESSION 1 "April 12, 2015" "ws-session 1.0"
+.TH WS-SESSION 1 "April 12, 2015" "ws-session VERSION"
 .OS Linux
 .SH NAME
 ws-session - a session manager for virtual desktops
@@ -27,8 +27,6 @@ You can configure what should be part of your sessions: browser history/tabs,
 bash history, terminals with cwd, editors and open files, open pdfs, ncurses
 applications like mutt, htop, ssh (tmux attach) and everything else you can
 think of and write a wrapper.
-
-You must use one option at a time:
 .SS OPTIONS
 .TP
 \fB\-a\fP, \fBall \fP[\fIsystem-action\fP]
@@ -53,12 +51,11 @@ Or close the session named
 .TP
 \fB\-h\fP, \fBhelp
 .br
-Print the help.
+Print help.
 .TP
 \fB\-l\fP, \fBlist
 .br
-List all saved sessions in 
-.IR $S_DATA_FOLDER \.
+List all saved sessions.
 .TP
 \fB\-m\fP, \fBmenu
 .br
@@ -74,11 +71,11 @@ Start the session with name
 .br
 Use
 .B -f
-to open a session on an already open tag with the same name.
+to open a session when there is already a tag with the same name.
 .TP
 \fB\-p\fP, \fBpath
 .br
-Print temporary path of the current session.
+Print the path to the temporary directory of the current session.
 .TP
 \fB\-r\fP, \fBrestore \fIsession-name
 .br
@@ -92,7 +89,7 @@ times.
 .TP
 \fB\-s\fP, \fBstarted
 .br
-List running sessions.
+List all currently running sessions.
 .TP
 \fB\-v\fP, \fBversion
 Print version.
@@ -114,37 +111,143 @@ EXAMPLE:
 Prints the content of the variables supplied.
 .br
 EXAMPLE:
-.B ws-session print S_LIB_FOLDER S_SEL_TAG
-.br
+.B ws-session print S_LIB_HOME S_SEL_TAG
+
 .SH FILES
-.TP
-.B /etc/xdg/ws-session/ws-session.rc
-The default configuration file, all possible configuration items are described
-in this file.
-Copy it to
-.I $HOME/.ws-session.rc
-or
-.IR $XDG_CONFIG_HOME/ws-session/ws-session.rc \.
-.TP
-.B /usr/bin/ws-app
-This ist the application wrapper for all your session aware applications,
-create a link for each of them in your path, e.g:
-.br
-.B ln -s /usr/bin/ws-app $HOME/.config/ws-session/bin/vim
-.TP
-.B /usr/lib/ws-session/app
-Here are the application functions located. You can create the folder 
-.IR $S_CONFIG_FOLDER/app ,
-there you can put your own versions of your application functions.
-.TP
-.B /usr/lib/ws-session/wm
-Here are the window manager functions located. You can create the folder
-.IR $S_CONFIG_FOLDER/wm ,
-there you can put your own versions of your window manager functions.
+.SS /usr/bin/ws-app
+Since most applications have no session support, and those who have need to know
+when to start and stop a session, we have to change the way they start.  Most,
+but not all of the supported applications in the
+.I app
+directory
+(see
+.SM
+.B "/usr/lib/ws-session/app/*"
+below) have to
+be started by a symlink or copy of
+.BR ws-app .
+Create a copy if you need to adjust
+.B ws-app
+for whatever reason, symlinks will get updated automatically.
+
+For example you could add
+.I $XDG_CONFIG_HOME/ws-session/bin
+to your
+.I $PATH
+and use such commands to create the symlinks:
+.nf
+
+.B ln -s /usr/bin/ws-app $XDG_CONFIG_HOME/ws-session/bin/vim
+
+.fi
+As of now you need symlinks for
+.BR dwb ,
+.BR luakit ,
+.B mupdf
+and 
+.B vim
+if you want them be part of your sessions.
+.P
+In the best case there is no need for the function
+.I s_app_start
+in the
+.I app
+file
+(see
+.BR ws-session (7)).
+Today
+.B urxvt
+and
+.B zathura
+do not come with a
+.I s_app_start
+function. Zathura is happy without any configuration adjustments. However, you
+have to adjust the settings for your shell, in order to separate for example
+history and dirstack by session:
+.nf
+
+stmpdir="$(ws-session -p)"
+stmpdir="${stmpdir-$HOME/.}
+export HISTFILE="${stmpdir}zsh_history"
+export DIRSTACKFILE="${stmpdir}zdirs"
+unset stmpdir
+.fi
+.SS /usr/bin/ws-cmd
+This is a wrapper for shell commands or curses interfaces, which will be
+restarted in a new terminal when opening a session. Be sure that you cannot
+lose your work when the terminal window gets closed by a session close command.
+
+Example usage with longer arguments:
+.nf
+
+ws-cmd ncmpcpp -h 10.0.0.5
+ws-cmd ssh -l user 10.0.0.5 "tmux attach"
+
+.fi
+You can also create your own aliases in you shell rc:
+.nf
+
+if ws-session -p > /dev/null ; then
+  setopt complete aliases
+  alias htop='ws-cmd htop'
+  alias mutt='ws-cmd mutt'
+  alias man='ws-cmd man'
+fi
+.fi
+.SS /etc/xdg/ws-session/ws-session.rc
+The default configuration file; all possible configuration items are described
+in this file. Use it as template for your own configuration. User configuration
+files are searched at the following places in this order:
+.HP 3
+1.\ \fI$S_CONFIG_HOME/ws-session/ws-session.rc\fP if you
+have set the environment variable \fI$S_CONFIG_HOME\fP
+in your calling shell.
+.HP 3
+2.\ \fI$XDG_CONFIG_HOME/ws-session/ws-session.rc\fP
+.HP 3
+3.\ \fI~/.ws-session.rc\fP
+.SS /usr/lib/ws-session/app/*
+This is the 
+.I app
+directory, here are the default application files with all the start and stop
+code. If you don't like how an application restores its session, you can create
+your own version. Copy the default application file to your
+.I app
+directory and adjust it to your liking. Of course
+this is also the place to create support for other applications you want to be
+able to restore. All commands 
+.RB ( ws-session ,\  ws-app \ and \ ws-cmd )
+search for your application files in the following order:
+.HP 3
+1.\ \fI$S_CONFIG_HOME/app\fP if you set \fI$S_CONFIG_HOME\fP in your rc
+file or the calling shell
+.HP 3
+2.\ \fI$XDG_CONFIG_HOME/ws-session/app\fP
+.HP 3
+3.\ \fI~/.ws-session/app\fP
+
+.SS /usr/lib/ws-session/wm/*
+Here are the default window manager files, it's the
+.I wm
+directory. It works exactly the same way like the
+.I app
+directory (see
+.B /usr/lib/ws-session/app/*
+above). This directories will get scanned for your versions of
+.I wm
+files:
+.HP 3
+1.\ \fI$S_CONFIG_HOME/wm\fP if you set \fI$S_CONFIG_HOME\fP in your rc
+file or the calling shell
+.HP 3
+2.\ \fI$XDG_CONFIG_HOME/ws-session/wm\fP
+.HP 3
+3.\ \fI~/.ws-session/wm\fP
 .SH SEE ALSO
 .I ws-session(7)
-.SH BUGS
-Please report bugs at 
+further explanations on how to create your own app and wm files.
+.SH CONTRIBUTE
+Please send bugs reports, wm and app files or any other comment to 
 .IR <http://github.com/ctx/ws-session/issues> .
 .SH AUTHOR
 Ciril Troxler (ctroxler@gmail.com)
