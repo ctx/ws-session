@@ -1,12 +1,12 @@
+.mso www.tmac
 .TH WS-SESSION 7 "April 12, 2015" "ws-session VERSION"
 .OS Linux
 .SH NAME
 ws-session - add your applications and window manager of choice
 .SH DESCRIPTION
-The idea behind
 .B ws-session
-is that you should be able to write your own wrappers for your favourite
-applications or the wm you use. If there exists a file in
+should be extendable by writing your own wrappers for your favourite
+applications or wms. If there exists a file in
 .I $S_CONFIG_HOME/{app,wm}
 it will be sourced instead of a file with the same
 name in
@@ -17,25 +17,30 @@ support.
 
 .SH GLOBAL VARIABLES
 You must not change the value of a global variable in any of the app, wm or bin
-files (with one exception). They are getting set in the core/ and the test/
-files or they are user settings which are loaded from the rc file. You can
-use/access those from whithin all files/functions you want to write.
+files (except 
+.BR S_WM_SUPPORTS_LAYOUT_SAVING ).
+They are getting set in the 
+.IR core/ \ and\ the \ test/
+files or they are user settings which are loaded from the 
+.IR rc\ file .
+Some of them can also be set as Environment Variables (see
+.BR ws-session (1)).
+You can access those from whithin all code you want to write.
 
-You can print the value of a variable with 
-.B ws-session print S_VARIABLE_NAME
-.TP
-.B S_WM
+You can print the value of variables with:
+.B ws-session print
+.I S_VARIABLE S_OTHER_VARIABLE
+.SS S_WM
 This is a list of your preferred window manager(s). Can be one or more and it
 get's truncated to the running wm.
 
-Can be set in the rc file. But it gets set automatically otherwise.
-.TP
-.B S_APPLICATIONS
+Can be set in the rc file to hardcode your wm of choose. If your running wm is
+supportet it will be found  automatically.
+.SS S_APPLICATIONS
 Array with the applications you want open and close with this script.
 
 Must be set in the rc file.
-.TP
-.B S_LIB_HOME
+.SS S_LIB_HOME
 Points to the directory with all the code in it. Defaults to but
 .IR /usr/lib/ws-session .
 You can export this variable to your env to use a
@@ -43,8 +48,7 @@ different install directiory.
 
 Leave it out or set this like your other environement variables. You can just
 export it for testing purposes.
-.TP
-.B S_CONFIG_HOME
+.SS S_CONFIG_HOME
 Defaults to 
 .IR $XDG_CONFIG_HOME/ws-session ,
 but if you name your rc file
@@ -52,16 +56,14 @@ but if you name your rc file
 you can set this to wathever you like
 
 Can be set in the rc file.
-.TP
-.B S_DATA_HOME
+.SS S_DATA_HOME
 Per default points to
 .IR $XDG_DATA_HOME/ws-session .
 Here is all the data from
 saved sessions.
 
 Can be set in the rc file.
-.TP
-.B S_TMP_DIR
+.SS S_TMP_DIR
 In this directory all the runtime data is stored. When you load a session the
 data gets copied from
 .IR S_DATA_HOME/sessionname-1 \ to \ S_TMP_DIR/sessionname
@@ -69,33 +71,28 @@ and vice versa Default:
 .IR /tmp/ws-session-$(whoami) .
 
 Can be set in the rc file.
-.TP
-.B S_NUMBER_OF_BACKUPS
+.SS S_NUMBER_OF_BACKUPS
 How many backups of a session should get stored in
 .IR S_DATA_HOME .
 Default 5.
 
 Can be set in the rc file.
-.TP
-.B S_DEFAULT_TAG
+.SS S_DEFAULT_TAG
 If you close a session your window manager changes to this workspace.
 
 Name it 1 or arch or whatever. There is no default.
-.TP
-.B S_SEL_TAG
+.SS S_SEL_TAG
 Contains the active workspace.
 
 Do not set this variable in the rc file, it gets set automatically.
-.TP
-.B S_MENU
+.SS S_MENU
 Points to your favorite menu e.g. 
 .I dmenu -nf #333
 but can also be another menu application like 
 .IR zenity .
 
 Can be set in the rc file.
-.TP
-.B S_WM_SUPPORTS_LAYOUT_SAVING
+.SS S_WM_SUPPORTS_LAYOUT_SAVING
 .I 1
 if the wm is able to save and load a layout and
 .I 0
@@ -104,21 +101,18 @@ otherwise.
 Do not set this variable in the rc file, you have to set it in the 
 .I wm/*
 files, if you create a new one.
-.TP
-.B S_LOAD_LAYOUT_SLEEP
+.SS S_LOAD_LAYOUT_SLEEP
 After running all applications one has to wait until all the windows are
 created before the layout can get reloaded. Not used, if your window manager
 cannot reload the layout.
 
 It depends on your hardware. Can be set in the rc file.
-.TP
-.B S_LOAD_ACTION_SLEEP
+.SS S_LOAD_ACTION_SLEEP
 After closing all applications one has to wait until all the data is stored
 before the system action (eg. reboot) can take place.
 
 It depends on your hardware. Can be set in the rc file.
-.TP
-.B S_SHELL_FILES
+.SS S_SHELL_FILES
 An array of file names for your shell. It could be the history and other shell
 files (eg dirstack) without the dot. This array is used in the functions of
 .I app/urxvt.sh
@@ -150,10 +144,13 @@ if you are developping on a tag named session. It defaults to a tag named 1.
 
 You can run one function with 
 .B ws-session\ debug\ s_function_name\ argument
-.
 
-.SS examplewm.sh
+Below is a template for your wm files:
+.IR examplewm.sh .
+Ignore the layout stuff if your wm cannot reload the layout. All other
+functions are matadory:
 .nf
+
 # returns current tag
 s_seltag_examplewm() {
 }
@@ -198,8 +195,6 @@ s_reload_layout_examplewm() {
 }
 .fi
 .SH APPLICATION
-Create a new file bin/exampleapp to run the wrapper. Take an existing one as
-example, they are mostly similar.
 
 Create a new file
 .IR app/exampleapp.sh ,
@@ -214,11 +209,23 @@ the window with another mouse click.
 
 Sometimes 
 .I bin/exampleapp
+(a copy or symlink to
+.BR ws-app )
 and
 .I s_exampleapp_start
-are not needed but exampleapp needs a setting in its config files, eg. urxvt.
-.SS exampleapp.sh
+are not needed but exampleapp needs a setting in its config files, eg.
+.BR urxvt . \ zathura
+on the other hand is happy just with the
+.IR open \ and \ close
+functions. 
+
+Below is the 
+.IR exampleapp.sh ,
+look at the other
+.I app
+files for more real world examples:
 .nf
+
 # open exampleapp from data directory, lockfiles and state should
 # be stored in the temporary directory.
 # $1:       Data directory: where the last session was stored.
@@ -251,15 +258,14 @@ s_exampleapp_start() {
 
 .SH SEE ALSO
 .I ws-session(1)
-.SH BUGS
-Please report bugs at 
-.IR <http://github.com/ctx/ws-session/issues> .
-.SH AUTHOR
-Ciril Troxler (ctroxler@gmail.com)
+.SH CONTRIBUTE
+Please send bug reports/fixes, wm and app files or any other comment to 
+.URL http://github.com/ctx/ws-session/issues
 .SH COPYRIGHT
-Copyright © 2010 - 2015 Ciril Troxler.
+Copyright © 2010 - 2015
+.MTO ctroxler@gmail.com "Ciril Troxler"
 
 License GPLv3+: GNU GPL version 3 or later 
-.IR <http://gnu.org/licenses/gpl.html> .
+.URL http://gnu.org/licenses/gpl.html
  
 This is free software; you are free to change and redistribute it.
