@@ -32,8 +32,8 @@ s_mupdf_close_session() {
 
 # start exampleapp in a way that close_session can close/save it
 s_mupdf_start() {
-  if [[ $@ ]] ; then
-    s_mupdf_hack $@
+  if [[ "$@" ]] ; then
+    s_mupdf_hack "$@"
   else
     /usr/bin/mupdf
   fi
