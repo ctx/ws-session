@@ -31,8 +31,7 @@ if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
   if [[ -n $S_WM ]] ; then
     s_source app/${cmd}.sh
     tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
-    s_${cmd}_start "$@" &
-    disown -a
+    s_${cmd}_start "$@"
     exit 0
   fi
 fi
