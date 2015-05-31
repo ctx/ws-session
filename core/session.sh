@@ -108,7 +108,7 @@ s_opensession() {
         fi
       done
       unset id app pid
-      s_reload_layout
+      [[ -f "$tmp_dir/${S_WM}.layout" ]] && s_reload_layout
     fi
 
   fi
