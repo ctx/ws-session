@@ -1,4 +1,4 @@
-# at the very beginnig declare the error handling functions
+# at the very beginning declare the error handling functions
 s_fatal() {
   echo -e "FATAL: ${1}, aborting!" >&2
   if [[ $2 == "help" ]] ; then
@@ -39,11 +39,11 @@ S_RUN_ACTION_SLEEP=1
 S_BLACKLIST=
 
 # load user settings
-if [[ -f "$HOME/.ws-session.rc" ]] ; then
-  source "$HOME/.ws-session.rc" >&3 2>&3 \
-    || s_fatal "syntax error in .ws-session.rc, use bash syntax"
-elif [[ -f "$S_CONFIG_HOME/ws-session.rc" ]] ; then
+if [[ -f "$S_CONFIG_HOME/ws-session.rc" ]] ; then
   source "$S_CONFIG_HOME/ws-session.rc" >&3 2>&3 \
+    || s_fatal "syntax error in .ws-session.rc, use bash syntax"
+elif [[ -f "$HOME/.ws-session.rc" ]] ; then
+  source "$HOME/.ws-session.rc" >&3 2>&3 \
     || s_fatal "syntax error in .ws-session.rc, use bash syntax"
 else
   s_error "ws-session.rc not found" \
