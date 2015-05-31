@@ -17,7 +17,7 @@ _ws-session() {
   case $state in
     sessionname)
       local -a session_name
-      session_name=( $(ws-session -l) )
+      session_name=( $(ws-session list) )
       _describe 'saved sessions' session_name
       ;;
     opensessions)
