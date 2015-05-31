@@ -16,7 +16,7 @@
 #S_NUMBER_OF_BACKUPS="5"
 
 # Close session ends on this tag/workspace
-S_DEFAULT_TAG="1"
+S_DEFAULT_TAG="${S_DEFAULT_TAG:-1}"
 
 # Whitelist of your window manager(s)
 S_WM="bspwm i3 herbstluftwm wingo"
