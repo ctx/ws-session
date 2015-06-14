@@ -1,6 +1,6 @@
 .PHONY: test deps version
 
-VERSION:=$(shell git rev-list --count HEAD) (git)
+VERSION:=1.0 (First Release)
 LIBDIR:=$(DESTDIR)$(PREFIX)/lib/ws-session
 BINDIR:=$(DESTDIR)$(PREFIX)/bin
 ETCDIR:=$(DESTDIR)/etc/xdg/ws-session
