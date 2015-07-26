@@ -1,22 +1,22 @@
 # at the very beginning declare the error handling functions
 s_fatal() {
-  echo -e "FATAL: ${1}, aborting!" >&2
+  echo -e "FATAL: ${1}, aborting!" >&1
   if [[ $2 == "help" ]] ; then
-    echo >&2
-    s_help >&2
+    echo >&1
+    s_help >&1
   elif [[ -n $2 ]] ; then
-    echo -e "       ${2}." >&2
+    echo -e "       ${2}." >&1
   fi
   exit 127
 }
 
 s_error() {
-  echo -e "ERROR: ${1}!" >&2
+  echo -e "ERROR: ${1}!" >&1
   if [[ $2 == "help" ]] ; then
-    echo >&2
-    s_help >&2
+    echo >&1
+    s_help >&1
   elif [[ -n $2 ]] ; then
-    echo -e "       ${2}." >&2
+    echo -e "       ${2}." >&1
   fi
 }
 
