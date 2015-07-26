@@ -118,9 +118,10 @@ Some of the
 can be set as environment variables. This is mostly useful for testing and
 debugging. But you could also use different settings for different window
 manager, by setting some of this environment variables in your .xinitrc.
+Of course you can set them in your config file to a static value.
 .SS S_CONFIG_HOME
 If you don't like
-.IR XDG \ and \ ~/.files
+.IR XDG \ and \ ~/.ws-session.rc
 or temporary want to use another configuration you can
 use this variable to point to the corresponding configuration files.
 .SS S_DEBUG
@@ -138,6 +139,7 @@ to run the failing code as
 .B S_DEBUG
 will be activated when using one of them.
 .SS S_DEFAULT_TAG
+If you close a session your window manager changes to this workspace.
 The example configuration will respect
 .B S_DEFAULT_TAG
 from your environment.
@@ -150,6 +152,13 @@ directory, you have to set this variable.  Another example would be when you
 want to use the code in the git directory. Run this command in the git
 directory:
 .B S_LIB_HOME=$(pwd) bin/ws-session
+.SS S_LOGFILE
+Use this variable to send output to a log file. When this variable is set, -xv
+is enabled and sent to the log file. This can be useful when you want to debug your
+.I ws-session.rc
+file. Use it like this:
+
+.B S_LOGFILE=ws-session.log ws-session -o examplesession
 
 .SH FILES
 .SS /usr/bin/ws-app

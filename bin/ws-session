@@ -72,14 +72,25 @@ s_print_system_actions() {
         }'
 }
 
-if [[ $S_DEBUG || $1 == "debug" ]] ; then
+if [[ $S_DEBUG || $1 == "debug" || $1 == "print" ]] ; then
   exec 3>&2
   exec 4>&2
-  echo debug >&3
 else
   exec 3>/dev/null
   exec 4>&2
 fi
+if [[ $S_LOGFILE ]] ; then
+  (
+  echo
+  date
+  echo -----------------------------
+  ) > "$S_LOGFILE"
+  set -xv 
+  exec 2>>"$S_LOGFILE"
+  exec 3>>"$S_LOGFILE"
+  exec 4>>"$S_LOGFILE"
+fi
+
 
 S_LIB_HOME="${S_LIB_HOME:-/usr/lib/ws-session}"
 if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
