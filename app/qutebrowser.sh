@@ -1,7 +1,7 @@
 quteb=qutebrowser
 
 s_qutebrowser_open_session() {
-  cp -RP "$1/$quteb" "$tmp_dir"
+  cp -R "$1/$quteb" "$tmp_dir"
   /usr/bin/$quteb --basedir "$tmp_dir/$quteb/" >/dev/null 2>&1 &
   s_reg_winid "$!" "$(< $tmp_dir/$quteb/winid)"
 }
