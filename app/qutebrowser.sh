@@ -1,14 +1,18 @@
 quteb=qutebrowser
 
 s_qutebrowser_open_session() {
-  cp -R "$1/$quteb" "$tmp_dir"
-  /usr/bin/$quteb --basedir "$tmp_dir/$quteb/" >/dev/null 2>&1 &
-  s_reg_winid "$!" "$(< $tmp_dir/$quteb/winid)"
+  if [[ -d $1/$quteb ]] ; then
+    if [[ ! -d $tmp_dir/$quteb ]] ; then
+      cp -a "$1/$quteb" "$tmp_dir"
+    fi
+    /usr/bin/$quteb --basedir "$tmp_dir/$quteb/" >/dev/null 2>&1 &
+    s_reg_winid "$!" "$(< $tmp_dir/$quteb/winid)"
+  fi
 }
 
 s_qutebrowser_close_session() {
   echo "$1" > "$tmp_dir/$quteb/winid"
-  /usr/bin/$quteb --basedir "$tmp_dir/$quteb/" :wq >/dev/null 2>&1 &
+  /usr/bin/$quteb --basedir "$tmp_dir/$quteb/" :wq >/dev/null 2>&1
 }
 
 s_qutebrowser_start() {
