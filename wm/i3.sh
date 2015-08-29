@@ -21,9 +21,9 @@ s_list_app_seltag_i3() {
   i3-msg -t get_tree \
     | jq --raw-output \
       ".nodes[].nodes[].nodes[]|select(contains({name:\"$S_SEL_TAG\"})).nodes[].nodes[].window" \
-    | while read id ; do
-    s_print_id_class "0x$(printf '%0x\n' $id)"
-  done
+    | while read -r id ; do
+      s_print_id_class "0x$(printf '%0x\n' $id)"
+    done
 }
 
 s_focus_window_i3() {
