@@ -69,8 +69,19 @@ s_focus_window() {
   echo focus window >&2
 }
 
+s_tree() {
+  tree -L 3 "$test_dir/old/$S_SEL_TAG/"
+  tree -L 3 "$tmp_dir"
+}
+
 mkdir -p "$tmp_dir"
 mkdir "$test_dir/old"
+
+if type s_${app}_open_session 2>/dev/null | grep -q function ; then
+  s_${app}_open_session
+fi
+echo "## open empty session should do nothing"
+echo "## close it otherwise and stop here"
 
 if type s_${app}_start 2>/dev/null | grep -q function ; then
   s_${app}_start $2 &
@@ -82,19 +93,19 @@ started=yes
 s_${app}_close_session $(select_window)
 unset started
 echo "## started $app on $S_SEL_TAG"
-tree /tmp/session-test
+s_tree
 
 sleep 2
 echo "## close session"
 mv "$tmp_dir" "$test_dir/old/" 
-tree /tmp/session-test
+s_tree
 
 echo "## open session"
 mkdir "$tmp_dir"
 s_${app}_open_session "$test_dir/old/$S_SEL_TAG"
 started=yes
 
-tree /tmp/session-test
+s_tree
 
 testnumber=0
 

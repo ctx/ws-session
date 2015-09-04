@@ -25,7 +25,7 @@ files or they are user settings which are loaded from the
 .IR rc\ file .
 Some of them can also be set as Environment Variables (see
 .BR ws-session (1)).
-You can access those from whithin all code you want to write.
+You can access those from within all code you want to write.
 
 You can print the value of variables with:
 .B ws-session print
@@ -59,8 +59,7 @@ Can be set in the rc file.
 .SS S_DATA_HOME
 Per default points to
 .IR $XDG_DATA_HOME/ws-session .
-Here is all the data from
-saved sessions.
+Here is all the data of the saved sessions.
 
 Can be set in the rc file.
 .SS S_TMP_DIR
@@ -202,10 +201,13 @@ see the template below.
 
 Run
 .B test/test-app.sh\ exampleapp.
-The application gets started and you can 'do' something e.g. open a website.
-Then you select the window with the mouse and the exampleapp will be stopped
-and started again. It works, when the things you 'did' will get reloaded. Kill
-the window with another mouse click.
+At first the function s_exampleapp_opensession is executed without a session to
+load. That function should do nothing at this moment. Afterwards the
+application gets started with s_exampleapp_start (there is a mock for
+exceptions) and you can 'do' something e.g. open a website/file.  Then you
+select the window with the mouse, the exampleapp will be stopped and started
+again. It works, when the things you 'did' will get reloaded. Kill the window
+with another mouse click.
 
 Sometimes 
 .I bin/exampleapp
