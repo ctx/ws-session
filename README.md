@@ -4,7 +4,7 @@ A session manager for virtual desktops written in bash.
 
 #### About
 
-ws-session creates for every 'virtual desktop', 'workspace' or 'tag' one session.
+ws-session creates one session for every 'virtual desktop', 'workspace' or 'tag'.
 
 You can start and stop sessions independent of each other.
 
@@ -17,11 +17,13 @@ With herbstluftwm you can save and restore the layout of the workspace.
 
 The applications do not support this out of the box:
 * The 'ws-app' wrapper in the bin folder makes it possible to save and restore
-  the state of applications.
+  the state of applications which have an 'app file' in the app folder.
 * With the 'ws-cmd' wrapper you can start ncurses and other cli applications
   which will get restarted. No state is saved exept the cwd and cmdline.
 * Other Applications which are not on the blacklist just get restarted. No state
   is saved exept the cwd and cmdline.
+
+Further explanations can be found under the FILES section in the man page.
 
 Look at the app and wm folders to see what is already supported or look here:
 https://github.com/ctx/ws-session/wiki/What-should-work
