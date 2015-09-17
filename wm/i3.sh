@@ -4,7 +4,7 @@ s_seltag_i3() {
 }
 
 s_newtag_i3() {
-  i3-msg workspace "$@" 2>&1 >/dev/null
+  i3-msg workspace "$@"
 }
 
 s_list_open_tags_i3() {
@@ -13,7 +13,7 @@ s_list_open_tags_i3() {
 }
 
 s_closetag_i3() {
-  i3-msg workspace "$S_DEFAULT_TAG" 2>&1 >/dev/null
+  i3-msg workspace "$S_DEFAULT_TAG"
 }
   
 s_list_app_seltag_i3() {
@@ -22,14 +22,14 @@ s_list_app_seltag_i3() {
     | jq --raw-output \
       ".nodes[].nodes[].nodes[]|select(contains({name:\"$S_SEL_TAG\"})).nodes[].nodes[].window" \
     | while read -r id ; do
-      s_print_id_class "0x$(printf '%0x\n' $id)"
+      s_print_id_class "0x$(printf '%0x\n' $id 2>&3)"
     done
 }
 
 s_focus_window_i3() {
   local c="$@"
-  local winiddec="$(printf "%u\n" $@)"
-  i3-msg "[id=\"$winiddec\"] focus" > /dev/null
+  local winiddec="$(printf "%u\n" $@ 2>&3)"
+  i3-msg "[id=\"$winiddec\"] focus" >&4 2>&3
 }
 
 # vim: ft=sh ts=2 et sw=2:
