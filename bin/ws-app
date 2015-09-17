@@ -1,4 +1,5 @@
 #!/bin/bash
+
 cmd=${0##*/}
 
 if [[ $cmd == 'ws-app' ]] ; then
@@ -26,16 +27,22 @@ if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
       "use ws-session debug to find errors!" >&2
     exit 127
   fi
-  s_source_lib wm
-
-  if [[ -n $S_WM ]] ; then
-    s_source app/${cmd}.sh
-    tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
-    s_${cmd}_start "$@"
-    exit 0
-  fi
+else
+  echo "FATAL: cannot find $S_LIB_HOME/core/source.sh, aborting!
+       Install core files to /usr/lib/ws-session
+       or export S_LIB_HOME, or in the directory with the code use:
+       S_LIB_HOME=\$(pwd) bin/${0##*/}" >&2
+  exit 127
 fi
 
-/usr/bin/$cmd $@
+s_source_lib wm
+
+if [[ -n $S_WM ]] ; then
+  s_source app/${cmd}.sh
+  tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
+  s_${cmd}_start "$@"
+else
+  /usr/bin/$cmd $@
+fi
 
 # vim: ft=sh ts=2 et sw=2:

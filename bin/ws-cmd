@@ -19,6 +19,7 @@ if [[ $S_DEBUG ]] ; then
   exec 3>&2
   exec 4>&2
   echo debug >&3
+  set -xv
 else
   exec 3>/dev/null
   exec 4>&2
@@ -32,13 +33,15 @@ if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
       "use ws-session debug to find errors!" >&2
     exit 127
   fi
-else 
-  $@
-  exit 0 
+else
+  echo "FATAL: cannot find $S_LIB_HOME/core/source.sh, aborting!
+       Install core files to /usr/lib/ws-session
+       or export S_LIB_HOME, or in the directory with the code use:
+       S_LIB_HOME=\$(pwd) bin/${0##*/}" >&2
+  exit 127
 fi
 
 s_source_lib wm
-
 
 if ! which $1 >/dev/null 2>&1;then 
   s_fatal "'$1' not found" \

@@ -101,9 +101,9 @@ if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
   fi
 else
   echo "FATAL: cannot find $S_LIB_HOME/core/source.sh, aborting!
-        Install core files to /usr/lib/ws-session
-        or export S_LIB_HOME, or in the directory with the code use:
-        S_LIB_HOME=\$(pwd) bin/ws-session" >&2
+       Install core files to /usr/lib/ws-session
+       or export S_LIB_HOME, or in the directory with the code use:
+       S_LIB_HOME=\$(pwd) bin/${0##*/}" >&2
   exit 127
 fi
 
