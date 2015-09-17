@@ -74,11 +74,6 @@ if [[ -n "$s_wm" ]] ; then
       local file="$S_TMP_DIR/$S_SEL_TAG/${S_WM}.layout"
       [[ -f $file ]] && s_reload_layout_$S_WM "$file"
     }
-  else
-    s_run_cmd_opensession() {
-      shift
-      s_run_cmd "$@"
-    }
   fi
 
   s_print_id_class() {
