@@ -15,16 +15,6 @@ Examples:
 exit 0
 fi
 
-if [[ $S_DEBUG ]] ; then
-  exec 3>&2
-  exec 4>&2
-  echo debug >&3
-  set -xv
-else
-  exec 3>/dev/null
-  exec 4>&2
-fi
-
 S_LIB_HOME=${S_LIB_HOME:-/usr/lib/ws-session}
 
 if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
@@ -43,7 +33,7 @@ fi
 
 s_source_lib wm
 
-if ! which $1 >/dev/null 2>&1;then 
+if ! which $1 >&3 2>&3;then 
   s_fatal "'$1' not found" \
     "If '$1' is really a command you want to install it, or use absolute path"
 fi

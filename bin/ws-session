@@ -15,7 +15,7 @@ Options:
         Available system-actions: $(s_print_system_actions).
         List all system-actions if you don't specify one.
   -c|close [session-name]
-        Close current session if no session-name is supplied.
+        Close current session if there is no session-name.
         Or close the session named 'session-name'.
   -h|help
         Print the help.
@@ -72,29 +72,9 @@ s_print_system_actions() {
         }'
 }
 
-if [[ $S_DEBUG || $1 == "debug" || $1 == "print" ]] ; then
-  exec 3>&2
-  exec 4>&2
-else
-  exec 3>/dev/null
-  exec 4>&2
-fi
-if [[ $S_LOGFILE ]] ; then
-  (
-  echo
-  date
-  echo -----------------------------
-  ) > "$S_LOGFILE"
-  set -xv 
-  exec 2>>"$S_LOGFILE"
-  exec 3>>"$S_LOGFILE"
-  exec 4>>"$S_LOGFILE"
-fi
-
-
 S_LIB_HOME="${S_LIB_HOME:-/usr/lib/ws-session}"
 if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
-  if ! source "$S_LIB_HOME/core/source.sh" 2>&3 >&4 ; then
+  if ! source "$S_LIB_HOME/core/source.sh" ; then
     echo "FATAL: syntax error in source.sh, please report at
     <http://github.com/ctx/ws-session/issues>" >&2
     exit 127
@@ -127,7 +107,7 @@ case $1 in
     echo "$S_TMP_DIR/$S_SEL_TAG/"
     ;;
   -m|menu)
-    if which ${S_MENU%% *} >&3 2>&3; then
+    if which ${S_MENU%% *} 2>&3; then
       s_source_lib wm stopwm data
 
       name="$( (s_list_open_tags;s_list_sessions) \
@@ -191,7 +171,7 @@ case $1 in
     fi
     action="$2"
     s_source_lib wm stopwm data session allapp
-    if ! type s_system_action_$action 2>/dev/null \
+    if ! type s_system_action_$action 2>&3 \
          | grep -q 'is a function' ; then
       s_fatal "No such action '$action'" \
         "Known actions are: $(s_print_system_actions)

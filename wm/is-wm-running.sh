@@ -1,19 +1,19 @@
 # Add your own to this list
 
 s_running_wm_wmii() {
-  if which wmiir > /dev/null 2>&1; then
+  if which wmiir >&3 2>&3; then
     wmiir ls / 2> /dev/null
   fi
 }
 
 s_running_wm_i3() {
-  if which i3-msg > /dev/null 2>&1; then
+  if which i3-msg >&3 2>&3; then
     i3-msg -t get_version 2> /dev/null
   fi
 }
 
 s_running_wm_default() {
-  if which wmctrl > /dev/null 2>&1; then
+  if which wmctrl > /dev/null 2>&3; then
     wmctrl -m | grep "$@"
   fi
 }

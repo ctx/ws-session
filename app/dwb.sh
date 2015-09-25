@@ -12,7 +12,7 @@ s_dwb_open_session() {
       find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \
         -exec ln -sf "{}" "$tmp_dir/$DWB/" \;
     fi
-    XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload >/dev/null 2>&1 &
+    XDG_CONFIG_HOME="$tmp_dir" $dwbcmdreload >&3 2>&3 &
     s_reg_winid $! "$(< "$tmp_dir/$DWB/windowid")"
   fi
 }
@@ -32,7 +32,7 @@ s_dwb_start() {
     mkdir "$tmp_dir/$DWB"
     find "$XDG_CONFIG_HOME/$DWB" -maxdepth 1 -mindepth 1 -not -name default \
       -exec ln -sf "{}" "$tmp_dir/$DWB/" \;
-    XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
+    XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" &
   else
     winid="$(s_list_app_seltag | awk "/$DWB/{print $1}")"
     if [[ -n $winid ]] ; then
@@ -43,7 +43,7 @@ s_dwb_start() {
       xdotool type "$@"
       xdotool key KP_Enter
     else
-      XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@" & >/dev/null 2>&1
+      XDG_CONFIG_HOME="$tmp_dir" $dwbcmd "$@"
     fi
   fi
 }

@@ -11,15 +11,6 @@ in your \$PATH e.g:
   exit 1
 fi
 
-if [[ $S_DEBUG ]] ; then
-  exec 3>&2
-  exec 4>&2
-  echo debug >&3
-else
-  exec 3>/dev/null
-  exec 4>&2
-fi
-
 S_LIB_HOME=${S_LIB_HOME:-/usr/lib/ws-session}
 if [[ -f "$S_LIB_HOME/core/source.sh" ]] ; then
   if ! source "$S_LIB_HOME/core/source.sh" ; then

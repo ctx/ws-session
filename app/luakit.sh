@@ -8,7 +8,7 @@ s_luakit_open_session() {
     if [[ ! -d "$tmp_dir/$LUAKIT" ]] ; then
       cp -r $dir/$LUAKIT $tmp_dir
     fi
-    XDG_DATA_HOME="$tmp_dir/$LUAKIT" $luakitcmd >/dev/null 2>&1 &
+    XDG_DATA_HOME="$tmp_dir/$LUAKIT" $luakitcmd >&3 2>&3 &
     s_reg_winid $! "$(< "$tmp_dir/$LUAKIT/windowid")"
   fi
 }
@@ -26,7 +26,7 @@ s_luakit_new_instance() {
   local tmp_dir="$1"
   shift
   mkdir -p "$tmp_dir"
-  XDG_DATA_HOME="$tmp_dir" $luakitcmd "$@" & >/dev/null 2>&1
+  XDG_DATA_HOME="$tmp_dir" $luakitcmd "$@" &
 }
 
 s_luakit_focus() {

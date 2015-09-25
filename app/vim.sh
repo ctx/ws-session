@@ -11,7 +11,7 @@ s_vim_open_session() {
       if [[ -n $id ]] ; then
         $S_TERM -name vim -e \
           /usr/bin/vim -i "$viminfo" --servername "$S_SEL_TAG-" -S "$f" \
-          & > /dev/null 2>&1
+          & >&3 2>&3
         s_reg_winid $! $id
       fi
     done
@@ -20,7 +20,7 @@ s_vim_open_session() {
 }
 
 s_vim_close_session() {
-  local vimservers=$(/usr/bin/vim --serverlist | grep -i -e "^$S_SEL_TAG-")
+  local vimservers=$(/usr/bin/vim --serverlist 2>&3 | grep -i -e "^$S_SEL_TAG-")
   local winids="$1"
   local vimwinids="$tmp_dir/vimwinids"
 
@@ -39,7 +39,8 @@ s_vim_close_session() {
       sessionfile="$tmp_dir/vim/$vimserver"
       /usr/bin/vim --remote-send \
         '<Esc>:wa<CR>:mks! '${sessionfile}'<CR>:qa<CR>' \
-        --servername $vimserver
+        --servername $vimserver \
+        >&3 2>&3
     done
     unset vimserver sessionfile
   fi
@@ -55,7 +56,7 @@ s_vim_start() {
   else
     $S_TERM -name vim -e \
       /usr/bin/vim -i $viminfo --servername "$S_SEL_TAG-" "$@" \
-      & > /dev/null 2>&1
+      & >&3 2>&3
   fi
   unset winid
 }

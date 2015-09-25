@@ -5,7 +5,7 @@ s_command_open_session() {
     while FS="\t" read -r id d cmd ; do
       if [[ -n $id ]] ; then
         echo -e "$id\t$d\t$cmd" >> "$tmp_dir/command.tmp"
-        $S_TERM -name command -cd "$d" -e "$cmd" >/dev/null 2>&1 &
+        $S_TERM -name command -cd "$d" -e "$cmd" >&3 2>&3 &
         s_reg_winid $! $id
       fi
     done <"$file"
@@ -29,13 +29,12 @@ s_command_close_session() {
 }
 
 s_command_start() {
-  winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
+  local winid=$(xprop -root _NET_ACTIVE_WINDOW | awk '{print $NF}')
   echo -e "$winid\t$PWD\t$@" >> "$S_TMP_DIR/$S_SEL_TAG/command.tmp"
   xprop -f WM_CLASS 8s -set WM_CLASS "command" -id $winid
   "$@"
   xprop -f WM_CLASS 8s -set WM_CLASS "$S_TERM" -id $winid
   sed -i "\|${winid}|d" "$S_TMP_DIR/$S_SEL_TAG/command.tmp"
-  unset winid
 }
 
 # vim: ft=sh ts=2 et sw=2:

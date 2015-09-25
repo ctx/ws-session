@@ -4,7 +4,7 @@ s_seltag_i3() {
 }
 
 s_newtag_i3() {
-  i3-msg workspace "$@"
+  i3-msg workspace "$@" >&3 2>&3
 }
 
 s_list_open_tags_i3() {
@@ -13,7 +13,7 @@ s_list_open_tags_i3() {
 }
 
 s_closetag_i3() {
-  i3-msg workspace "$S_DEFAULT_TAG"
+  i3-msg workspace "$S_DEFAULT_TAG" >&3 2>&3
 }
   
 s_list_app_seltag_i3() {
@@ -29,7 +29,7 @@ s_list_app_seltag_i3() {
 s_focus_window_i3() {
   local c="$@"
   local winiddec="$(printf "%u\n" $@ 2>&3)"
-  i3-msg "[id=\"$winiddec\"] focus" >&4 2>&3
+  i3-msg "[id=\"$winiddec\"] focus" >&3 2>&3
 }
 
 # vim: ft=sh ts=2 et sw=2:

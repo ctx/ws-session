@@ -8,7 +8,7 @@ s_urxvt_open_session() {
   if [[ -f "$file" ]] ; then
     while read -r id wd ;do
       if [[ -n $id ]] ; then
-        /usr/bin/urxvt -cd "$wd" & >/dev/null 2>&1
+        /usr/bin/urxvt -cd "$wd" & >&3 2>&3
         s_reg_winid $! $id
       fi
     done <"$file"
@@ -32,7 +32,7 @@ s_urxvt_close_session() {
         $(xprop -id $urxvt _NET_WM_PID | cut -d " " -f 3) \
         | awk '/zsh/{print $1;exit;}')/cwd
       s_focus_window $urxvt
-      xdotool key ctrl+d 1>&2
+      xdotool key ctrl+d >&3 2>&3
     fi >> "$tmp_dir/urxvt"
   done
 }
