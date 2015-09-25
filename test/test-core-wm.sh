@@ -24,8 +24,9 @@ s_seltag() {
   s_seltag_$S_WM
 }
 
-exec 3>&1
+exec 3>&2
 exec 4>&1
+
 S_LIB_HOME="."
 source ./core/source.sh
 source ./core/wm.sh
@@ -65,8 +66,8 @@ s_assert_equals "$(s_seltag)" "$S_DEFAULT_TAG"
 
 # test tag name with special chars ---------------------------------------
 # the tag with name ~!@~`#$%^&*()_+="-0\][{}|;':,/.<>
-crazyname='~!@~`#$%^&*()_+="-0][{}|;'\'':,/.<>'
-#crazyname='~!@~`#$%-0:.'
+#crazyname='~!@~`#$%^&*()_+="-0][{}|;'\'':,/.<>'
+crazyname='~!@~`#$%-0:.'
 s_newtag "$crazyname"
 S_SEL_TAG=$(s_seltag)
 s_assert_equals "$S_SEL_TAG" "$crazyname"

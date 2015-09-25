@@ -1,1 +1,13 @@
-echo $S_TMP_DIR/$S_SEL_TAG/
+#!/bin/bash
+
+case $1 in
+  -p|path)
+    if [[ -n $S_TMP_DIR && -n $S_SEL_TAG ]] ; then
+      echo $S_TMP_DIR/$S_SEL_TAG/
+    else
+      echo "ERROR something went wrong."
+    fi
+    ;;
+  *) echo "cannot do that I'm just a mock"
+    ;;
+esac

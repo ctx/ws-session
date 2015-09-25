@@ -38,6 +38,9 @@ if [[ -z $app ]] ;then
         exit 1
 fi
 
+exec 3>&2
+exec 4>&1
+
 source ./app/${app}.sh
 
 # Mock functions
