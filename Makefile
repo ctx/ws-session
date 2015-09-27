@@ -40,7 +40,7 @@ deps:
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
 install: deps
-	install -d $(LIBDIR)/core $(LIBDIR)/app $(LIBDIR)/wm $(BINDIR) $(ETCDIR) $(ZSHDIR) $(MAN1DIR) $(MAN7DIR)
+	install -d $(LIBDIR)/core $(LIBDIR)/app $(LIBDIR)/wm $(BINDIR) $(ETCDIR) $(ZSHDIR) $(BASHDIR) $(MAN1DIR) $(MAN7DIR)
 	install -m755 bin/* $(BINDIR)/
 	install -m644 conf/* $(ETCDIR)/
 	install -m644 app/* $(LIBDIR)/app/
