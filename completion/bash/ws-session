@@ -1,0 +1,37 @@
+_ws-session () {
+  local cur prev words
+
+  COMPREPLY=()
+  cur=${COMP_WORDS[$COMP_CWORD]}
+  prev=${COMP_WORDS[$COMP_CWORD-1]}
+
+  if [ $COMP_CWORD -eq 1 ] ; then
+    COMPREPLY=( $(compgen -W '-a -c -h -l -m -o -p -r -s -v all close help list menu open path restore started version' -- $cur) )
+  elif [ $COMP_CWORD -eq 2 ] ; then
+    case "$prev" in
+      "-a"|"all")
+        # complete system-actions
+        words=$(ws-session all | tr ',' ' ')
+        COMPREPLY=( $(compgen -W "$words" -- $cur) )
+        ;;
+      "-c"|"close")
+        # complete open sessions
+        words=$(ws-session started)
+        COMPREPLY=( $(compgen -W "$words" -- $cur) )
+        ;;
+      "-r"|"restore"|"-o"|"open")
+        # complete saved and closed sessions
+        words=$(ws-session list)
+        COMPREPLY=( $(compgen -W "$words" -- $cur) )
+        ;;
+      "-h"|"help"|"-l"|"list"|"-m"|"menu"|"-p"|"path"|"-s"|"started"|"-v"|"version")
+        # no further arguments
+        ;;
+      *)
+        ;;
+    esac
+  fi
+
+  return 0
+}
+complete -F _ws-session ws-session

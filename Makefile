@@ -5,6 +5,7 @@ LIBDIR:=$(DESTDIR)$(PREFIX)/lib/ws-session
 BINDIR:=$(DESTDIR)$(PREFIX)/bin
 ETCDIR:=$(DESTDIR)/etc/xdg/ws-session
 ZSHDIR:=$(DESTDIR)$(PREFIX)/share/zsh/site-functions
+BASHDIR:=$(DESTDIR)$(PREFIX)/share/bash-completion/completions
 MAN1DIR:=$(DESTDIR)$(PREFIX)/share/man/man1
 MAN7DIR:=$(DESTDIR)$(PREFIX)/share/man/man7
 
@@ -46,6 +47,7 @@ install: deps
 	install -m644 core/* $(LIBDIR)/core/
 	install -m644 wm/* $(LIBDIR)/wm/
 	install -m644 completion/zsh/_ws-session $(ZSHDIR)/
+	install -m644 completion/bash/ws-session $(BASHDIR)/
 	install -m644 man/ws-session.1 $(MAN1DIR)/
 	install -m644 man/ws-session.7 $(MAN7DIR)/
 	@sed -i "/VERSION/s/VERSION=/VERSION=\"$(VERSION)\"/" "$(BINDIR)/ws-session"
