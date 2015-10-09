@@ -9,6 +9,7 @@ _ws-session() {
     '-h[help]::' \
     '-l[list all sessions]::' \
     '-m[open a session from a menu]::' \
+    '-n[save session under new name]::' \
     '-o[open a session]:sessions:->sessionname::' \
     '-p[print session path]::' \
     '-r[restore a session]:sessionname:->sessionname::' \

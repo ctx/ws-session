@@ -24,6 +24,9 @@ Options:
   -m|menu
         Start a session from a menu.
         You have to set '\$S_MENU' in the rc file.
+  -n|new session-name
+        Close current session and save it under the new name
+        'session-name'.
   -o|open [-f] session-name
         Start the session with name 'session-name'.
         Use -f to open sessions on an already open (empty) tag
@@ -161,6 +164,16 @@ case $1 in
     else
       s_error "No open session named '$name'" \
         "I can only close open sessions"
+    fi
+    ;;
+  -n|new)
+    shift
+    name="$@"
+    if [[ -n $name ]] ; then
+      s_source_lib wm stopwm data session allapp
+      s_newsession "$name"
+    else
+      s_fatal "Cannot save new session without a name"
     fi
     ;;
   -a|all)

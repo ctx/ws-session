@@ -24,7 +24,7 @@ _ws-session () {
         words=$(ws-session list)
         COMPREPLY=( $(compgen -W "$words" -- $cur) )
         ;;
-      "-h"|"help"|"-l"|"list"|"-m"|"menu"|"-p"|"path"|"-s"|"started"|"-v"|"version")
+      "-h"|"help"|"-l"|"list"|"-m"|"menu"|"-n"|"new"|"-p"|"path"|"-s"|"started"|"-v"|"version")
         # no further arguments
         ;;
       *)

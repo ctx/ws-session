@@ -7,7 +7,7 @@ ws-session - a session manager for virtual desktops
 .RB [\| \-a \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-s \||\| \-v\| ]
 .br
 .B ws-session
-.RB [\| \-c \||\| \-o \ [ \-f \|]| \-r ]
+.RB [\| \-c \||\| \-n \||\| \-o \ [ \-f \|]| \-r ]
 .IR session-name
 .br
 .B ws-session
@@ -64,10 +64,15 @@ You have to set
 .I $S_MENU
 in the rc file.
 .TP
+\fB\-n\fP, \fBnew \fIsession-name
+.br
+Close current session and save it under the new name
+.IR session-name .
+.TP
 \fB\-o\fP, \fBopen\fP [\fB-f\fP] \fIsession-name
 .br
 Start the session with name 
-.IR session-name \.
+.IR session-name .
 .br
 Use
 .B -f
@@ -144,13 +149,12 @@ The example configuration will respect
 .B S_DEFAULT_TAG
 from your environment.
 .SS S_LIB_HOME
-If you don not install
+If you do not install
 .B ws-session
 into your os'
 .I /usr/lib
-directory, you have to set this variable.  Another example would be when you
-want to use the code in the git directory. Run this command in the git
-directory:
+directory, you have to set this variable. To temporarily use
+experimental code, run this command in your coding directory:
 .B S_LIB_HOME=$(pwd) bin/ws-session
 .SS S_LOGFILE
 Use this variable to send output to a log file. When this variable is set, -xv
@@ -161,7 +165,10 @@ file. Use it like this:
 .B S_LOGFILE=ws-session.log ws-session -o examplesession
 
 .SH FILES
+
+.HP 3
 .SS /usr/bin/ws-app
+
 Since most applications have no session support, and those who have need to know
 when to start and stop a session, we have to change the way they start.  Most,
 but not all of the supported applications in the
@@ -220,7 +227,10 @@ export HISTFILE="${stmpdir}zsh_history"
 export DIRSTACKFILE="${stmpdir}zdirs"
 unset stmpdir
 .fi
+.HP 3
+
 .SS /usr/bin/ws-cmd
+
 This is a wrapper for shell commands or curses interfaces, which will be
 restarted in a new terminal when opening a session. Be sure that you cannot
 lose your work when the terminal window gets closed by a session close command.
@@ -242,7 +252,10 @@ if ws-session -p > /dev/null ; then
   alias man='ws-cmd man'
 fi
 .fi
+.HP 3
+
 .SS /etc/xdg/ws-session/ws-session.rc
+
 The default configuration file; all possible configuration items are described
 in this file. Use it as template for your own configuration. User configuration
 files are searched at the following places in this order:
@@ -254,7 +267,9 @@ in your calling shell.
 2.\ \fI$XDG_CONFIG_HOME/ws-session/ws-session.rc\fP
 .HP 3
 3.\ \fI~/.ws-session.rc\fP
+
 .SS /usr/lib/ws-session/app/*
+
 This is the 
 .I app
 directory, here are the default application files with all the start and stop
@@ -265,7 +280,9 @@ directory and adjust it to your liking. Of course
 this is also the place to create support for other applications you want to be
 able to restore. All commands 
 .RB ( ws-session ,\  ws-app \ and \ ws-cmd )
-search for your application files in the following order:
+search for
+.I app
+files in the following order:
 .HP 3
 1.\ \fI$S_CONFIG_HOME/app\fP if you set \fI$S_CONFIG_HOME\fP in your rc
 file or the calling shell
@@ -273,14 +290,18 @@ file or the calling shell
 2.\ \fI$XDG_CONFIG_HOME/ws-session/app\fP
 .HP 3
 3.\ \fI~/.ws-session/app\fP
+.HP 3
+4.\ \fI$S_LIB_HOME/app\fP
+
 .SS /usr/lib/ws-session/wm/*
+
 Here are the default window manager files, it's the
 .I wm
 directory. It works exactly the same way like the
 .I app
 directory (see
 .B /usr/lib/ws-session/app/*
-above). This directories will get scanned for your versions of
+above). This directories will get scanned for
 .I wm
 files:
 .HP 3
@@ -290,6 +311,9 @@ file or the calling shell
 2.\ \fI$XDG_CONFIG_HOME/ws-session/wm\fP
 .HP 3
 3.\ \fI~/.ws-session/wm\fP
+.HP 3
+4.\ \fI$S_LIB_HOME/wm\fP
+
 .SH SEE ALSO
 .I ws-session(7)
 .SH CONTRIBUTE

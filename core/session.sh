@@ -22,7 +22,16 @@ s_closesession() {
     S_SEL_TAG="$@"
     s_newtag "$@"
   fi
-  local session="$S_SEL_TAG"
+
+  s_close "$S_SEL_TAG"
+}
+
+s_newsession() {
+  s_close "$1"
+}
+
+s_close() {
+  local session="$1"
   local tmp_dir="$S_TMP_DIR/$S_SEL_TAG"
 
   [[ $S_WM_SUPPORTS_LAYOUT_SAVING == 1 ]] && s_save_layout
