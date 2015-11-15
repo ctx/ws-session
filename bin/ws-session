@@ -92,7 +92,7 @@ fi
 
 case $1 in
   -v|version)
-      echo -n "${0##*/}, "
+    echo -n "${0##*/}, "
     if [[ -n "$VERSION" ]] ; then 
       echo "version ${VERSION}."
     else
@@ -110,25 +110,25 @@ case $1 in
     echo "$S_TMP_DIR/$S_SEL_TAG/"
     ;;
   -m|menu)
-    if which ${S_MENU%% *} 2>&3; then
-      s_source_lib wm stopwm data
+    if ! which ${S_MENU%% *} 2>&3 >/dev/null; then
+      s_fatal "Cannot find menu: '$S_MENU'" "Set it in your rc file" 
+    fi
 
-      name="$( (s_list_open_tags;s_list_sessions) \
-        | grep -v ^$ \
-        | sort -u \
-        | eval "${S_MENU} ${S_MENU_PROMPT_SWITCH}'start a session:'")"
+    s_source_lib wm stopwm data
 
-      if s_list_open_tags | grep -q -x -e "$name" ; then
-        s_newtag "$name"
-      elif [[ -n $name ]] ; then
-          s_source_lib session allapp
-          s_opensession "$name" & disown
-      else
-        s_error "No session selected" \
-          "You stopped the menu without choosing a session"
-      fi
+    name="$( (s_list_open_tags;s_list_sessions) \
+      | grep -v ^$ \
+      | sort -u \
+      | eval "${S_MENU} ${S_MENU_PROMPT_SWITCH}'start a session:'")"
+
+    if s_list_open_tags | grep -q -x -e "$name" ; then
+      s_newtag "$name"
+    elif [[ -n $name ]] ; then
+      s_source_lib session allapp
+      s_opensession "$name" & disown -a
     else
-      s_error "Cannot find menu: '$S_MENU'" "Set it in your rc file" 
+      s_error "No session selected" \
+        "You stopped the menu without choosing a session"
     fi
     ;;
   -o|open)
@@ -136,7 +136,7 @@ case $1 in
     s_source_lib wm stopwm
     if [[ $1 != "-f" ]] ; then
       name="$@"
-      if s_list_open_tags | grep -q -x -e "$name" && [[ -n $name ]] ; then
+      if [[ -n $name ]]  && s_list_open_tags | grep -q -x -e "$name" ; then
         s_fatal "This session is already open" \
           "You cannot open a session twice"
       fi
@@ -147,7 +147,7 @@ case $1 in
     {
       s_source_lib data session allapp
       s_opensession "$name"
-    } & disown
+    } & disown -a
     ;;
   -c|close)
     shift
@@ -198,7 +198,7 @@ case $1 in
       done
       sleep $S_RUN_ACTION_SLEEP
       s_system_action_$action
-    } & disown
+    } & disown -a
     ;;
   -r|restore)
     shift
