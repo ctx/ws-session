@@ -1,20 +1,21 @@
 s_seltag_herbstluftwm() {
   herbstclient tag_status \
     | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
+  #herbstclient attr tags.focus.name
 }
 
 s_list_app_seltag_herbstluftwm() {
-  herbstclient stack \
-    | awk '/Client 0x/{ print $5 }' \
+  herbstclient dump \
+    | grep -oP "\b0x.*?\b" \
     | sort -u \
     | while read -r client ; do
-    s_print_id_class $client
-  done
+      s_print_id_class $client
+    done
   unset client
 }
 
 s_list_open_tags_herbstluftwm() {
-  herbstclient attr tags.by-name. | awk '/^ /{ gsub(".$",""); print $1 }'
+  herbstclient complete 1 use
 }
 
 s_newtag_herbstluftwm() {
