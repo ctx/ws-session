@@ -13,7 +13,7 @@ bash history, terminals with cwd, editors and open files, open pdfs, ncurses
 applications like mutt, htop, ssh (tmux attach) and everything else you can
 think of and write a wrapper.
 
-With herbstluftwm you can save and restore the layout of the workspace.
+Some window managers are able to save and restore the layout of the workspace.
 
 The applications do not support this out of the box:
 * The 'ws-app' wrapper in the bin folder makes it possible to save and restore
@@ -36,29 +36,34 @@ https://github.com/ctx/ws-session/wiki/Extend-ws-session
 * xprop
 * xdotool (for many apps)
 * wmctrl (for most wms)
-* bash (and coreutils, awk, sed, ps, find, etc.)
-* some of the supported programs
+* jq (for i3)
+* bash
+* one of the supported window manager
+* some of the supported applications
 
 #### Installation
 
 ##### Archlinux
-There is the aur package ws-session-git
+There is a package in the aur: ws-session-git
 ##### Other
-* Get the code and export S_LIB_HOME=/path/to/code in your
+* Get the code and use `export S_LIB_HOME=/path/to/code` in your
   xinitrc or autostart.
 
 #### Configuration
 * Create a folder for your saved sessions e.g. $HOME/.local/ws-session
 * Read, install and adjust ws-session.rc.
-* Create symliks for all the apps you want to use: Link ws-app to your $PATH
-  e.g: ln -s /usr/bin/ws-app $HOME/bin/vim
-* For seamless integration in to your windowmanager, you can:
+* Create symliks for all the applications you want to use: Link ws-app to your
+  $PATH e.g:
+  `ln -s /usr/bin/ws-app $HOME/bin/vim`
+* You can configure your shell to use dedicated histfiles.
+* Create aliases for commands you want to be able to restore:
+  `alias htop='ws-cmd htop'`
+* For seamless integration with your windowmanager, you can:
   * Bind a key to 'ws-session menu' to create new workspaces.
   * Bind a key to 'ws-session close' to close a workspace.
-  * Configure reboot, poweroff, quit or other actions which you want to run 
-    after closing all sessions (eg. ws-session all poweroff).
-* You can also configure your shell to use dedicated histfiles and add some
-  aliases for cli applications.
+  * Configure reboot, poweroff, quit or other actions which you want to run
+    after closing all sessions (eg. `ws-session all poweroff`) and add them to
+    your power menu.
 
 https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 
