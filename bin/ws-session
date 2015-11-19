@@ -111,7 +111,7 @@ case $1 in
     ;;
   -m|menu)
     if ! which ${S_MENU%% *} 2>&3 >/dev/null; then
-      s_fatal "Cannot find menu: '$S_MENU'" "Set it in your rc file" 
+      s_fatal "Cannot find menu: '$S_MENU'" "Set it in your rc file"
     fi
 
     s_source_lib wm stopwm data
