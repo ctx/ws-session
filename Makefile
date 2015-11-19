@@ -32,10 +32,12 @@ version:
 .ONESHELL:
 deps:
 	@r=0
-	for p in wmctrl xprop xdotool ; do
-	  if ! which $$p >/dev/null; then r=1; echo $$p not found; fi
+	for p in wmctrl xprop xdotool; do
+	  if ! which $$p >/dev/null 2>&1; then r=1; echo $$p not found; fi
 	done
-	test $$r -eq 1 && echo "You need to install all dependencies to use ws-session.\n"
+	test $$r -eq 1 && echo "You need to install all dependencies to use ws-session."
+	@p=jq
+	if ! which $$p >/dev/null 2>&1; then r=1; echo $$p not found, you need $$p for i3-wm; fi
 	exit $$r
 
 # target:  install    - Install to $(DESTDIR)$(PREFIX)
