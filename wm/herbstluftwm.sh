@@ -1,7 +1,5 @@
 s_seltag_herbstluftwm() {
-  herbstclient tag_status \
-    | awk 'match($0,/#[^\t]*/) { print substr($0,RSTART+1,RLENGTH-1) }'
-  #herbstclient attr tags.focus.name
+  herbstclient attr tags.focus.name
 }
 
 s_list_app_seltag_herbstluftwm() {
