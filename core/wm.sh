@@ -83,9 +83,14 @@ if [[ -n "$s_wm" ]] ; then
   }
 
 else
-  if [[ $DISPLAY ]] ; then
-    s_error "You set \$S_WM to '$S_WM' and you dont run (one of) this wm" \
-      "Change or unset S_WM in your rc file"
+  if [[ -n $DISPLAY ]] ; then
+    if [[ -n $S_WM ]] ; then
+      s_error "You set \$S_WM to '$S_WM' and you dont run (one of) this wm" \
+        "Change or unset S_WM in your rc file"
+    else
+      s_error "You run an unsupported wm" \
+        "Try to write a wrapper for your wm"
+    fi
   else
     s_error "You dont run a wm and \$DISPLAY is empty" \
       "You cannot use ws-session on a tty"
