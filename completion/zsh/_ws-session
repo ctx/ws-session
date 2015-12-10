@@ -1,37 +1,67 @@
 #compdef ws-session
 
 _ws-session() {
-  local curcontex="$curcontext" state_descr line
 
-  _arguments \
-    '-a[close all sessions and run a system action]:systemactions:->systemactions::' \
-    '-c[close a session]:open sessions:->opensessions::' \
-    '-h[help]::' \
-    '-l[list all sessions]::' \
-    '-m[open a session from a menu]::' \
-    '-n[save session under new name]::' \
-    '-o[open a session]:sessions:->sessionname::' \
-    '-p[print session path]::' \
-    '-r[restore a session]:sessionname:->sessionname::' \
-    '-v[print version]::'
+  add_option() {
+    options+="$1:$3"
+    options+="$2:$3"
+  }
 
-  case $state in
-    sessionname)
-      local -a session_name
-      session_name=( $(ws-session list) )
-      _describe 'saved sessions' session_name
+  ret=1
+
+  _arguments -C \
+    '1:cmd:->cmds' \
+    '*::arg:->args' \
+    && ret=0
+
+  case "$state" in
+    (cmds)
+      local -a options;
+      add_option -a all 'close all sessions and run a system action'
+      add_option -c close 'close current session or choose one to close'
+      add_option -h help 'show help'
+      add_option -l list 'list all saved sessions'
+      add_option -m menu 'open a session from a menu'
+      add_option -o open 'open a session'
+      add_option -p print 'print curren session path'
+      add_option -r restore 'restore a session to the previous state'
+      add_option -s started 'List all currently running sessions'
+      add_option -v version 'print version'
+
+      _describe 'options' options && ret=0
       ;;
-    opensessions)
-      local -a open_sessions
-      open_sessions=( $(ws-session started | tr '\n' ' ') )
-      _describe 'open sessions' open_sessions
-      ;;
-    systemactions)
-      local -a system_action
-      system_action=( $(ws-session all | tr -d ',') )
-      _describe 'system actions' system_action
+    (args)
+      case $words[1] in
+        (-a|all)
+          _arguments ':system actions:(($(ws-session all | tr -d ',')))' && ret=0
+          ;;
+        (-c|close)
+          _arguments ':open sessions:(($(ws-session started)))' && ret=0
+          ;;
+        (-o|open)
+          local -a _saved_sessions
+          _saved_sessions=( $(ws-session list | grep -v -F "$(ws-session started)" ) )
+          _arguments \
+            - options \
+            '-f[force loading]:saved sessions:(($_saved_sessions[@]))' \
+            - arguments \
+            ':saved sessions:(($_saved_sessions[@]))' \
+            && ret=0
+          ;;
+        (-r|restore)
+          _arguments ':saved sessions:(($(ws-session list)))' && ret=0
+          ;;
+        (-h|help|-v|version|-p|print|-m|menu|-l|list|-s|started)
+          _message 'no more options' && ret=0
+          ;;
+        (*)
+          _message 'no such option' && ret=0
+          ;;
+      esac
       ;;
   esac
+
+  return $ret
 }
 
 _ws-session "$@"
