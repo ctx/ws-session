@@ -1,3 +1,34 @@
+s_help_urxvt() {
+  echo 'About ws-session app files: urxvt
+
+Description:
+    The urxvt wrapper reads the current working directories (cwd)
+    for all urxvts from /proc. All cwds are stored in the file
+    $S_TMP_DIR/$session/urxvt.
+
+    Additionaly you can restore dedicated HISTORY, DIRSTACK and
+    other shell files.
+
+Usage:
+    Start urxvt normally.
+
+Configuration:
+  * Add files which should get restored to the S_SHELL_FILES array
+    in your ws-session.rc:
+
+    S_SHELL_FILES( zsh_history zdirs )
+
+  * You have to configure your SHELL to use these files:
+
+    path_to_config="$(ws-session -p 2>/dev/null)"
+    path_to_config=${path_to_config:-$HOME/.}
+    export HISTFILE="${path_to_config}zsh_history"
+    export DIRSTACKFILE="${path_to_config}zdirs"
+    unset path_to_config
+  '
+}
+
+
 # open urxvt
 # arg1: Data directory: where the last session was stored.
 # Load the cwd's from the file arg1/urxvt

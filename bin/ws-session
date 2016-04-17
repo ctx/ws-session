@@ -4,9 +4,10 @@ VERSION=
 
 s_help() {
 echo "Synopsis:
-  ws-session [-a|-h|-l|-m|-p|-s|-v]
-  ws-session [-c|-o [-f]|-r] session-name
-  ws-session -a system-action
+  ws-session [-a|-c|-h|-l|-m|-p|-s|-v]
+  ws-session [-c|-o [-f]|-r] <session-name>
+  ws-session -a <system-action>
+  ws-session -h [all|<help-topic>]
 
 Options:
   -a|all system-action
@@ -17,8 +18,10 @@ Options:
   -c|close [session-name]
         Close current session if there is no session-name.
         Or close the session named 'session-name'.
-  -h|help
-        Print the help.
+  -h|help [all|help-topic]
+        Without argument: print this help.
+        all to see available help-topics.
+        There is a help-topic for every supported wm and app.
   -l|list
         List all saved sessions in '\$S_DATA_HOME'.
   -m|menu
@@ -42,15 +45,9 @@ Options:
   -v|version
         Print version.
 
-Debug Options:
-  debug function
-        Executes the specified function or any command, after sourcing
-        everything.
-        WARNING: don't try ws-session debug rm -rf *
-        EXAMPLE: ws-session debug s_list_app_seltag
-  print [variable ...]
-        Prints the content of the variables supplied.
-        EXAMPLE: ws-session print S_LIB_HOME S_SEL_TAG"
+Report bugs to <http://github.com/ctx/ws-session/issues>.
+Full documentation is in the man pages,
+or at <https://github.com/ctx/ws-session/wiki>."
 }
 
 s_copyright() {
@@ -60,7 +57,7 @@ License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software; you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
  
-Please report bugs at <http://github.com/ctx/ws-session/issues>."
+Report bugs to <http://github.com/ctx/ws-session/issues>."
 }
 
 s_print_system_actions() {
@@ -97,8 +94,8 @@ case $1 in
       echo "version ${VERSION}."
     else
       echo -n "run from git repository at commit "
-      git --git-dir=${0%/bin/*}/.git \
-        --work-tree=${0%/bin/*} \
+      git --git-dir=$S_LIB_HOME/.git \
+        --work-tree=$S_LIB_HOME \
         rev-list --count HEAD
     fi
     echo
@@ -219,7 +216,22 @@ case $1 in
     s_list_open_tags
     ;;
   -h|help)
-    s_help
+    if [[ -n $2 ]] ; then
+      S_APPLICATIONS=( $(basename -s .sh -a {$S_CONFIG_HOME,$S_LIB_HOME}/app/*.sh | sort -u) )
+      s_source_lib allapp allwm
+      if [[ $2 == 'all' ]] ; then
+        echo 'Help Topics:'
+        typeset -F | awk -F'_' '/s_help_/{print "  * " $NF}'
+        echo "use 'ws-session -h help-topic' to read about a topic"
+      elif type s_help_$2 2>&3 \
+           | grep -q 'is a function' ; then
+        s_help_$2
+      else
+        s_fatal "There is no help for $2" "sorry"
+      fi
+    else
+      s_help
+    fi
     ;;
   debug)
     shift
@@ -234,11 +246,7 @@ case $1 in
     done | column -t -s";"
     ;;
   *)
-    if [[ -z $1 ]] ; then
-      s_error "Nothing to do" help
-    else
-      s_error "No such option: '$1'" help
-    fi
+    s_error "No such option: '$1'" help
     exit 127
     ;;
 esac

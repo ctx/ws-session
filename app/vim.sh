@@ -1,4 +1,22 @@
-# Start a vim server for every started vim.
+s_help_vim() {
+  echo 'About ws-session app files: zathura
+
+Description:
+    Start a vim server for every started vim.
+    Use remote send to save vim sessions.
+
+Usage:
+    Use the ws-app wrapper to start vim.
+
+Configuration:
+    link ws-app to $PATH/vim eg:
+    ln /usr/bin/ws-app $HOME/.config/ws-session/bin/vim
+
+Dependencies:
+    xprop
+    vim with server features (on archlinux you need the gvim package)
+  '
+}
 
 s_vim_open_session() {
   local directory="$1/vim"

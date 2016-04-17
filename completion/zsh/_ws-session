@@ -51,7 +51,15 @@ _ws-session() {
         (-r|restore)
           _arguments ':saved sessions:(($(ws-session list)))' && ret=0
           ;;
-        (-h|help|-v|version|-p|print|-m|menu|-l|list|-s|started)
+        (-h|help)
+          _arguments \
+            - options \
+            'all[show all help topics]' \
+            - arguments \
+            ":help topics:((all $(ws-session help all | awk '/\*/{ print $NF }';)))" \
+            && ret=0
+          ;;
+        (-v|version|-p|print|-m|menu|-l|list|-s|started)
           _message 'no more options' && ret=0
           ;;
         (*)

@@ -1,3 +1,17 @@
+s_help_herbstluftwm() {
+  echo 'About ws-session wm files: herbstluftwm
+
+Description:
+    This wrapper uses herbstclient to communicate with herbstluftwm.
+
+Configuration:
+    No configuration is needed.
+
+Dependencies:
+    xdotool
+    '
+}
+
 s_seltag_herbstluftwm() {
   herbstclient attr tags.focus.name
 }

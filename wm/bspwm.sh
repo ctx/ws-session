@@ -1,3 +1,21 @@
+s_help_bspwm() {
+  echo 'About ws-session wm files: bspwm
+
+Description:
+    This wrapper uses bspc to communicate with bspwm.
+
+Configuration:
+    No configuration is needed.
+
+    Copy $S_LIB_HOME/wm/bspwm.sh to $S_CONFIG_HOME/wm/bspwm.sh
+    and set S_WM_SUPPORTS_LAYOUT_SAVING="1" if you want to use
+    the experimental layout saving code.
+
+Todo:
+    Enhance saving and loading of the layout
+  '
+}
+
 s_seltag_bspwm() {
   bspc query -D -d
 }

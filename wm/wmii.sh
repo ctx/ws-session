@@ -1,3 +1,16 @@
+s_help_wmii(){
+  echo 'About ws-session wm files: wmii
+
+Description:
+    This wrapper uses wmiir to communicate with wmii.
+
+Configuration:
+    No configuration is needed.
+
+  '
+}
+
+
 s_seltag_wmii() {
   wmiir cat /tag/sel/ctl | sed '1q'
 }

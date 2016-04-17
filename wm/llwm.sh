@@ -1,3 +1,13 @@
+s_help_llwm() {
+  echo 'About ws-session wm files: llwm
+
+Description:
+    This warpper uses xprop and xdotool to read and change X11 Atoms.
+
+    llwm is personal abandon ware, use this wrapper as example.
+  '
+}
+
 s_seltag_llwm() {
   cdid="$(xprop -root _NET_CURRENT_DESKTOP|sed 's/.*= //')"
   dn=( $(xprop -root _NET_DESKTOP_NAMES \

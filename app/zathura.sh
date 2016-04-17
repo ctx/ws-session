@@ -1,3 +1,28 @@
+s_help_zathura(){
+  echo 'About ws-session app files: zathura
+
+Description:
+    This app file reads the file name from the _NET_WM_NAME
+    atom to store the names of the open files in SESSIONDIR/zathura.
+
+Usage:
+    Start zathura normally.
+
+Configuration:
+    In the zathura config you have to adjust this two settings:
+    set window-title-basename false
+    set statusbar-basename false
+
+Dependencies:
+    xprop
+    xdotool
+
+Todo:
+    Create a version which puts all zathura windows in one
+    tabbed instance.
+  '
+}
+
 # $1: directory with data from the last session
 s_zathura_open_session() {
   local file="$1/zathura"

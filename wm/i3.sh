@@ -1,3 +1,20 @@
+s_help_i3() {
+  echo 'About ws-session wm files: i3
+
+Description:
+    This wrapper uses i3-msg to communicate with i3-wm.
+
+Configuration:
+    No configuration is needed.
+
+Dependencies:
+    jq (Command-line JSON processor)
+
+Todo:
+    save and load layout
+  '
+}
+
 s_seltag_i3() {
   i3-msg -t get_workspaces \
     | jq -c '.[] | select(.focused) | .name' --raw-output

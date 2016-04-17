@@ -1,3 +1,24 @@
+s_help_mupdf(){
+  echo 'About ws-session app files: mupdf
+
+Description:
+    This wrapper writes the file name to a file before mupdf
+    gets started and removes the file name when mupdf gets closed.
+    This method works when the names of open files is enough to
+    restore a session.
+
+Usage:
+    Use the ws-app wrapper to start mupdf.
+
+Configuration:
+    link ws-app to $PATH/mupdf eg:
+    ln /usr/bin/ws-app $HOME/.config/ws-session/bin/mupdf
+
+Dependencies:
+    xdotool
+  '
+}
+
 s_mupdf_hack() {
   local file="$(readlink -f "$@")"
   echo "$file" >> "$tmp_dir/mupdf-tmp"

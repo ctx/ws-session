@@ -1,5 +1,23 @@
 quteb=qutebrowser
 
+s_help_qutebrowser() {
+  echo 'About ws-session app files: qutebrowser
+
+Description:
+    This wrapper uses different basedirs to isolate sessions.
+    qutebrowser --basedir /path/to/temp/$session/qutebrowser
+    The default config will be linked to this basedir.
+
+Usage:
+    Use the ws-app wrapper to start qutebrowser.
+
+Configuration:
+    link ws-app to $PATH/qutebrowser eg:
+    ln /usr/bin/ws-app $HOME/.config/ws-session/bin/qutebrowser
+
+  '
+}
+
 s_qutebrowser_open_session() {
   if [[ -d $1/$quteb ]] ; then
     if [[ ! -d $tmp_dir/$quteb ]] ; then

@@ -1,3 +1,20 @@
+s_help_wingo(){
+  echo 'About ws-session wm files: wingo
+
+Description:
+    This wrapper uses wingo-cmd to communicate with wingo.
+
+Configuration:
+    No configuration is needed.
+
+Dependencies:
+    xprop
+    xdotool
+
+  '
+}
+
+
 s_seltag_wingo() {
   wingo-cmd GetWorkspace
 }

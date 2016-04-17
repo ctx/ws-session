@@ -50,8 +50,17 @@ S_BLACKLIST=( "firefox" )
 ### OPEN/CLOSE SESSION ---------
 # The following applications have a wrapper.
 # Put your terminal at the end so that terminal applications
-# don't get terminatet before we had the cance to save them.
-S_APPLICATIONS=( "command" "vim" "qutebrowser" "dwb" "luakit" "zathura" "$S_TERM" )
+# don't get terminated before we had the chance to save them.
+S_APPLICATIONS=(
+  "command"
+  "vim"
+  "qutebrowser"
+  "dwb"
+  "luakit"
+  "zathura"
+  "mupdf"
+  "$S_TERM"
+)
 
 ### SYSTEM ACTION -------------
 # The following functions can be called after closing all sessions:

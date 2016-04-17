@@ -4,7 +4,7 @@ if [[ -z "$@" ]] ; then
 echo "Usage:
   ws-cmd terminal command \"with quoted argument\"
 
-Be shure that you cannot lose your work when the termial window gets termiated.
+Be sure that you cannot lose your work when the termial window gets termiated.
 
 Examples:
   ws-cmd htop

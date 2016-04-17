@@ -76,6 +76,7 @@ else
        Continuing with default settings"
 fi
 
+
 # declare functions to source core and app files
 s_source() {
   if [[ -f "$S_CONFIG_HOME/$1" ]] ; then
@@ -91,6 +92,7 @@ s_source() {
 }
 
 s_source_lib() {
+  local a
   for a in $@ ; do
     case $a in
       stopwm)
@@ -98,8 +100,19 @@ s_source_lib() {
         ;;
       allapp)
         for app in ${S_APPLICATIONS[@]} ; do
-          s_source app/$app.sh
+          s_source app/${app}.sh
         done
+        unset app
+        ;;
+      allwm)
+        s_source wm/is-wm-running.sh
+        allwms=( $(typeset -F \
+                   | grep -v s_running_wm_default \
+                   | awk -F'_' '/s_running_wm/{print $NF}') )
+        for wm in ${allwms[@]} ; do
+          s_source wm/${wm}.sh
+        done
+        unset wm allwms
         ;;
       *)
         if [[ -f "$S_LIB_HOME/core/${a}.sh" ]] ; then

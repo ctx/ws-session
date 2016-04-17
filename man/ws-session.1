@@ -4,15 +4,18 @@
 ws-session - a session manager for virtual desktops
 .SH SYNOPSIS
 .B ws-session
-.RB [\| \-a \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-s \||\| \-v\| ]
+.RB [\| \-a \||\| \-c \||\| \-h \||\| \-l \||\| \-m \||\| \-p \||\| \-s \||\| \-v\| ]
 .br
 .B ws-session
 .RB [\| \-c \||\| \-n \||\| \-o \ [ \-f \|]| \-r ]
-.IR session-name
+.RI <\| session-name\| >
 .br
 .B ws-session
-.RB \| \-a
-.IR system-action \|
+.B \-a
+.RI <\| system-action \|>
+.br
+.B ws-session
+\fB\-h \fP[\fBall\fP|<\|\fIhelp-topic\fP>]
 .SH DESCRIPTION
 .B ws-session
 creates one session for every 
@@ -49,9 +52,13 @@ Close current session if there is no session-name.
 Or close the session named 
 .IR session-name \.
 .TP
-\fB\-h\fP, \fBhelp
+\fB\-h\fP, \fBhelp \fP[\fBall\fP|<\|\fIhelp-topic\fP>]
 .br
-Print help.
+Without argument: print help.
+.br
+\fBall \fPto see available help-topics.
+.br
+There is a \fIhelp-topic \fPfor every supported wm and app.
 .TP
 \fB\-l\fP, \fBlist
 .br

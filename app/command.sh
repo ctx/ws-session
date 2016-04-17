@@ -1,3 +1,41 @@
+s_help_command() {
+  echo 'About ws-session app files: command
+
+Description:
+    The command wrapper writes commands and the cwd of the
+    calling shell to a file.
+
+    Be sure that you cannot lose your work when the termial
+    window gets termiated.
+
+Usage:
+    ws-cmd terminal command "with quoted argument"
+
+Examples:
+    ws-cmd htop
+    ws-cmd mutt
+    ws-cmd man archlinux
+    ws-cmd ncmpcpp -h 10.0.0.5
+    ws-cmd ssh -l user 10.0.0.5 "tmux attach"
+
+Configuration:
+    Create some aliases in your shellrc:
+
+    if ws-session -p >/dev/null ; then
+      setopt complete_aliases
+      alias man='ws-cmd man'
+      alias htop='ws-cmd htop'
+      alias mutt='ws-cmd mutt'
+      alias ncmpcpp='ws-cmd ncmpcpp'
+      alias tig='ws-cmd tig'
+    fi
+
+Dependencies:
+    xdotool
+    xprop
+    '
+}
+
 s_command_open_session() {
   local file="$1/command"
   
