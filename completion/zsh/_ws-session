@@ -41,9 +41,10 @@ _ws-session() {
         (-o|open)
           local -a _saved_sessions
           _saved_sessions=( $(ws-session list | grep -v -F "$(ws-session started)" ) )
+            #'-f[force loading]:saved sessions:(($_saved_sessions[@]))' \
           _arguments \
             - options \
-            '-f[force loading]:saved sessions:(($_saved_sessions[@]))' \
+            ':force loading:((-f))' \
             - arguments \
             ':saved sessions:(($_saved_sessions[@]))' \
             && ret=0
@@ -54,9 +55,9 @@ _ws-session() {
         (-h|help)
           _arguments \
             - options \
-            'all[show all help topics]' \
+            ':show all help topics:((all))' \
             - arguments \
-            ":help topics:((all $(ws-session help all | awk '/\*/{ print $NF }';)))" \
+            ":help topics:(($(ws-session help all | awk '/\*/{ print $NF }';)))" \
             && ret=0
           ;;
         (-v|version|-p|print|-m|menu|-l|list|-s|started)

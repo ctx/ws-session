@@ -24,7 +24,11 @@ _ws-session () {
         words=$(ws-session list)
         COMPREPLY=( $(compgen -W "$words" -- $cur) )
         ;;
-      "-h"|"help"|"-l"|"list"|"-m"|"menu"|"-n"|"new"|"-p"|"path"|"-s"|"started"|"-v"|"version")
+      "-h"|"help")
+        words="$(echo 'all') $(ws-session help all | awk '/^  */{print $NF}')"
+        COMPREPLY=( $(compgen -W "$words" -- $cur) )
+        ;;
+      "-l"|"list"|"-m"|"menu"|"-n"|"new"|"-p"|"path"|"-s"|"started"|"-v"|"version")
         # no further arguments
         ;;
       *)
