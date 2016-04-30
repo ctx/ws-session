@@ -217,7 +217,11 @@ case $1 in
     ;;
   -h|help)
     if [[ -n $2 ]] ; then
-      S_APPLICATIONS=( $(basename -s .sh -a {$S_CONFIG_HOME,$S_LIB_HOME}/app/*.sh | sort -u) )
+      if [[ -d $S_CONFIG_HOME/app ]] ; then
+        S_APPLICATIONS=( $(basename -s .sh -a {$S_CONFIG_HOME,$S_LIB_HOME}/app/*.sh | sort -u) )
+      else
+        S_APPLICATIONS=( $(basename -s .sh -a $S_LIB_HOME/app/*.sh) )
+      fi
       s_source_lib allapp allwm
       if [[ $2 == 'all' ]] ; then
         echo 'Help Topics:'
