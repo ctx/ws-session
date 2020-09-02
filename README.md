@@ -71,4 +71,4 @@ https://github.com/ctx/ws-session/wiki/Installation-and-Configuration
 #### Copying
 License GPLv3:<br />
 http://gnu.org/licenses/gpl.html<br />
-2010-2015 Ciril Troxler
+2010-2020 Ciril Troxler
