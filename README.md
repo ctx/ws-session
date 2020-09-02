@@ -16,8 +16,8 @@ think of and write a wrapper.
 Some window managers are able to save and restore the layout of the workspace.
 
 The applications do not support this out of the box:
-* The 'ws-app' wrapper in the bin folder makes it possible to save and restore
-  the state of applications which have an 'app file' in the app folder.
+* The 'ws-app' wrapper in the bin directory enable you to save and restore
+  the state of applications which have an 'app file' in the app directory.
 * With the 'ws-cmd' wrapper you can start ncurses and other cli applications
   which will get restarted. No state is saved exept the cwd and cmdline.
 * Other Applications which are not on the blacklist just get restarted. No state
@@ -25,7 +25,7 @@ The applications do not support this out of the box:
 
 Further explanations can be found under the FILES section in the man page.
 
-Look at the app and wm folders to see what is already supported or look here:
+Look at the app and wm directories to see what is already supported or look here:
 https://github.com/ctx/ws-session/wiki/What-should-work
 
 Use man 7 ws-session to learn how to write new app or wm files or look here:
@@ -50,7 +50,7 @@ There is a package in the aur: ws-session-git
   xinitrc or autostart.
 
 #### Configuration
-* Create a folder for your saved sessions e.g. $HOME/.local/ws-session
+* Create a directory for your saved sessions e.g. $HOME/.local/ws-session
 * Read, install and adjust ws-session.rc.
 * Create symliks for all the applications you want to use: Link ws-app to your
   $PATH e.g:
